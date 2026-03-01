@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Ethics &amp; Practical Use — Criminal Defense Training</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: #f8f9fa;
+    color: #1a1a2e;
+    line-height: 1.5;
+    font-size: 15px;
+  }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 16px 20px; }
+
+  /* Header */
+  .header {
+    background: #1a1a2e;
+    color: #fff;
+    padding: 32px 0;
+    margin-bottom: 16px;
+  }
+  .header-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .header h1 { font-size: 1.6rem; font-weight: 600; }
+  .header .subtitle { font-size: 0.9rem; color: #a0aec0; margin-top: 6px; line-height: 1.5; }
+  .header-meta { font-size: 0.75rem; color: #a0aec0; text-align: right; line-height: 1.4; }
+
+  /* Navigation */
+  .site-nav {
+    background: #2d3748;
+    padding: 0;
+    border-bottom: 2px solid #4a5568;
+  }
+  .site-nav-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    gap: 0;
+    flex-wrap: wrap;
+  }
+  .site-nav a {
+    color: #a0aec0;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 10px 16px;
+    display: block;
+    transition: all 0.15s;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+  }
+  .site-nav a:hover { color: #fff; background: rgba(255,255,255,0.05); }
+  .site-nav a.active { color: #fff; border-bottom-color: #4299e1; background: rgba(255,255,255,0.05); }
+
+  /* Hero section */
+  .hero {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .hero h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 10px;
+  }
+  .hero p {
+    font-size: 0.88rem;
+    color: #4a5568;
+    line-height: 1.7;
+    margin-bottom: 8px;
+  }
+  .hero p:last-child { margin-bottom: 0; }
+
+  /* Missouri callout */
+  .mo-callout {
+    background: #eff6ff;
+    border: 2px solid #2c5282;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+  }
+  .mo-callout-header {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .mo-badge {
+    display: inline-block;
+    background: #2c5282;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .mo-callout p {
+    font-size: 0.83rem;
+    color: #4a5568;
+    line-height: 1.6;
+  }
+
+  /* Page cards */
+  .page-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .page-card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 18px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.15s;
+    display: flex;
+    flex-direction: column;
+  }
+  .page-card:hover {
+    border-color: #2c5282;
+    box-shadow: 0 2px 8px rgba(44, 82, 130, 0.1);
+    transform: translateY(-1px);
+  }
+  .page-card-icon {
+    font-size: 1.4rem;
+    margin-bottom: 8px;
+  }
+  .page-card h3 {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 6px;
+  }
+  .page-card p {
+    font-size: 0.8rem;
+    color: #718096;
+    line-height: 1.5;
+    flex: 1;
+  }
+  .page-card .card-link {
+    font-size: 0.78rem;
+    color: #2c5282;
+    font-weight: 600;
+    margin-top: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* Quick links */
+  .quick-links {
+    background: #f7fafc;
+    border: 1px solid #cbd5e0;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+  }
+  .quick-links h3 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 8px;
+  }
+  .quick-links-grid {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .quick-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    cursor: pointer;
+    border: 1px solid #cbd5e0;
+    background: #fff;
+    color: #1a1a2e;
+    font-weight: 500;
+    transition: all 0.15s;
+    text-decoration: none;
+  }
+  .quick-link:hover { background: #edf2f7; border-color: #2c5282; color: #2c5282; }
+
+  /* Section title */
+  .section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e2e8f0;
+    color: #1a1a2e;
+  }
+
+  /* Footer */
+  .footer {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 16px;
+    margin-top: 24px;
+    font-size: 0.78rem;
+    color: #718096;
+    line-height: 1.6;
+  }
+  .footer a { color: #2c5282; text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .header-meta { display: none; }
+    .page-grid { grid-template-columns: 1fr; }
+    .site-nav a { padding: 8px 10px; font-size: 0.75rem; }
+  }
+  @media (max-width: 480px) {
+    .container { padding: 12px; }
+    .header h1 { font-size: 1.3rem; }
+  }
+
+  /* Print */
+  @media print {
+    body { background: #fff; font-size: 12px; }
+    .header { background: #1a1a2e !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .site-nav { display: none !important; }
+    .page-card { border: 1px solid #ccc; break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div>
+      <h1>AI Ethics &amp; Practical Use</h1>
+      <div class="subtitle">Training Resources for Criminal Defense Attorneys</div>
+    </div>
+    <div class="header-meta">Built with Claude Code<br>2026</div>
+  </div>
+</div>
+
+<nav class="site-nav">
+  <div class="site-nav-inner">
+    <a href="index.html" class="active">Home</a>
+    <a href="risk-matrix.html">Risk Matrix</a>
+    <a href="use-cases.html">Use Cases</a>
+    <a href="agents.html">Agents</a>
+    <a href="ethics-opinions.html">Ethics Opinions</a>
+    <a href="vendor-details.html">Vendor Details</a>
+    <a href="glossary.html">Glossary</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <!-- Hero -->
+  <div class="hero">
+    <h2>What this site is</h2>
+    <p>A companion resource for criminal defense attorneys learning to use AI tools ethically. Every AI tool handles your data differently &mdash; some train on it, some sell it to advertisers, some delete it immediately. This site helps you figure out which tools are safe for which tasks.</p>
+    <p>Built for a 60-minute training session. Designed to be useful long after the presentation ends. Scan the QR code on the slides, bookmark this page, and come back whenever you're evaluating a new AI tool.</p>
+    <p><strong>Who this is for:</strong> Missouri public defenders (MSPD), private criminal defense attorneys (MACDL), and any lawyer trying to use AI without violating ethics rules.</p>
+  </div>
+
+  <!-- Missouri callout -->
+  <div class="mo-callout">
+    <div class="mo-callout-header"><span class="mo-badge">Missouri</span> Your Jurisdiction</div>
+    <p>Missouri Informal Opinion 2024-11 requires you to assess the terms of service, security of inputs, and data sources of any AI tool you use with client work. This site is built around that requirement. Missouri-specific guidance is highlighted throughout.</p>
+  </div>
+
+  <!-- Quick Links -->
+  <div class="quick-links">
+    <h3>Essential Resources</h3>
+    <div class="quick-links-grid">
+      <a class="quick-link" href="https://www.nycbar.org/wp-content/uploads/2025/05/20221469-AnalysisEthicsGuidanceAI.pdf" target="_blank">NYC Bar AI Ethics Compilation</a>
+      <a class="quick-link" href="https://mo-legal-ethics.org/informal-opinion/2024-11/" target="_blank">Missouri Opinion 2024-11</a>
+      <a class="quick-link" href="https://www.americanbar.org/content/dam/aba/administrative/professional_responsibility/ethics-opinions/aba-formal-opinion-512.pdf" target="_blank">ABA Formal Opinion 512</a>
+      <a class="quick-link" href="https://www.justia.com/50-state-surveys/attorney-use-of-generative-ai/" target="_blank">Justia 50-State Survey</a>
+    </div>
+  </div>
+
+  <!-- Page Grid -->
+  <h2 class="section-title">Explore the Site</h2>
+
+  <div class="page-grid">
+    <a href="risk-matrix.html" class="page-card">
+      <div class="page-card-icon">&#9638;</div>
+      <h3>Risk Matrix</h3>
+      <p>The 3x4 grid: data sensitivity vs. tool protection tier. Interactive scenarios, vendor details, common tools by tier, advertising data, and the ethics opinion comparison table. The centerpiece of the training.</p>
+      <span class="card-link">Open Risk Matrix &#8594;</span>
+    </a>
+
+    <a href="use-cases.html" class="page-card">
+      <div class="page-card-icon">&#9881;</div>
+      <h3>Practical Use Cases</h3>
+      <p>Hands-on walkthroughs: research, document analysis, legal writing with style guides, drafting, transcription, and case strategy. Shows how to do the same task with different tools at different tiers.</p>
+      <span class="card-link">Open Use Cases &#8594;</span>
+    </a>
+
+    <a href="agents.html" class="page-card">
+      <div class="page-card-icon">&#9889;</div>
+      <h3>Agents &amp; Automation</h3>
+      <p>AI agents and workflow automation: email summary agents, Zapier/Power Automate flows, scheduled tasks, news aggregation, practice dashboards, and metaprompting. Where automation is safe and where it isn't.</p>
+      <span class="card-link">Open Agents &#8594;</span>
+    </a>
+
+    <a href="ethics-opinions.html" class="page-card">
+      <div class="page-card-icon">&#9878;</div>
+      <h3>Ethics Opinions</h3>
+      <p>All 47+ AI ethics opinions with links &mdash; ABA, 17 U.S. states, USPTO, Canada, UK, Europe, Australia, New Zealand, Singapore. Comparison table showing conservative vs. liberal approaches across 8 dimensions.</p>
+      <span class="card-link">Open Ethics Opinions &#8594;</span>
+    </a>
+
+    <a href="vendor-details.html" class="page-card">
+      <div class="page-card-icon">&#128269;</div>
+      <h3>Vendor Deep Dives</h3>
+      <p>Per-vendor data protection cards with source documents and pincites. Legal process notification policies. Advertising and data selling breakdown. What each vendor actually does with your data.</p>
+      <span class="card-link">Open Vendor Details &#8594;</span>
+    </a>
+
+    <a href="glossary.html" class="page-card">
+      <div class="page-card-icon">&#128214;</div>
+      <h3>Glossary</h3>
+      <p>Key terms defined: training, inference, DPA vs. ToS, data processor vs. controller, ZDR, re-identification risk, legal process notification, and more. Plain English, no jargon.</p>
+      <span class="card-link">Open Glossary &#8594;</span>
+    </a>
+  </div>
+
+  <!-- Meta demo callout -->
+  <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:18px;margin-bottom:20px;">
+    <h3 style="font-size:0.92rem;font-weight:700;color:#1a1a2e;margin-bottom:8px;">This site is a meta-demo</h3>
+    <p style="font-size:0.85rem;color:#4a5568;line-height:1.6;">This entire site was built using Claude Code &mdash; an AI coding tool. The research, writing, and code were all AI-assisted. That's the point: AI is a practical tool that lawyers can use right now, <em>if</em> they understand the ethical guardrails. This site teaches those guardrails and demonstrates AI's capabilities at the same time.</p>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>Training materials for the AI Ethics &amp; Practical Use presentation. Not legal advice. Consult your jurisdiction's ethics opinions for specific obligations.</p>
+    <p class="footer-meta" style="margin-top:6px;">Built with Claude Code &mdash; 2026</p>
+  </div>
+
+</div>
+
+</body>
+</html>

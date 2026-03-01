@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Ethics &amp; Practical Use — Presentation</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: #1a1a2e;
+    color: #fff;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  /* Slide container */
+  .slides { position: relative; height: 100vh; width: 100vw; }
+  .slide {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 80px;
+    text-align: center;
+  }
+  .slide.active { display: flex; }
+  .slide.left { text-align: left; align-items: flex-start; }
+
+  /* Typography */
+  .slide h1 {
+    font-size: 3.2rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    letter-spacing: -0.5px;
+  }
+  .slide h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 16px;
+  }
+  .slide h3 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #a0aec0;
+    margin-bottom: 12px;
+  }
+  .slide p {
+    font-size: 1.3rem;
+    color: #cbd5e0;
+    line-height: 1.7;
+    max-width: 800px;
+  }
+  .slide .subtitle {
+    font-size: 1.1rem;
+    color: #718096;
+    margin-top: 10px;
+  }
+  .slide ul {
+    text-align: left;
+    font-size: 1.3rem;
+    color: #cbd5e0;
+    line-height: 2;
+    padding-left: 30px;
+    max-width: 800px;
+  }
+  .slide li { margin-bottom: 4px; }
+  .slide strong { color: #fff; }
+  .slide em { color: #f6ad55; font-style: normal; font-weight: 600; }
+
+  /* Accent colors */
+  .red { color: #fc8181; }
+  .green { color: #68d391; }
+  .yellow { color: #f6e05e; }
+  .blue { color: #63b3ed; }
+
+  /* Big number */
+  .big-number {
+    font-size: 6rem;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+
+  /* Quote */
+  .quote {
+    font-size: 1.5rem;
+    font-style: italic;
+    color: #e2e8f0;
+    border-left: 4px solid #4299e1;
+    padding-left: 24px;
+    text-align: left;
+    max-width: 700px;
+    line-height: 1.6;
+  }
+  .quote-source {
+    font-size: 0.9rem;
+    color: #718096;
+    font-style: normal;
+    margin-top: 12px;
+  }
+
+  /* Grid */
+  .tier-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    width: 100%;
+    max-width: 900px;
+    margin-top: 20px;
+  }
+  .tier-box {
+    padding: 20px;
+    border-radius: 10px;
+    text-align: left;
+  }
+  .tier-box h4 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .tier-box p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  .tier-red { background: rgba(220, 38, 38, 0.2); border: 2px solid #fc8181; }
+  .tier-red h4 { color: #fc8181; }
+  .tier-yellow { background: rgba(214, 158, 46, 0.2); border: 2px solid #f6e05e; }
+  .tier-yellow h4 { color: #f6e05e; }
+  .tier-green { background: rgba(72, 187, 120, 0.2); border: 2px solid #68d391; }
+  .tier-green h4 { color: #68d391; }
+  .tier-blue { background: rgba(66, 153, 225, 0.2); border: 2px solid #63b3ed; }
+  .tier-blue h4 { color: #63b3ed; }
+
+  /* Compare */
+  .compare-row {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    max-width: 900px;
+    margin-top: 16px;
+  }
+  .compare-bad {
+    flex: 1;
+    background: rgba(220, 38, 38, 0.15);
+    border: 2px solid #fc8181;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: left;
+  }
+  .compare-good {
+    flex: 1;
+    background: rgba(72, 187, 120, 0.15);
+    border: 2px solid #68d391;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: left;
+  }
+  .compare-bad h4 { color: #fc8181; font-size: 1rem; margin-bottom: 8px; }
+  .compare-good h4 { color: #68d391; font-size: 1rem; margin-bottom: 8px; }
+  .compare-bad p, .compare-good p { font-size: 0.95rem; }
+
+  /* Callout box */
+  .callout-box {
+    background: rgba(66, 153, 225, 0.15);
+    border: 2px solid #4299e1;
+    border-radius: 10px;
+    padding: 24px;
+    text-align: left;
+    max-width: 800px;
+    margin-top: 20px;
+  }
+  .callout-box h4 { color: #63b3ed; font-size: 1.1rem; margin-bottom: 8px; }
+  .callout-box p { font-size: 1rem; }
+
+  /* Navigation */
+  .nav-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(26, 26, 46, 0.95);
+    border-top: 1px solid #2d3748;
+    z-index: 100;
+  }
+  .nav-btn {
+    background: none;
+    border: 1px solid #4a5568;
+    color: #a0aec0;
+    padding: 8px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.15s;
+  }
+  .nav-btn:hover { border-color: #4299e1; color: #fff; }
+  .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .slide-counter {
+    color: #718096;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  /* QR placeholder */
+  .qr-placeholder {
+    width: 180px;
+    height: 180px;
+    background: #fff;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1a1a2e;
+    font-weight: 700;
+    font-size: 0.8rem;
+    margin: 20px auto;
+    text-align: center;
+    padding: 10px;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .slide { padding: 30px 24px; }
+    .slide h1 { font-size: 2rem; }
+    .slide h2 { font-size: 1.5rem; }
+    .slide p, .slide ul { font-size: 1rem; }
+    .tier-grid { grid-template-columns: 1fr; }
+    .compare-row { flex-direction: column; }
+  }
+
+  /* Print */
+  @media print {
+    body { background: #fff; color: #1a1a2e; overflow: visible; height: auto; }
+    .nav-bar { display: none; }
+    .slide {
+      position: relative;
+      display: flex !important;
+      page-break-after: always;
+      height: 100vh;
+      border-bottom: 1px solid #ccc;
+    }
+    .slide h1, .slide h2, .slide strong { color: #1a1a2e; }
+    .slide p, .slide ul, .slide li { color: #4a5568; }
+  }
+</style>
+</head>
+<body>
+
+<div class="slides" id="slides">
+
+  <!-- SLIDE 1: Title -->
+  <div class="slide active">
+    <h1>AI Ethics &amp; Practical Use</h1>
+    <h3>for Criminal Defense Attorneys</h3>
+    <p class="subtitle">MSPD + MACDL &mdash; 60-Minute Training</p>
+    <p class="subtitle" style="margin-top:30px;font-size:0.9rem;">Travis Martin &mdash; MSPD Legal Technology Strategist</p>
+  </div>
+
+  <!-- SLIDE 2: The problem -->
+  <div class="slide">
+    <h2>Every AI tool handles your data differently</h2>
+    <p>Some train on it. Some sell it to advertisers. Some delete it immediately. <strong>Using the wrong tool for the wrong task is an ethics violation.</strong></p>
+    <p style="margin-top:20px;">Missouri Opinion 2024-11 requires you to know the difference.</p>
+  </div>
+
+  <!-- SLIDE 3: What you'll learn -->
+  <div class="slide left">
+    <h2>What we'll cover</h2>
+    <ul>
+      <li>The 4-tier framework for data protection</li>
+      <li>How to tell which tier a tool is in</li>
+      <li>Practical demos: research, drafting, transcription</li>
+      <li>What Missouri requires (Opinion 2024-11)</li>
+      <li>The feedback trap (it's worse than you think)</li>
+      <li>Tools you can start using today</li>
+    </ul>
+  </div>
+
+  <!-- SLIDE 4: Website intro -->
+  <div class="slide">
+    <h2>Everything is on the website</h2>
+    <p>Scan the QR code. Bookmark the page. Come back whenever you're evaluating a new AI tool.</p>
+    <div class="qr-placeholder">[QR Code]<br>Link to site</div>
+    <p class="subtitle">We'll use the site as a reference throughout. You don't need to take notes.</p>
+  </div>
+
+  <!-- SLIDE 5: The 4 Tiers -->
+  <div class="slide">
+    <h2>The 4 Tiers of Data Protection</h2>
+    <div class="tier-grid">
+      <div class="tier-box tier-red">
+        <h4>Tier 1 &mdash; Consumer Default</h4>
+        <p>Trains on your data. ChatGPT Free, Claude Free, Gemini personal. Your prompts become the product.</p>
+      </div>
+      <div class="tier-box tier-yellow">
+        <h4>Tier 2 &mdash; Training Off</h4>
+        <p>Consumer tool with training toggled off. Better, but still governed by ToS the vendor can change anytime.</p>
+      </div>
+      <div class="tier-box tier-green">
+        <h4>Tier 3 &mdash; API / DPA</h4>
+        <p>Bilateral contract. DPA. No training. The vendor is a data processor, not a controller. Anthropic API, Reduct.</p>
+      </div>
+      <div class="tier-box tier-blue">
+        <h4>Tier 4 &mdash; Enterprise / ZDR</h4>
+        <p>Your data never leaves your environment. M365 Copilot, Google Workspace Gemini. Zero data retention.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: The matrix concept -->
+  <div class="slide">
+    <h2>Two questions determine the risk</h2>
+    <p style="margin-bottom:20px;">How sensitive is the data? + How protected is the tool?</p>
+    <div class="compare-row">
+      <div class="compare-good">
+        <h4>Safe combinations</h4>
+        <p><strong>Low data + Any tier</strong><br>General legal research, public case law, statutory analysis. No client info. Use whatever tool you want.</p>
+      </div>
+      <div class="compare-bad">
+        <h4>Dangerous combinations</h4>
+        <p><strong>High data + Tier 1 or 2</strong><br>Police reports, jail calls, client confessions, discovery in a consumer AI tool. Ethics violation.</p>
+      </div>
+    </div>
+    <p class="subtitle" style="margin-top:16px;">Let's look at this on the website &rarr; <em>Risk Matrix page</em></p>
+  </div>
+
+  <!-- SLIDE 7: Demo - Risk Matrix -->
+  <div class="slide">
+    <h2>Demo: Risk Matrix</h2>
+    <p>Open the <em>Risk Matrix</em> on the website.</p>
+    <ul style="text-align:left;margin-top:20px;">
+      <li>Click scenarios to see where they land</li>
+      <li>"Check Your Scenario" at the bottom</li>
+      <li>Try it on your phone right now</li>
+    </ul>
+    <p class="subtitle" style="margin-top:20px;">Audience: Pick your most common task. Where does it fall on the matrix?</p>
+  </div>
+
+  <!-- SLIDE 8: Missouri requirement -->
+  <div class="slide">
+    <div class="quote">
+      "Lawyers must assess the terms and conditions of using a generative AI platform or service to understand the security of the information being inputted, how that information is being used by the platform or service, and what data sources the platform or service is using."
+      <div class="quote-source">&mdash; Missouri Informal Opinion 2024-11 (April 2024)</div>
+    </div>
+    <p style="margin-top:24px;">This is what the risk matrix operationalizes.</p>
+  </div>
+
+  <!-- SLIDE 9: Heppner -->
+  <div class="slide">
+    <h2 class="red">Your AI conversations are not privileged</h2>
+    <p><em>United States v. Heppner</em> (S.D.N.Y. Feb. 2026)</p>
+    <p style="margin-top:16px;">"Simply no reasonable expectation of confidentiality" under consumer Terms of Service.</p>
+    <div class="callout-box" style="margin-top:20px;">
+      <h4>What this means</h4>
+      <p>Consumer AI chat logs (Tier 1-2) are discoverable. Not privileged. Not work product. Enterprise/API tiers (Tier 3-4) were explicitly distinguished.</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 10: Feedback trap -->
+  <div class="slide">
+    <h2 class="red">The feedback trap</h2>
+    <p style="max-width:700px;">When you click thumbs up or thumbs down on an AI response, <strong>you give the vendor that entire conversation for training</strong> &mdash; even if you've opted out of general training.</p>
+    <div class="compare-row" style="margin-top:20px;">
+      <div class="compare-bad">
+        <h4>The problem</h4>
+        <p>OpenAI, Anthropic, and Google all retain feedback-associated conversations for up to 5 years. This is not opt-outable.</p>
+      </div>
+      <div class="compare-good">
+        <h4>The rule</h4>
+        <p>Never provide feedback on any conversation that contains client information. The thumbs up/down button is a consent button.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 11: Same tool, different tier -->
+  <div class="slide">
+    <h2>Same tool, different tier</h2>
+    <p>The plan matters more than the product.</p>
+    <div class="compare-row" style="margin-top:20px;">
+      <div class="compare-bad">
+        <h4>Microsoft Copilot (Free)</h4>
+        <p><span class="red">Tier 1.</span> Consumer. Trains on data. <strong>Uses conversations for ad targeting.</strong> Opting out of training does NOT opt out of ads.</p>
+      </div>
+      <div class="compare-good">
+        <h4>M365 Copilot ($30/user/mo)</h4>
+        <p><span class="green">Tier 4.</span> Enterprise. No training. No ads. Data stays in your tenant. DPA. Same AI. Completely different legal framework.</p>
+      </div>
+    </div>
+    <p class="subtitle" style="margin-top:16px;">This applies to Google, Claude, and every other vendor. Details on <em>Vendor Details</em> page.</p>
+  </div>
+
+  <!-- SLIDE 12: Practical demos intro -->
+  <div class="slide">
+    <h2>Practical demos</h2>
+    <p>Let's do real work with real tools at the right tier.</p>
+    <ul style="text-align:left;margin-top:20px;">
+      <li><strong>Research:</strong> Constitutional issue + metaprompting</li>
+      <li><strong>Document analysis:</strong> Police report summarization</li>
+      <li><strong>Drafting:</strong> Two-stage motion to suppress</li>
+      <li><strong>Transcription:</strong> Jail calls and BWC footage</li>
+      <li><strong>Style guide:</strong> Build one from writing you admire</li>
+    </ul>
+    <p class="subtitle" style="margin-top:16px;">Walkthroughs for each: <em>Use Cases</em> page on the website.</p>
+  </div>
+
+  <!-- SLIDE 13: Demo - Research -->
+  <div class="slide">
+    <h2>Demo: Research with metaprompting</h2>
+    <p>Instead of asking the question &mdash; ask AI to <em>write</em> the question.</p>
+    <div class="compare-row" style="margin-top:20px;">
+      <div class="compare-bad">
+        <h4>Naive prompt</h4>
+        <p>"Tell me about Fourth Amendment vehicle searches."</p>
+      </div>
+      <div class="compare-good">
+        <h4>Metaprompted</h4>
+        <p>"Write me a detailed research prompt covering automobile exception, inventory search, SIA post-Gant, consent, K-9 post-Rodriguez. 8th Circuit + Missouri."</p>
+      </div>
+    </div>
+    <p class="subtitle" style="margin-top:16px;">Then paste the metaprompted result into Gemini Deep Research. Demo on the website &rarr; <em>Agents</em> page.</p>
+  </div>
+
+  <!-- SLIDE 14: Demo - Two stage drafting -->
+  <div class="slide left">
+    <h2>Demo: Two-stage drafting</h2>
+    <h3>Keeps client data out of Tier 1 tools</h3>
+    <ul>
+      <li><strong>Stage 1 (Any Tier):</strong> Research the law. No client facts.</li>
+      <li><strong>Stage 2 (Tier 3+ only):</strong> Draft with client facts using a DPA-protected tool.</li>
+    </ul>
+    <div class="callout-box" style="margin-top:20px;max-width:700px;">
+      <h4>Why this works</h4>
+      <p>Stage 1 uses the best free tools for what they're good at (research). Stage 2 uses protected tools only when client data enters the picture. You get the best of both without the ethics risk.</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 15: Transcription -->
+  <div class="slide left">
+    <h2>Transcription: Reduct vs. Word</h2>
+    <ul>
+      <li><strong>Reduct</strong> <span class="green">(Tier 3)</span> &mdash; Accepts video natively. Searchable transcripts linked to timestamps. Click a word, jump to that moment. MSPD has enterprise agreement. <strong>Recommended.</strong></li>
+      <li><strong>Word Transcribe</strong> <span class="blue">(Tier 4)</span> &mdash; No video support. Convert to audio first. One file at a time. 300 min/month. Lackluster editing pane. Workable but painful for batch processing.</li>
+      <li><strong>Otter.ai</strong> <span class="red">(Tier 1)</span> &mdash; Do not use for client audio. Consumer tool. Trains on data.</li>
+    </ul>
+    <p class="subtitle" style="margin-top:16px;">Full comparison on <em>Use Cases</em> page.</p>
+  </div>
+
+  <!-- SLIDE 16: Claude Code meta-demo -->
+  <div class="slide">
+    <h2>This site is a meta-demo</h2>
+    <p>This entire website &mdash; the research, the writing, the code &mdash; was built using <strong>Claude Code</strong>, an AI coding agent.</p>
+    <p style="margin-top:16px;">I used it at <em>Tier 3</em> (API key authentication). No client data was involved. The same tool at Tier 1 (consumer login) would have trained on every line of code.</p>
+    <div class="callout-box" style="margin-top:20px;">
+      <h4>The point</h4>
+      <p>AI is a practical tool you can use right now &mdash; if you understand the guardrails. This site teaches those guardrails and demonstrates the capability at the same time.</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 17: What you should do Monday -->
+  <div class="slide left">
+    <h2>What to do Monday morning</h2>
+    <ul>
+      <li><strong>Check your tools.</strong> Are you using free Copilot or M365 Copilot? Personal Gemini or Workspace? Claude Free or API?</li>
+      <li><strong>Toggle training off.</strong> On every consumer AI tool: Settings &rarr; turn off model improvement / training.</li>
+      <li><strong>Never click thumbs up/down</strong> on conversations with client information.</li>
+      <li><strong>Use the two-stage approach.</strong> Research at any tier, draft at Tier 3+.</li>
+      <li><strong>Bookmark the website.</strong> Use it as a reference when evaluating new tools.</li>
+    </ul>
+  </div>
+
+  <!-- SLIDE 18: Costs -->
+  <div class="slide">
+    <h2>What does ethical AI cost?</h2>
+    <div class="tier-grid" style="max-width:700px;">
+      <div class="tier-box tier-blue">
+        <h4>$7/user/mo</h4>
+        <p>Google Workspace Business Starter. Tier 4. Full Gemini AI.</p>
+      </div>
+      <div class="tier-box tier-blue">
+        <h4>$30/user/mo add-on</h4>
+        <p>M365 Copilot. Tier 4. If you already have M365.</p>
+      </div>
+      <div class="tier-box tier-green">
+        <h4>$1-5/M tokens</h4>
+        <p>Anthropic API (Haiku). Tier 3. For developers.</p>
+      </div>
+      <div class="tier-box tier-green">
+        <h4>$159/user/mo</h4>
+        <p>Paxton AI. Tier 3. Criminal defense features.</p>
+      </div>
+    </div>
+    <p class="subtitle" style="margin-top:16px;">Full pricing comparison on <em>Vendor Details</em> page.</p>
+  </div>
+
+  <!-- SLIDE 19: Resources -->
+  <div class="slide left">
+    <h2>Essential resources</h2>
+    <ul>
+      <li><strong>This website</strong> &mdash; bookmark it, browse it, share it</li>
+      <li><strong>Missouri Opinion 2024-11</strong> &mdash; your jurisdiction's rules</li>
+      <li><strong>ABA Formal Opinion 512</strong> &mdash; the national standard</li>
+      <li><strong>NYC Bar AI Ethics Compilation</strong> &mdash; best single reference</li>
+      <li><strong>Justia 50-State Survey</strong> &mdash; what other states require</li>
+    </ul>
+    <p class="subtitle" style="margin-top:16px;">All links on the <em>Ethics Opinions</em> page.</p>
+  </div>
+
+  <!-- SLIDE 20: QR + Close -->
+  <div class="slide">
+    <h1>Questions?</h1>
+    <div class="qr-placeholder" style="margin-top:30px;">[QR Code]<br>Link to site</div>
+    <p style="margin-top:20px;">Scan. Bookmark. Come back when you need it.</p>
+    <p class="subtitle" style="margin-top:10px;">Travis Martin &mdash; MSPD Legal Technology Strategist</p>
+  </div>
+
+</div>
+
+<!-- Navigation -->
+<div class="nav-bar">
+  <button class="nav-btn" id="prevBtn" onclick="navigate(-1)">&#8592; Previous</button>
+  <span class="slide-counter" id="counter">1 / 20</span>
+  <button class="nav-btn" id="nextBtn" onclick="navigate(1)">Next &#8594;</button>
+</div>
+
+<script>
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+
+function show(index) {
+  slides.forEach(s => s.classList.remove('active'));
+  slides[index].classList.add('active');
+  document.getElementById('counter').textContent = (index + 1) + ' / ' + total;
+  document.getElementById('prevBtn').disabled = index === 0;
+  document.getElementById('nextBtn').disabled = index === total - 1;
+}
+
+function navigate(dir) {
+  const next = current + dir;
+  if (next >= 0 && next < total) {
+    current = next;
+    show(current);
+  }
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') {
+    e.preventDefault();
+    navigate(1);
+  }
+  if (e.key === 'ArrowLeft' || e.key === 'Backspace') {
+    e.preventDefault();
+    navigate(-1);
+  }
+  if (e.key === 'Home') { current = 0; show(current); }
+  if (e.key === 'End') { current = total - 1; show(current); }
+});
+
+// Touch support
+let touchStartX = 0;
+document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+document.addEventListener('touchend', e => {
+  const diff = touchStartX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) > 50) navigate(diff > 0 ? 1 : -1);
+});
+
+show(0);
+</script>
+
+</body>
+</html>

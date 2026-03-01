@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Agents &amp; Automation — Criminal Defense</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: #f8f9fa;
+    color: #1a1a2e;
+    line-height: 1.5;
+    font-size: 15px;
+  }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 16px 20px; }
+
+  /* Header */
+  .header {
+    background: #1a1a2e;
+    color: #fff;
+    padding: 20px 0;
+    margin-bottom: 16px;
+  }
+  .header-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .header h1 { font-size: 1.4rem; font-weight: 600; }
+  .header .subtitle { font-size: 0.85rem; color: #a0aec0; margin-top: 4px; }
+  .header-meta { font-size: 0.75rem; color: #a0aec0; text-align: right; line-height: 1.4; }
+
+  /* Navigation */
+  .site-nav {
+    background: #2d3748;
+    padding: 0;
+    border-bottom: 2px solid #4a5568;
+  }
+  .site-nav-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    gap: 0;
+    flex-wrap: wrap;
+  }
+  .site-nav a {
+    color: #a0aec0;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 10px 16px;
+    display: block;
+    transition: all 0.15s;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+  }
+  .site-nav a:hover { color: #fff; background: rgba(255,255,255,0.05); }
+  .site-nav a.active { color: #fff; border-bottom-color: #4299e1; background: rgba(255,255,255,0.05); }
+
+  /* Disclaimer banner */
+  .disclaimer-banner {
+    background: #fffbeb;
+    border: 1px solid #d69e2e;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    font-size: 0.85rem;
+    color: #744210;
+  }
+  .disclaimer-banner strong { color: #92400e; }
+
+  /* Section titles */
+  .section-title {
+    font-size: 1rem; font-weight: 600; margin-bottom: 14px;
+    padding-bottom: 8px; border-bottom: 2px solid #e2e8f0;
+    color: #1a1a2e;
+  }
+
+  section { margin-bottom: 28px; }
+
+  /* Tier badges */
+  .tier-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    vertical-align: middle;
+  }
+  .tier-any { background: #d1fae5; color: #065f46; }
+  .tier-1 { background: #fee2e2; color: #991b1b; }
+  .tier-2 { background: #fef3c7; color: #92400e; }
+  .tier-3 { background: #dbeafe; color: #1e40af; }
+  .tier-4 { background: #e0e7ff; color: #3730a3; }
+
+  /* Agent cards */
+  .agent-card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .agent-header {
+    padding: 14px 18px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    transition: background 0.15s;
+  }
+  .agent-header:hover { background: #f7fafc; }
+  .agent-title {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: #1a1a2e;
+    flex: 1;
+  }
+  .agent-badges { display: flex; gap: 6px; flex-shrink: 0; flex-wrap: wrap; }
+  .agent-toggle {
+    font-size: 1.1rem;
+    color: #718096;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+    width: 20px;
+    text-align: center;
+  }
+  .agent-card.open .agent-toggle { transform: rotate(90deg); }
+  .agent-body {
+    display: none;
+    padding: 0 18px 18px;
+    border-top: 1px solid #edf2f7;
+  }
+  .agent-card.open .agent-body { display: block; }
+
+  .agent-body h4 {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #718096;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-top: 14px;
+    margin-bottom: 6px;
+  }
+  .agent-body p, .agent-body li {
+    font-size: 0.85rem;
+    color: #4a5568;
+    line-height: 1.6;
+  }
+  .agent-body ul, .agent-body ol {
+    padding-left: 20px;
+    margin-bottom: 10px;
+  }
+  .agent-body li { margin-bottom: 4px; }
+
+  /* Tool comparison rows */
+  .tool-compare {
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 10px 0;
+  }
+  .tool-compare-row {
+    display: flex;
+    padding: 8px 14px;
+    font-size: 0.82rem;
+    border-bottom: 1px solid #edf2f7;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .tool-compare-row:last-child { border-bottom: none; }
+  .tool-compare-row:nth-child(even) { background: #f8f9fa; }
+  .tool-compare-tool {
+    font-weight: 600;
+    color: #1a1a2e;
+    min-width: 160px;
+    flex-shrink: 0;
+  }
+  .tool-compare-desc { color: #4a5568; flex: 1; }
+
+  /* Callout boxes */
+  .callout {
+    padding: 12px 16px;
+    border-radius: 0 6px 6px 0;
+    font-size: 0.83rem;
+    margin: 10px 0;
+  }
+  .callout-blue { background: #eff6ff; border-left: 4px solid #2c5282; color: #1e40af; }
+  .callout-yellow { background: #fffbeb; border-left: 4px solid #d97706; color: #92400e; }
+  .callout-red { background: #fee2e2; border-left: 4px solid #dc2626; color: #991b1b; }
+  .callout-green { background: #ecfdf5; border-left: 4px solid #059669; color: #065f46; }
+  .callout strong { color: inherit; }
+
+  /* Step lists */
+  .steps {
+    counter-reset: step-counter;
+    list-style: none;
+    padding-left: 0;
+    margin: 10px 0;
+  }
+  .steps li {
+    counter-increment: step-counter;
+    padding: 8px 0 8px 36px;
+    position: relative;
+    border-bottom: 1px solid #f3f4f6;
+    font-size: 0.85rem;
+    color: #4a5568;
+    line-height: 1.6;
+  }
+  .steps li:last-child { border-bottom: none; }
+  .steps li::before {
+    content: counter(step-counter);
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 24px;
+    height: 24px;
+    background: #2c5282;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 0.72rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Category headers */
+  .category-header {
+    background: #1a1a2e;
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 14px;
+    margin-top: 8px;
+  }
+
+  /* Concept box */
+  .concept-box {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 18px;
+    margin-bottom: 20px;
+  }
+  .concept-box h3 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 10px;
+  }
+  .concept-box p {
+    font-size: 0.85rem;
+    color: #4a5568;
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+  .concept-box p:last-child { margin-bottom: 0; }
+
+  /* Diagram */
+  .flow-diagram {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 14px 0;
+    font-size: 0.78rem;
+  }
+  .flow-step {
+    background: #eff6ff;
+    border: 1px solid #93c5fd;
+    border-radius: 6px;
+    padding: 8px 14px;
+    text-align: center;
+    color: #1e40af;
+    font-weight: 600;
+    min-width: 100px;
+  }
+  .flow-arrow {
+    color: #718096;
+    font-size: 1.2rem;
+    padding: 0 6px;
+  }
+
+  /* Footer */
+  .footer {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 16px;
+    margin-top: 24px;
+    font-size: 0.78rem;
+    color: #718096;
+    line-height: 1.6;
+  }
+  .footer a { color: #2c5282; text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .header-meta { display: none; }
+    .tool-compare-row { flex-direction: column; gap: 2px; }
+    .tool-compare-tool { min-width: auto; }
+    .agent-badges { display: none; }
+    .site-nav a { padding: 8px 10px; font-size: 0.75rem; }
+    .flow-diagram { flex-direction: column; }
+    .flow-arrow { transform: rotate(90deg); }
+  }
+  @media (max-width: 480px) {
+    .container { padding: 12px; }
+    .site-nav-inner { gap: 0; }
+    .site-nav a { padding: 8px 8px; font-size: 0.72rem; }
+  }
+
+  /* Print */
+  @media print {
+    body { background: #fff; font-size: 12px; }
+    .header { background: #1a1a2e !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .site-nav, .disclaimer-banner, .agent-toggle { display: none !important; }
+    .agent-body { display: block !important; }
+    .tier-badge { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .container { max-width: 100%; }
+    section { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div>
+      <h1>AI Agents &amp; Automation</h1>
+      <div class="subtitle">Automated Workflows for Legal Practice</div>
+    </div>
+    <div class="header-meta">Built with Claude Code<br>2026</div>
+  </div>
+</div>
+
+<nav class="site-nav">
+  <div class="site-nav-inner">
+    <a href="index.html">Home</a>
+    <a href="risk-matrix.html">Risk Matrix</a>
+    <a href="use-cases.html">Use Cases</a>
+    <a href="agents.html" class="active">Agents</a>
+    <a href="ethics-opinions.html">Ethics Opinions</a>
+    <a href="vendor-details.html">Vendor Details</a>
+    <a href="glossary.html">Glossary</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <div class="disclaimer-banner">
+    <strong>What's an agent?</strong> An AI "agent" is a workflow where AI performs multiple steps automatically &mdash; reading, deciding, and acting &mdash; instead of just answering a single question. Think of it as the difference between asking a question and delegating a task. The same <a href="risk-matrix.html" style="color:#2c5282;">Risk Matrix</a> rules apply: match the data sensitivity to the tool's protection tier.
+  </div>
+
+  <!-- ============================================ -->
+  <!-- CONCEPTS -->
+  <!-- ============================================ -->
+
+  <!-- ============================================ -->
+  <!-- METAPROMPTING -->
+  <!-- ============================================ -->
+  <div class="category-header">Metaprompting</div>
+
+  <section>
+    <div class="agent-card open">
+      <div class="agent-header" onclick="toggleCard(this)">
+        <div class="agent-title">Metaprompting: Write Prompts That Write Better Prompts</div>
+        <div class="agent-badges">
+          <span class="tier-badge tier-any">Any Tier</span>
+        </div>
+        <div class="agent-toggle">&#9654;</div>
+      </div>
+      <div class="agent-body">
+        <p>Instead of crafting the perfect question yourself, ask AI to design the question for you. Then use that designed prompt to get dramatically better results from Deep Research tools.</p>
+
+        <h4>Template</h4>
+        <div class="callout callout-blue">
+          "I need to research [legal issue]. Write me a detailed research prompt that will produce the most thorough results. Specify: exact scope, jurisdictions, source types, output format, and what to do when sources conflict."
+        </div>
+
+        <h4>Example</h4>
+        <div class="tool-compare">
+          <div class="tool-compare-row" style="background:#fee2e2;">
+            <div class="tool-compare-tool" style="color:#991b1b;">Naive</div>
+            <div class="tool-compare-desc">"Tell me about Fourth Amendment vehicle searches."</div>
+          </div>
+          <div class="tool-compare-row" style="background:#d1fae5;">
+            <div class="tool-compare-tool" style="color:#065f46;">Metaprompted</div>
+            <div class="tool-compare-desc">"Conduct exhaustive legal research on warrantless vehicle searches under the Fourth Amendment. Cover: (1) automobile exception from <em>Carroll</em> through current circuit splits, (2) inventory search doctrine, (3) search incident to arrest post-<em>Gant</em>, (4) consent search validity factors, (5) K-9 sniff cases post-<em>Rodriguez</em>. For each: controlling Supreme Court case, 8th Circuit interpretation, Missouri state application. Organize by category with case name, year, one-sentence holding. Flag active circuit splits or pending cert."</div>
+          </div>
+        </div>
+
+        <p style="margin-top:8px;">Paste the metaprompted result into Gemini Deep Research, Perplexity Pro, or ChatGPT Research. These tools perform multi-step browsing and produce comprehensive reports. See <a href="use-cases.html" style="color:#2c5282;">Use Cases</a> for the full workflow.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- EMAIL & COMMUNICATION -->
+  <!-- ============================================ -->
+  <div class="category-header">Email &amp; Communication</div>
+
+  <section>
+    <div class="agent-card">
+      <div class="agent-header" onclick="toggleCard(this)">
+        <div class="agent-title">Email Summary Agent &mdash; Daily Inbox Digest</div>
+        <div class="agent-badges">
+          <span class="tier-badge tier-4">Tier 4</span>
+        </div>
+        <div class="agent-toggle">&#9654;</div>
+      </div>
+      <div class="agent-body">
+        <p>Your email contains client names, case details, court dates, and privileged communications. An email agent touches <strong>all of it</strong>.</p>
+
+        <div class="callout callout-red">
+          <strong>Only Tier 4 tools should read your inbox.</strong> Never connect a consumer AI tool to your work email.
+        </div>
+
+        <h4>Tool comparison</h4>
+        <div class="tool-compare">
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">M365 Copilot <span class="tier-badge tier-4">Tier 4</span></div>
+            <div class="tool-compare-desc"><strong>Safe.</strong> Processes within your Microsoft 365 tenant. No data leaves your organization. Can summarize emails, draft replies, and prioritize your inbox. Requires E3/E5 + Copilot license.</div>
+          </div>
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Google Workspace Gemini <span class="tier-badge tier-4">Tier 4</span></div>
+            <div class="tool-compare-desc"><strong>Safe.</strong> Even Business Starter ($7/mo) gets enterprise data protections. Gemini in Gmail summarizes threads, drafts replies, and searches across your email. Data stays in-tenant.</div>
+          </div>
+          <div class="tool-compare-row" style="background:#fee2e2;">
+            <div class="tool-compare-tool" style="color:#991b1b;">Third-party email AI</div>
+            <div class="tool-compare-desc"><strong>Risk assessment required.</strong> Tools like Superhuman, SaneBox, or third-party AI plugins read your email through API access. Check: do they have a DPA? Where is data processed? Is it stored? Can employees access it? Most consumer email tools are Tier 1-2 and unsuitable for client communications.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- WORKFLOW AUTOMATION -->
+  <!-- ============================================ -->
+  <div class="category-header">Workflow Automation</div>
+
+  <section>
+    <div class="agent-card">
+      <div class="agent-header" onclick="toggleCard(this)">
+        <div class="agent-title">Creating a Zapier or Power Automate Flow</div>
+        <div class="agent-badges">
+          <span class="tier-badge tier-3">Tier 3+</span>
+        </div>
+        <div class="agent-toggle">&#9654;</div>
+      </div>
+      <div class="agent-body">
+        <p>Zapier and Power Automate connect apps: when something happens in one app (trigger), it does something in another (action). The ethical question: a Zapier flow that processes case information sends data through Zapier's servers.</p>
+
+        <h4>Where data goes</h4>
+        <ul>
+          <li><strong>Does Zapier/Power Automate have a DPA?</strong> Zapier offers a DPA for paid plans. Power Automate inherits your M365 data protections.</li>
+          <li><strong>What AI model does the "AI step" use?</strong> Zapier's built-in AI uses OpenAI. If your flow includes an AI processing step, client data goes to OpenAI's API (Tier 3 with DPA).</li>
+          <li><strong>Where is data stored?</strong> Zapier retains task history. Power Automate stores within your M365 tenant.</li>
+        </ul>
+
+        <div class="callout callout-yellow">
+          <strong>Power Automate is safer for legal workflows</strong> because everything stays within your Microsoft 365 tenant. Zapier is more flexible but introduces a third-party data processor. For flows that touch client data, prefer Power Automate.
+        </div>
+
+        <h4>Safe starter flows (no client data)</h4>
+        <ul>
+          <li><strong>CLE tracking:</strong> When you complete a CLE, log it to a spreadsheet automatically</li>
+          <li><strong>Legal news:</strong> When a legal news RSS feed has a new item matching your keywords, save it to a reading list</li>
+          <li><strong>Deadline reminders:</strong> 7 days before a calendar event tagged "court," send yourself a reminder email with a checklist</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="agent-card">
+      <div class="agent-header" onclick="toggleCard(this)">
+        <div class="agent-title">Scheduled Tasks and Recurring Events</div>
+        <div class="agent-badges">
+          <span class="tier-badge tier-any">Varies</span>
+        </div>
+        <div class="agent-toggle">&#9654;</div>
+      </div>
+      <div class="agent-body">
+        <h4>The concept</h4>
+        <p>Some AI tasks should happen automatically on a schedule, not just when you remember to do them. Examples:</p>
+
+        <div class="tool-compare">
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Recurring research updates</div>
+            <div class="tool-compare-desc">Every Monday, check for new 8th Circuit opinions on [your practice areas]. Summarize any new developments. <span class="tier-badge tier-any">Any Tier</span> &mdash; public case law, no client data.</div>
+          </div>
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Deadline context reminders</div>
+            <div class="tool-compare-desc">3 days before each court date, pull the case summary from your CMS and email you a brief: what the hearing is about, what's pending, what to prepare. <span class="tier-badge tier-4">Tier 4</span> &mdash; touches case data.</div>
+          </div>
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Weekly ethics opinion check</div>
+            <div class="tool-compare-desc">Every Friday, check the NYC Bar tracker and ABA for new AI ethics opinions. If any are new since last check, summarize and email you. <span class="tier-badge tier-any">Any Tier</span> &mdash; public documents.</div>
+          </div>
+        </div>
+
+        <h4>How to set these up</h4>
+        <ul>
+          <li><strong>Power Automate:</strong> Use "Recurrence" trigger to run flows on a schedule. Connect to Outlook, SharePoint, and Copilot.</li>
+          <li><strong>Zapier:</strong> Use "Schedule" trigger. Connect to Gmail, Google Sheets, and AI steps.</li>
+          <li><strong>Google Apps Script:</strong> Free, runs on a timer, works with Gmail and Google Sheets. Requires some scripting but AI can write the script for you.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- INFORMATION GATHERING -->
+  <!-- ============================================ -->
+  <div class="category-header">Information Gathering</div>
+
+  <section>
+    <div class="agent-card">
+      <div class="agent-header" onclick="toggleCard(this)">
+        <div class="agent-title">Daily News Aggregation &amp; Summary</div>
+        <div class="agent-badges">
+          <span class="tier-badge tier-any">Any Tier</span>
+        </div>
+        <div class="agent-toggle">&#9654;</div>
+      </div>
+      <div class="agent-body">
+        <p>Public news, case law updates, bar opinions, legislative developments. No client data involved &mdash; safe at any tier.</p>
+
+        <h4>Tool comparison</h4>
+        <div class="tool-compare">
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Perplexity Daily</div>
+            <div class="tool-compare-desc">Set up "Spaces" for your topics. Perplexity monitors and sends you updates. Built-in source links. Free tier available.</div>
+          </div>
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Feedly + AI</div>
+            <div class="tool-compare-desc">RSS aggregator with AI summarization. Follow specific courts, news sources, and legal blogs. Leo AI assistant prioritizes by relevance.</div>
+          </div>
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Zapier + ChatGPT</div>
+            <div class="tool-compare-desc">Zapier monitors RSS feeds. When new items appear, ChatGPT summarizes them. Zapier emails you the digest. Fully automated, runs daily.</div>
+          </div>
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Google Alerts + NotebookLM</div>
+            <div class="tool-compare-desc">Google Alerts emails you when new content matches your search terms. Periodically batch-upload to NotebookLM for a synthesized briefing or podcast.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- MEETINGS & CALENDAR -->
+  <!-- ============================================ -->
+  <div class="category-header">Meetings, Calendar &amp; Transcription</div>
+
+  <section>
+    <div class="agent-card open">
+      <div class="agent-header" onclick="toggleCard(this)">
+        <div class="agent-title">Which Meeting Tools Are Safe for AI Features?</div>
+        <div class="agent-badges">
+          <span class="tier-badge tier-3">Varies</span>
+        </div>
+        <div class="agent-toggle">&#9654;</div>
+      </div>
+      <div class="agent-body">
+        <h4>The problem</h4>
+        <p>Every major meeting platform now offers AI features: meeting summaries, action items, transcription. These features listen to your entire meeting. If you're discussing client matters, that audio &mdash; and the AI-generated summary &mdash; is privileged and confidential data. Where does it go?</p>
+
+        <h4>Meeting tool comparison</h4>
+        <div class="tool-compare">
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Zoom AI Companion <span class="tier-badge tier-3">Tier 3</span></div>
+            <div class="tool-compare-desc"><strong>Does not train on meeting content.</strong> After 2023 backlash, Zoom explicitly updated TOS: "Zoom does not use any customer audio, video, chat, or other communications-like content to train AI models." DPA available for Business/Enterprise. ZDR option available &mdash; deletes temporary transcripts immediately after summary creation. AI Companion is off by default; admin must enable. Participants see an in-meeting indicator. Retains data up to 30 days for support unless ZDR is enabled. <a href="https://www.zoom.com/en/products/ai-assistant/resources/privacy-security/" style="color:#2c5282;" target="_blank">Source</a></div>
+          </div>
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Cisco Webex AI Assistant <span class="tier-badge tier-3">Tier 3</span></div>
+            <div class="tool-compare-desc"><strong>Does not retain data after processing.</strong> Uses Azure OpenAI as AI provider; Microsoft contractually commits not to use customer content for model training and does not store Cisco customer data. DPA available. SOC 2 Type II, ISO 27001, FedRAMP Authorized, HIPAA BAA available. Feature-specific retention policies at <a href="https://trustportal.cisco.com" style="color:#2c5282;" target="_blank">Cisco Trust Portal</a>. <a href="https://help.webex.com/en-us/article/noae57p/" style="color:#2c5282;" target="_blank">Source</a></div>
+          </div>
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Microsoft Teams + Copilot <span class="tier-badge tier-4">Tier 4</span></div>
+            <div class="tool-compare-desc"><strong>Safest option.</strong> All processing within your M365 tenant. Meeting summaries, transcripts, and action items stay in your organization's data boundary. No training on customer content. Requires M365 E3/E5 + Copilot license.</div>
+          </div>
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Google Meet + Gemini <span class="tier-badge tier-4">Tier 4</span></div>
+            <div class="tool-compare-desc"><strong>Safe with Workspace.</strong> Even Business Starter ($7/mo) gets enterprise data protections. Meeting notes and summaries processed within your Workspace tenant. Not used for training.</div>
+          </div>
+        </div>
+
+        <h4>Third-party AI notetakers</h4>
+        <div class="tool-compare">
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Granola <span class="tier-badge tier-2">Tier 2</span></div>
+            <div class="tool-compare-desc"><strong>Trains on anonymized data by default</strong> &mdash; users can opt out in Settings. Enterprise plans have training off by default. SOC 2 Type 2 (July 2025). No audio stored &mdash; only transcripts. Uses OpenAI and Anthropic for summarization. DPA available on request. No bot added to calls. <a href="https://www.granola.ai/security" style="color:#2c5282;" target="_blank">Source</a></div>
+          </div>
+          <div class="tool-compare-row" style="background:#fee2e2;">
+            <div class="tool-compare-tool" style="color:#991b1b;">Otter.ai <span class="tier-badge tier-1">Tier 1</span></div>
+            <div class="tool-compare-desc"><strong>Do not use for client meetings.</strong> Consumer tool with AI training on user data. No meaningful DPA for individual accounts. Popular but ethically unsuitable for privileged communications.</div>
+          </div>
+          <div class="tool-compare-row" style="background:#fee2e2;">
+            <div class="tool-compare-tool" style="color:#991b1b;">Fireflies.ai <span class="tier-badge tier-1">Tier 1</span></div>
+            <div class="tool-compare-desc"><strong>Do not use for client meetings.</strong> Joins meetings as a bot, records everything, sends to cloud for processing. Consumer-grade privacy controls.</div>
+          </div>
+        </div>
+
+        <div class="callout callout-red">
+          <strong>The Otter/Fireflies trap.</strong> These tools are popular because they're easy. But "easy" and "ethical" are different questions. If a colleague's Otter bot joins your client strategy call, that's your client's privileged communications going to a consumer AI platform. Raise this at your next team meeting.
+        </div>
+
+        <h4>Calendar &amp; email: which services are safe?</h4>
+        <div class="tool-compare">
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">M365 Copilot (Outlook/Calendar) <span class="tier-badge tier-4">Tier 4</span></div>
+            <div class="tool-compare-desc"><strong>Safe.</strong> Reads your Outlook calendar and email within your tenant. No data leaves your organization. Can summarize meetings, suggest times, draft calendar invites with context.</div>
+          </div>
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Google Workspace Gemini <span class="tier-badge tier-4">Tier 4</span></div>
+            <div class="tool-compare-desc"><strong>Safe.</strong> Even $7/mo Business Starter gets enterprise protections. Calendar and email AI features process within your Workspace tenant.</div>
+          </div>
+          <div class="tool-compare-row" style="background:#fee2e2;">
+            <div class="tool-compare-tool" style="color:#991b1b;">Third-party calendar/scheduling AI</div>
+            <div class="tool-compare-desc"><strong>Risk assessment required.</strong> Tools like Reclaim.ai, Clockwise, or Motion read your calendar (including event titles and attendee lists). Check: do they have a DPA? Where is data processed? Event titles like "Smith DWI case prep" reveal client information.</div>
+          </div>
+        </div>
+
+        <div class="callout callout-yellow">
+          <strong>Calendar event titles are data.</strong> If your calendar event is titled "Smith v. State &mdash; suppression hearing prep," the event title alone contains client-identifying information. Any AI tool that reads your calendar to suggest scheduling or summarize your week is touching client data.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- HEALTHCARE COMPARISON -->
+  <!-- ============================================ -->
+  <div class="category-header">Lessons from Healthcare: AI Ambient Listening</div>
+
+  <section>
+    <div class="agent-card">
+      <div class="agent-header" onclick="toggleCard(this)">
+        <div class="agent-title">How Doctors Solved the Same Problem (HIPAA &amp; BAAs)</div>
+        <div class="agent-badges">
+          <span class="tier-badge tier-3">Reference</span>
+        </div>
+        <div class="agent-toggle">&#9654;</div>
+      </div>
+      <div class="agent-body">
+        <h4>The parallel</h4>
+        <p>Doctors face the exact same problem lawyers do: they need AI to help with documentation, but their conversations contain protected information. Healthcare solved this through <strong>HIPAA</strong> and <strong>Business Associate Agreements (BAAs)</strong>. There are direct lessons for legal practice.</p>
+
+        <h4>What doctors are using</h4>
+        <div class="tool-compare">
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">DAX Copilot (Microsoft/Nuance)</div>
+            <div class="tool-compare-desc">AI "ambient listener" that sits in the exam room, listens to the doctor-patient conversation, and auto-generates clinical notes. HIPAA compliant, BAA with Microsoft, runs on Azure with regional data residency. Doctor reviews and signs off on AI-generated notes in the EHR. Audio processed via HIPAA-compliant methods.</div>
+          </div>
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Abridge</div>
+            <div class="tool-compare-desc">Ambient AI scribe. HIPAA compliant, enterprise-grade with SSO and granular governance controls. Currently facing a class action lawsuit (<em>Saucedo v. Sharp HealthCare</em>, San Diego Superior Court, Nov 2025) alleging recordings without proper patient consent.</div>
+          </div>
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Suki</div>
+            <div class="tool-compare-desc">Voice-first AI scribe. HIPAA compliant, BAA available. Designed for real-time note generation during patient encounters.</div>
+          </div>
+        </div>
+
+        <h4>BAA vs. DPA: the same idea, different professions</h4>
+        <div class="tool-compare">
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Healthcare: BAA</div>
+            <div class="tool-compare-desc">A <strong>Business Associate Agreement</strong> is required by HIPAA whenever a vendor processes Protected Health Information (PHI). It's legally mandated &mdash; no BAA, no PHI processing, period. Specifies: what data is processed, how it's protected, breach notification requirements, vendor liability.</div>
+          </div>
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Legal: DPA</div>
+            <div class="tool-compare-desc">A <strong>Data Processing Agreement</strong> serves the same function for attorney-client data. Unlike HIPAA's BAA, there's no single statute mandating DPAs for legal data. Instead, it flows from Rule 1.6 (confidentiality), bar ethics opinions, and GDPR (for EU data). The obligation is the same &mdash; the enforcement mechanism is weaker.</div>
+          </div>
+        </div>
+
+        <div class="callout callout-blue">
+          <strong>The healthcare lesson for lawyers:</strong> Doctors don't debate whether to use a BAA with their AI scribe &mdash; HIPAA makes it non-negotiable. Lawyers should treat DPAs the same way. If an AI vendor won't give you a DPA or equivalent contract for data processing, that vendor is not appropriate for client data. Full stop.
+        </div>
+
+        <h4>Emerging problems (same risks for lawyers)</h4>
+        <ul>
+          <li><strong>Consent for recording:</strong> 13 states require all-party consent for recordings. If your AI tool is "listening" to a client meeting, you need consent. California AB 3030 (Jan 2025) now requires AI disclosure in healthcare &mdash; similar rules will come for legal services.</li>
+          <li><strong>AI hallucinations in records:</strong> AI scribes can fabricate or distort content. Doctors must review AI-generated notes before signing off. Lawyers must review AI-generated documents before filing. Same risk, same obligation.</li>
+          <li><strong>Consent theater:</strong> In the Abridge lawsuit, the EHR automatically inserted boilerplate language saying patients had "consented" when no actual consent conversation occurred. Lawyers should ensure their AI consent processes are genuine, not auto-generated checkboxes.</li>
+        </ul>
+
+        <h4>Missouri recording law</h4>
+        <p>Missouri is a <strong>one-party consent</strong> state for recording (Mo. Rev. Stat. &sect; 542.402). You can record a conversation you're a party to without the other party's knowledge. However, ethical best practice is to inform clients that an AI tool is listening and get their consent, regardless of what the wiretapping statute allows. ABA Opinion 512 and Missouri Opinion 2024-11 both flow from informed consent principles.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- CLAUDE CODE & COWORK -->
+  <!-- ============================================ -->
+  <div class="category-header">Claude Code &amp; Claude Cowork</div>
+
+  <section>
+    <div class="agent-card open">
+      <div class="agent-header" onclick="toggleCard(this)">
+        <div class="agent-title">Claude Code &mdash; AI Coding Agent in Your Terminal</div>
+        <div class="agent-badges">
+          <span class="tier-badge tier-3">Tier 1-4</span>
+        </div>
+        <div class="agent-toggle">&#9654;</div>
+      </div>
+      <div class="agent-body">
+        <h4>What it does</h4>
+        <p>Claude Code is an AI coding agent that runs in your terminal. It reads your codebase, edits files, runs commands, and writes code &mdash; not just answering questions, but doing multi-step development work autonomously. It built this entire training site.</p>
+
+        <h4>Why the tier depends on how you log in</h4>
+        <p>Claude Code supports two authentication methods, and <strong>which one you use determines your data protection tier:</strong></p>
+
+        <div class="tool-compare">
+          <div class="tool-compare-row" style="background:#fee2e2;">
+            <div class="tool-compare-tool">Consumer login (Pro/Max) <span class="tier-badge tier-1">Tier 1</span></div>
+            <div class="tool-compare-desc">Governed by Consumer Terms. Training <strong>on by default</strong>. Your code and prompts may be used to train future models. Data retained up to 5 years (de-identified). Toggle off in Settings &rarr; "Help improve Claude" to reach Tier 2 (30-day retention, no training).</div>
+          </div>
+          <div class="tool-compare-row" style="background:#d1fae5;">
+            <div class="tool-compare-tool">API key (ANTHROPIC_API_KEY) <span class="tier-badge tier-3">Tier 3</span></div>
+            <div class="tool-compare-desc">Governed by Commercial Terms. <strong>No training by default.</strong> DPA automatically included. Logs retained 7 days. ZDR addendum available for enterprise (Tier 4). If both auth methods are present, Claude Code prioritizes the API key.</div>
+          </div>
+        </div>
+
+        <div class="callout callout-red">
+          <strong>Is it ethical to use client data on Claude Pro/Max?</strong> No &mdash; not without toggling training off (Tier 2), and even then, consumer terms provide weaker protections than a DPA. For client-related coding work, authenticate with an API key (Tier 3) or use an Enterprise plan (Tier 4). The same code, the same tool &mdash; completely different legal framework depending on which auth method you use.
+        </div>
+
+        <h4>Practical use for lawyers</h4>
+        <ul>
+          <li><strong>Building tools:</strong> Create standalone apps for your practice (like this training site)</li>
+          <li><strong>Data analysis:</strong> Process CSV exports, build Excel formulas, analyze structured data</li>
+          <li><strong>Document automation:</strong> Generate templates, format documents, batch-process files</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="agent-card open">
+      <div class="agent-header" onclick="toggleCard(this)">
+        <div class="agent-title">Claude Cowork &mdash; AI Agent for Knowledge Work</div>
+        <div class="agent-badges">
+          <span class="tier-badge tier-3">Tier 1-4</span>
+        </div>
+        <div class="agent-toggle">&#9654;</div>
+      </div>
+      <div class="agent-body">
+        <h4>What it does</h4>
+        <p>Claude Cowork (launched January 2026) is "Claude Code for the rest of your work." It connects to your existing tools &mdash; Google Drive, Gmail, Calendar, DocuSign, and more &mdash; using the Model Context Protocol (MCP). It can read and write across your tech stack, execute multi-step tasks, and work across files without requiring programming knowledge.</p>
+
+        <h4>Same tier rules as Claude Code</h4>
+        <p>The product doesn't determine the tier &mdash; <strong>the plan does:</strong></p>
+        <div class="tool-compare">
+          <div class="tool-compare-row" style="background:#fee2e2;">
+            <div class="tool-compare-tool">Pro ($20/mo) or Max ($100-200/mo)</div>
+            <div class="tool-compare-desc"><strong>Consumer Terms.</strong> Tier 1 (training on) or Tier 2 (training off). Not appropriate for client data.</div>
+          </div>
+          <div class="tool-compare-row" style="background:#d1fae5;">
+            <div class="tool-compare-tool">Team ($25/seat/mo) or Enterprise</div>
+            <div class="tool-compare-desc"><strong>Commercial Terms.</strong> Tier 3 (no training, DPA). Enterprise + ZDR addendum = Tier 4.</div>
+          </div>
+        </div>
+
+        <div class="callout callout-yellow">
+          <strong>Cowork connects to services that contain client data.</strong> If Cowork reads your Gmail, Calendar, or Google Drive, it touches the same privileged information as an email agent. Using Cowork with a consumer plan to access your work email is the same ethical problem as connecting Otter.ai to your meeting &mdash; wrong tier for the data sensitivity.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- DASHBOARD MAINTENANCE -->
+  <!-- ============================================ -->
+  <div class="category-header">Dashboard Maintenance</div>
+
+  <section>
+    <div class="agent-card">
+      <div class="agent-header" onclick="toggleCard(this)">
+        <div class="agent-title">Maintaining a Practice Dashboard</div>
+        <div class="agent-badges">
+          <span class="tier-badge tier-4">Tier 4</span>
+        </div>
+        <div class="agent-toggle">&#9654;</div>
+      </div>
+      <div class="agent-body">
+        <p>A dashboard aggregates case data, deadlines, and work product &mdash; High sensitivity by definition. Tier 4 only.</p>
+
+        <h4>Tool comparison</h4>
+        <div class="tool-compare">
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">M365 Copilot + Planner <span class="tier-badge tier-4">Tier 4</span></div>
+            <div class="tool-compare-desc">Copilot can read your Outlook calendar, Planner tasks, and SharePoint documents to generate dashboard views. All data stays within your M365 tenant. Ask: "What are my upcoming court dates this week? What tasks are overdue?"</div>
+          </div>
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Clio + AI <span class="tier-badge tier-3">Tier 3</span></div>
+            <div class="tool-compare-desc">Clio is a legal practice management platform with built-in AI features. Case data stays within Clio's infrastructure. SOC 2 certified. Good for firms already using Clio as their CMS.</div>
+          </div>
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Custom dashboard (Power BI) <span class="tier-badge tier-4">Tier 4</span></div>
+            <div class="tool-compare-desc">Build a Power BI dashboard that pulls from your M365 data. No AI in the loop &mdash; just visualizations. Add Copilot for natural language queries against the data.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- FOOTER -->
+  <!-- ============================================ -->
+  <div class="footer">
+    <p><strong>The pattern:</strong> Every agent and automation workflow comes back to the same question &mdash; what data does the AI touch? If it touches client data, use Tier 3+ tools. If it touches only public information, any tier is fine. Automation makes you faster, but it doesn't change the ethical rules.</p>
+    <p style="margin-top:8px;">See the <a href="risk-matrix.html">Risk Matrix</a> for the full tier framework. See <a href="use-cases.html">Use Cases</a> for single-step tool workflows.</p>
+    <p class="footer-meta">Part of the AI Ethics &amp; Practical Use Training Site &mdash; Built with Claude Code &mdash; 2026</p>
+  </div>
+
+</div>
+
+<script>
+function toggleCard(header) {
+  const card = header.closest('.agent-card');
+  card.classList.toggle('open');
+}
+</script>
+
+</body>
+</html>

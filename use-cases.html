@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practical AI Use Cases — Criminal Defense</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: #f8f9fa;
+    color: #1a1a2e;
+    line-height: 1.5;
+    font-size: 15px;
+  }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 16px 20px; }
+
+  /* Header */
+  .header {
+    background: #1a1a2e;
+    color: #fff;
+    padding: 20px 0;
+    margin-bottom: 16px;
+  }
+  .header-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .header h1 { font-size: 1.4rem; font-weight: 600; }
+  .header .subtitle { font-size: 0.85rem; color: #a0aec0; margin-top: 4px; }
+  .header-meta { font-size: 0.75rem; color: #a0aec0; text-align: right; line-height: 1.4; }
+
+  /* Navigation */
+  .site-nav {
+    background: #2d3748;
+    padding: 0;
+    border-bottom: 2px solid #4a5568;
+  }
+  .site-nav-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    gap: 0;
+    flex-wrap: wrap;
+  }
+  .site-nav a {
+    color: #a0aec0;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 10px 16px;
+    display: block;
+    transition: all 0.15s;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+  }
+  .site-nav a:hover { color: #fff; background: rgba(255,255,255,0.05); }
+  .site-nav a.active { color: #fff; border-bottom-color: #4299e1; background: rgba(255,255,255,0.05); }
+
+  /* Disclaimer banner */
+  .disclaimer-banner {
+    background: #fffbeb;
+    border: 1px solid #d69e2e;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    font-size: 0.85rem;
+    color: #744210;
+  }
+  .disclaimer-banner strong { color: #92400e; }
+
+  /* Section titles */
+  .section-title {
+    font-size: 1rem; font-weight: 600; margin-bottom: 14px;
+    padding-bottom: 8px; border-bottom: 2px solid #e2e8f0;
+    color: #1a1a2e;
+  }
+
+  section { margin-bottom: 28px; }
+
+  /* Tier badges */
+  .tier-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    vertical-align: middle;
+  }
+  .tier-any { background: #d1fae5; color: #065f46; }
+  .tier-1 { background: #fee2e2; color: #991b1b; }
+  .tier-2 { background: #fef3c7; color: #92400e; }
+  .tier-3 { background: #dbeafe; color: #1e40af; }
+  .tier-4 { background: #e0e7ff; color: #3730a3; }
+  .tier-3-plus { background: #dbeafe; color: #1e40af; }
+
+  /* Use case cards */
+  .use-case-card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .use-case-header {
+    padding: 14px 18px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    transition: background 0.15s;
+  }
+  .use-case-header:hover { background: #f7fafc; }
+  .use-case-title {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: #1a1a2e;
+    flex: 1;
+  }
+  .use-case-badges { display: flex; gap: 6px; flex-shrink: 0; flex-wrap: wrap; }
+  .use-case-toggle {
+    font-size: 1.1rem;
+    color: #718096;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+    width: 20px;
+    text-align: center;
+  }
+  .use-case-card.open .use-case-toggle { transform: rotate(90deg); }
+  .use-case-body {
+    display: none;
+    padding: 0 18px 18px;
+    border-top: 1px solid #edf2f7;
+  }
+  .use-case-card.open .use-case-body { display: block; }
+
+  .use-case-body h4 {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #718096;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-top: 14px;
+    margin-bottom: 6px;
+  }
+  .use-case-body p, .use-case-body li {
+    font-size: 0.85rem;
+    color: #4a5568;
+    line-height: 1.6;
+  }
+  .use-case-body ul, .use-case-body ol {
+    padding-left: 20px;
+    margin-bottom: 10px;
+  }
+  .use-case-body li { margin-bottom: 4px; }
+
+  /* Tool comparison rows */
+  .tool-compare {
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 10px 0;
+  }
+  .tool-compare-row {
+    display: flex;
+    padding: 8px 14px;
+    font-size: 0.82rem;
+    border-bottom: 1px solid #edf2f7;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .tool-compare-row:last-child { border-bottom: none; }
+  .tool-compare-row:nth-child(even) { background: #f8f9fa; }
+  .tool-compare-tool {
+    font-weight: 600;
+    color: #1a1a2e;
+    min-width: 160px;
+    flex-shrink: 0;
+  }
+  .tool-compare-desc { color: #4a5568; flex: 1; }
+
+  /* Callout boxes */
+  .callout {
+    padding: 12px 16px;
+    border-radius: 0 6px 6px 0;
+    font-size: 0.83rem;
+    margin: 10px 0;
+  }
+  .callout-blue { background: #eff6ff; border-left: 4px solid #2c5282; color: #1e40af; }
+  .callout-yellow { background: #fffbeb; border-left: 4px solid #d97706; color: #92400e; }
+  .callout-red { background: #fee2e2; border-left: 4px solid #dc2626; color: #991b1b; }
+  .callout-green { background: #ecfdf5; border-left: 4px solid #059669; color: #065f46; }
+  .callout strong { color: inherit; }
+
+  /* Step lists */
+  .steps {
+    counter-reset: step-counter;
+    list-style: none;
+    padding-left: 0;
+    margin: 10px 0;
+  }
+  .steps li {
+    counter-increment: step-counter;
+    padding: 8px 0 8px 36px;
+    position: relative;
+    border-bottom: 1px solid #f3f4f6;
+    font-size: 0.85rem;
+    color: #4a5568;
+    line-height: 1.6;
+  }
+  .steps li:last-child { border-bottom: none; }
+  .steps li::before {
+    content: counter(step-counter);
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 24px;
+    height: 24px;
+    background: #2c5282;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 0.72rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Data boundary boxes */
+  .data-boundary {
+    display: flex;
+    gap: 12px;
+    margin: 10px 0;
+    flex-wrap: wrap;
+  }
+  .data-ok, .data-not-ok {
+    flex: 1;
+    min-width: 200px;
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+  .data-ok {
+    background: #ecfdf5;
+    border: 1px solid #6ee7b7;
+  }
+  .data-ok strong { color: #065f46; }
+  .data-not-ok {
+    background: #fef2f2;
+    border: 1px solid #fca5a5;
+  }
+  .data-not-ok strong { color: #991b1b; }
+  .data-ok ul, .data-not-ok ul {
+    padding-left: 16px;
+    margin: 4px 0 0;
+  }
+  .data-ok li { color: #065f46; }
+  .data-not-ok li { color: #991b1b; }
+
+  /* Category headers */
+  .category-header {
+    background: #1a1a2e;
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 14px;
+    margin-top: 8px;
+  }
+
+  /* Missouri callout */
+  .mo-badge {
+    display: inline-block; background: #2c5282; color: #fff;
+    padding: 2px 8px; border-radius: 3px; font-size: 0.7rem;
+    font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+  }
+
+  /* Footer */
+  .footer {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 16px;
+    margin-top: 24px;
+    font-size: 0.78rem;
+    color: #718096;
+    line-height: 1.6;
+  }
+  .footer a { color: #2c5282; text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .header-meta { display: none; }
+    .tool-compare-row { flex-direction: column; gap: 2px; }
+    .tool-compare-tool { min-width: auto; }
+    .use-case-badges { display: none; }
+    .site-nav a { padding: 8px 10px; font-size: 0.75rem; }
+  }
+  @media (max-width: 480px) {
+    .container { padding: 12px; }
+    .site-nav-inner { gap: 0; }
+    .site-nav a { padding: 8px 8px; font-size: 0.72rem; }
+  }
+
+  /* Print */
+  @media print {
+    body { background: #fff; font-size: 12px; }
+    .header { background: #1a1a2e !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .site-nav, .disclaimer-banner, .use-case-toggle { display: none !important; }
+    .use-case-body { display: block !important; }
+    .tier-badge { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .container { max-width: 100%; }
+    section { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div>
+      <h1>Practical AI Use Cases</h1>
+      <div class="subtitle">Same Task, Different Tools, Different Tiers</div>
+    </div>
+    <div class="header-meta">Built with Claude Code<br>2026</div>
+  </div>
+</div>
+
+<nav class="site-nav">
+  <div class="site-nav-inner">
+    <a href="index.html">Home</a>
+    <a href="risk-matrix.html">Risk Matrix</a>
+    <a href="use-cases.html" class="active">Use Cases</a>
+    <a href="agents.html">Agents</a>
+    <a href="ethics-opinions.html">Ethics Opinions</a>
+    <a href="vendor-details.html">Vendor Details</a>
+    <a href="glossary.html">Glossary</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <div class="disclaimer-banner">
+    <strong>Hands-on guide.</strong> These walkthroughs show how to achieve practical results with AI tools at every protection tier. Always check the <a href="risk-matrix.html" style="color:#2c5282;">Risk Matrix</a> before putting client data into any tool.
+  </div>
+
+  <div style="background:#fee2e2;border:1px solid #dc2626;border-radius:6px;padding:12px 16px;margin-bottom:20px;font-size:0.83rem;color:#991b1b;">
+    <strong>Feedback is training data.</strong> When you click thumbs up/down on an AI response, you give the vendor that entire conversation &mdash; including your prompt &mdash; for training. This applies even if you've opted out of general training. Never provide feedback on conversations containing client information. <a href="risk-matrix.html" style="color:#2c5282;">Details on Risk Matrix page.</a>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- RESEARCH -->
+  <!-- ============================================ -->
+  <div class="category-header">Research</div>
+
+  <section>
+    <div class="use-case-card open">
+      <div class="use-case-header" onclick="toggleCard(this)">
+        <div class="use-case-title">Constitutional Issue Research</div>
+        <div class="use-case-badges">
+          <span class="tier-badge tier-any">Any Tier</span>
+        </div>
+        <div class="use-case-toggle">&#9654;</div>
+      </div>
+      <div class="use-case-body">
+        <h4>What's OK vs. what's not</h4>
+        <div class="data-boundary">
+          <div class="data-ok">
+            <strong>OK to include:</strong>
+            <ul>
+              <li>Legal questions ("What is the standard for...")</li>
+              <li>Statute numbers and case names</li>
+              <li>Jurisdictional parameters ("In Missouri...")</li>
+              <li>General fact patterns ("vehicle search on highway")</li>
+              <li>Offense types without case details</li>
+            </ul>
+          </div>
+          <div class="data-not-ok">
+            <strong>NOT OK at this tier:</strong>
+            <ul>
+              <li>Client names or case numbers</li>
+              <li>Specific facts from your case</li>
+              <li>County or court division (could narrow identification)</li>
+              <li>Officer names from your case</li>
+              <li>Any information from discovery</li>
+            </ul>
+          </div>
+        </div>
+
+        <h4>Tool comparison</h4>
+        <div class="tool-compare">
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">ChatGPT (Free) <span class="tier-badge tier-1">Tier 1</span></div>
+            <div class="tool-compare-desc">Good starting point for general overviews. Ask for recent cases and then <strong>verify every citation</strong>.</div>
+          </div>
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Claude.ai (Free) <span class="tier-badge tier-1">Tier 1</span></div>
+            <div class="tool-compare-desc">Strong at nuanced analysis and longer-form research memos. Same verification requirement.</div>
+          </div>
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Perplexity <span class="tier-badge tier-1">Tier 1</span></div>
+            <div class="tool-compare-desc">Shows inline source citations automatically. Useful for quick surveys of a legal landscape. Still verify.</div>
+          </div>
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Gemini Deep Research <span class="tier-badge tier-1">Tier 1</span></div>
+            <div class="tool-compare-desc">Performs multi-step web research and produces long, sourced reports. Good for comprehensive issue surveys.</div>
+          </div>
+        </div>
+
+        <div class="callout callout-yellow">
+          <strong>Always verify.</strong> No AI tool can be trusted to produce real case citations. Cross-reference every case with Westlaw, Lexis, Google Scholar, or Case.net before relying on it.
+        </div>
+      </div>
+    </div>
+
+    <div class="use-case-card">
+      <div class="use-case-header" onclick="toggleCard(this)">
+        <div class="use-case-title">Deep Research with Metaprompting</div>
+        <div class="use-case-badges">
+          <span class="tier-badge tier-any">Any Tier</span>
+        </div>
+        <div class="use-case-toggle">&#9654;</div>
+      </div>
+      <div class="use-case-body">
+        <p>A metaprompt is a prompt that writes better prompts. Ask AI to design your research question, then use that designed prompt with Deep Research tools (Gemini, Perplexity Pro, ChatGPT Research) for dramatically better results. Full workflow on the <a href="agents.html" style="color:#2c5282;">Agents page</a>.</p>
+
+        <h4>Example</h4>
+        <div class="tool-compare">
+          <div class="tool-compare-row" style="background:#fee2e2;">
+            <div class="tool-compare-tool" style="color:#991b1b;">Naive prompt</div>
+            <div class="tool-compare-desc">"What are the rules for vehicle searches under the Fourth Amendment?"</div>
+          </div>
+          <div class="tool-compare-row" style="background:#d1fae5;">
+            <div class="tool-compare-tool" style="color:#065f46;">Metaprompted</div>
+            <div class="tool-compare-desc">"Conduct exhaustive legal research on warrantless vehicle searches under the Fourth Amendment. Cover: (1) the automobile exception from Carroll v. United States through current circuit splits, (2) inventory search doctrine, (3) search incident to arrest post-Gant, (4) consent search validity factors, (5) K-9 sniff cases post-Rodriguez. For each category, identify the controlling Supreme Court case, 8th Circuit interpretation, and Missouri state court application. Organize by category with case name, year, and one-sentence holding. Flag any active circuit splits or pending cert petitions."</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="use-case-card">
+      <div class="use-case-header" onclick="toggleCard(this)">
+        <div class="use-case-title">Verified Case Law &amp; Legal Brushup</div>
+        <div class="use-case-badges">
+          <span class="tier-badge tier-any">Any Tier</span>
+        </div>
+        <div class="use-case-toggle">&#9654;</div>
+      </div>
+      <div class="use-case-body">
+        <p>AI tools hallucinate case citations. This is structural, not a bug you can prompt around. Every AI-generated citation must be verified before it touches a brief.</p>
+
+        <h4>Verification checklist</h4>
+        <ul>
+          <li><strong>Westlaw/Lexis:</strong> Run every citation. Most hallucinated cases fail here &mdash; wrong court, wrong year, or nonexistent.</li>
+          <li><strong>Free alternatives:</strong> Google Scholar (scholar.google.com) and Case.net (Missouri).</li>
+          <li><strong>Check good law:</strong> KeyCite or Shepard's to confirm the holding hasn't been overruled.</li>
+        </ul>
+
+        <p style="margin-top:8px;">Compile verified cases into a reusable "brushup" &mdash; a living research memo organized by issue for your core practice areas, covering controlling cases, recent developments, and CLE resources.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- DOCUMENT ANALYSIS -->
+  <!-- ============================================ -->
+  <div class="category-header">Document Analysis</div>
+
+  <section>
+    <div class="use-case-card">
+      <div class="use-case-header" onclick="toggleCard(this)">
+        <div class="use-case-title">Summarize a Police Report</div>
+        <div class="use-case-badges">
+          <span class="tier-badge tier-3-plus">Tier 3+</span>
+        </div>
+        <div class="use-case-toggle">&#9654;</div>
+      </div>
+      <div class="use-case-body">
+        <h4>What's OK vs. what's not</h4>
+        <div class="data-boundary">
+          <div class="data-ok">
+            <strong>OK with Tier 3+ tools:</strong>
+            <ul>
+              <li>Full police report (with DPA in place)</li>
+              <li>Victim and witness names</li>
+              <li>Officer narratives</li>
+              <li>Evidence inventories</li>
+              <li>Lab results attached to report</li>
+            </ul>
+          </div>
+          <div class="data-not-ok">
+            <strong>NEVER with Tier 1-2 tools:</strong>
+            <ul>
+              <li>Any page of the police report</li>
+              <li>Client name + charge combination</li>
+              <li>Verbatim quotes from statements</li>
+              <li>Photos or body camera stills</li>
+              <li>Anything from discovery</li>
+            </ul>
+          </div>
+        </div>
+
+        <h4>Tool comparison</h4>
+        <div class="tool-compare">
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">NotebookLM <span class="tier-badge tier-3">Tier 3</span></div>
+            <div class="tool-compare-desc">Upload the PDF. NotebookLM processes within Google's enterprise infrastructure. No training on uploads. Good for summarization and Q&A against the document.</div>
+          </div>
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Claude API <span class="tier-badge tier-3">Tier 3</span></div>
+            <div class="tool-compare-desc">Send via API with DPA in place. Zero data retention by default. Best for programmatic or batch processing.</div>
+          </div>
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Reduct <span class="tier-badge tier-3">Tier 3</span></div>
+            <div class="tool-compare-desc">Built for legal workflows. Transcription + summarization with redaction tools. SOC 2 compliant. MSPD has an enterprise agreement.</div>
+          </div>
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Microsoft 365 Copilot <span class="tier-badge tier-4">Tier 4</span></div>
+            <div class="tool-compare-desc">If your organization uses M365 E3/E5, Copilot processes within your tenant. Zero data retention, no training. Highest protection tier.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="use-case-card">
+      <div class="use-case-header" onclick="toggleCard(this)">
+        <div class="use-case-title">Analyze Discovery for Inconsistencies</div>
+        <div class="use-case-badges">
+          <span class="tier-badge tier-3-plus">Tier 3+</span>
+        </div>
+        <div class="use-case-toggle">&#9654;</div>
+      </div>
+      <div class="use-case-body">
+        <h4>What's OK vs. what's not</h4>
+        <div class="data-boundary">
+          <div class="data-ok">
+            <strong>OK with Tier 3+ tools:</strong>
+            <ul>
+              <li>Full discovery documents (with DPA)</li>
+              <li>Multiple documents for comparison</li>
+              <li>Asking cross-document questions</li>
+              <li>Requesting timelines and summaries</li>
+            </ul>
+          </div>
+          <div class="data-not-ok">
+            <strong>NEVER with Tier 1-2 tools:</strong>
+            <ul>
+              <li>Any discovery document, even one page</li>
+              <li>Witness statements with identifying details</li>
+              <li>Medical or forensic records</li>
+              <li>Copy-pasted excerpts from discovery</li>
+            </ul>
+          </div>
+        </div>
+
+        <h4>Workflow</h4>
+        <ol class="steps">
+          <li><strong>Upload all documents to a Tier 3+ tool.</strong> NotebookLM is ideal because it handles multiple documents natively and lets you ask questions across all of them.</li>
+          <li><strong>Ask for a timeline.</strong> "Create a chronological timeline of all events described in these documents, noting the source document for each event."</li>
+          <li><strong>Ask for contradictions.</strong> "Identify any factual inconsistencies between documents &mdash; different times, different descriptions, conflicting statements about who was present."</li>
+          <li><strong>Ask for gaps.</strong> "What events or time periods are referenced but not documented? What questions do these documents raise but not answer?"</li>
+          <li><strong>Verify and document.</strong> Every inconsistency AI identifies must be confirmed by your own reading. Document the specific page/line references for use in cross-examination preparation.</li>
+        </ol>
+
+      </div>
+    </div>
+
+    <div class="use-case-card">
+      <div class="use-case-header" onclick="toggleCard(this)">
+        <div class="use-case-title">Compare Multiple Documents Side by Side</div>
+        <div class="use-case-badges">
+          <span class="tier-badge tier-3-plus">Tier 3+</span>
+        </div>
+        <div class="use-case-toggle">&#9654;</div>
+      </div>
+      <div class="use-case-body">
+        <h4>Tool comparison</h4>
+        <div class="tool-compare">
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">NotebookLM <span class="tier-badge tier-3">Tier 3</span></div>
+            <div class="tool-compare-desc">Upload all documents as sources. Ask comparative questions: "How does the probable cause statement differ from the police report?" Native multi-document support.</div>
+          </div>
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Claude API (long context) <span class="tier-badge tier-3">Tier 3</span></div>
+            <div class="tool-compare-desc">200K token context window. Paste or upload multiple documents in a single conversation. Ask for specific comparisons.</div>
+          </div>
+        </div>
+
+        <h4>Sample prompts</h4>
+        <ul>
+          <li>"Compare the officer's description of the stop in the probable cause statement with the body camera transcript. Note every factual difference."</li>
+          <li>"The defendant's statement says X. The witness statement says Y. List every point of agreement and disagreement."</li>
+          <li>"Review the PSI and identify any factual claims that are not supported by the underlying discovery documents."</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- WRITING WITH STYLE GUIDES -->
+  <!-- ============================================ -->
+  <div class="category-header">Writing with Style Guides</div>
+
+  <section>
+    <div class="use-case-card">
+      <div class="use-case-header" onclick="toggleCard(this)">
+        <div class="use-case-title">Build a Style Guide from Prestigious Legal Writing</div>
+        <div class="use-case-badges">
+          <span class="tier-badge tier-any">Any Tier</span>
+        </div>
+        <div class="use-case-toggle">&#9654;</div>
+      </div>
+      <div class="use-case-body">
+        <p>Find briefs and opinions from writers you admire. Feed them to AI. Extract the style patterns. Use those patterns as a reusable style guide.</p>
+
+        <h4>Workflow</h4>
+        <ol class="steps">
+          <li><strong>Collect exemplar writing.</strong> Pull 3-5 briefs or opinions from writers you respect. Good sources: SCOTUS briefs (Supreme Court website), 8th Circuit opinions (Google Scholar), award-winning briefs (NACDL archives). These are all public documents &mdash; no client data.</li>
+          <li><strong>Feed them to AI.</strong> Upload or paste the documents. Prompt: "Analyze the writing style of these documents. Identify specific patterns: sentence length, paragraph structure, how arguments are introduced, transition techniques, citation integration, use of facts vs. law, tone, and rhetorical devices."</li>
+          <li><strong>Generate the style guide.</strong> Prompt: "Based on your analysis, create a concise style guide I can reuse. For each pattern, give a rule and a before/after example."</li>
+          <li><strong>Test it.</strong> Write a short argument. Then prompt: "Apply this style guide to rewrite my argument." Compare the before and after.</li>
+          <li><strong>Save and reuse.</strong> Save the style guide as a document. Upload it at the start of any writing session to maintain consistency across emails, briefs, and memos.</li>
+        </ol>
+
+        <h4>Apply across formats</h4>
+
+        <div class="tool-compare">
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Email (casual)</div>
+            <div class="tool-compare-desc">"Using my style guide, draft a quick email to co-counsel about [topic]. Keep it under 100 words, conversational but professional."</div>
+          </div>
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Email (professional)</div>
+            <div class="tool-compare-desc">"Using my style guide, draft an email to the court about [scheduling issue]. Formal tone, precise language."</div>
+          </div>
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Blog: 2-min Q&amp;A</div>
+            <div class="tool-compare-desc">"Using my style guide, write a 2-minute read answering [legal question]. Format as Q&A. Include citation links for each authority cited."</div>
+          </div>
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Blog: law review style</div>
+            <div class="tool-compare-desc">"Using my style guide, write a 2,000-word analysis of [issue]. Use footnotes (not endnotes). Each footnote should include a hyperlink to the source."</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="use-case-card">
+      <div class="use-case-header" onclick="toggleCard(this)">
+        <div class="use-case-title">Content Writing Workflow: Research to Publication</div>
+        <div class="use-case-badges">
+          <span class="tier-badge tier-any">Any Tier</span>
+        </div>
+        <div class="use-case-toggle">&#9654;</div>
+      </div>
+      <div class="use-case-body">
+        <p>Full pipeline: metaprompted research &rarr; upload style guide &rarr; outline &rarr; draft &rarr; verify citations &rarr; edit for voice. AI assists at each stage; you're the editor throughout.</p>
+
+        <h4>Useful polish prompt</h4>
+        <div class="callout callout-blue">
+          "Review this draft for: (1) passive voice, (2) unnecessary qualifiers, (3) sentences over 30 words, (4) paragraphs over 5 sentences. Suggest specific edits."
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- DRAFTING -->
+  <!-- ============================================ -->
+  <div class="category-header">Drafting</div>
+
+  <section>
+    <div class="use-case-card">
+      <div class="use-case-header" onclick="toggleCard(this)">
+        <div class="use-case-title">Draft a Motion to Suppress</div>
+        <div class="use-case-badges">
+          <span class="tier-badge tier-3-plus">Tier 3+</span>
+        </div>
+        <div class="use-case-toggle">&#9654;</div>
+      </div>
+      <div class="use-case-body">
+        <h4>What's OK vs. what's not</h4>
+        <div class="data-boundary">
+          <div class="data-ok">
+            <strong>OK at any tier (Stage 1 research):</strong>
+            <ul>
+              <li>General legal standards</li>
+              <li>"Vehicle search Fourth Amendment Missouri"</li>
+              <li>Case law research with no client facts</li>
+              <li>Template motion structures</li>
+            </ul>
+          </div>
+          <div class="data-not-ok">
+            <strong>Tier 3+ only (Stage 2 drafting):</strong>
+            <ul>
+              <li>Client's name, DOB, case number</li>
+              <li>What was found, where, when</li>
+              <li>Officer actions and statements</li>
+              <li>Any facts from the police report</li>
+            </ul>
+          </div>
+        </div>
+
+        <h4>Two-stage approach</h4>
+        <div class="callout callout-green">
+          <strong>Stage 1 (Any Tier):</strong> Research the law. "What are the current standards for challenging a vehicle search in Missouri under the Fourth Amendment? Include controlling 8th Circuit and Missouri appellate cases." No client data needed.
+        </div>
+        <div class="callout callout-blue" style="margin-top:4px;">
+          <strong>Stage 2 (Tier 3+ only):</strong> Draft the motion with facts. Upload the police report to a Tier 3+ tool. "Using this police report and the legal standards from [Stage 1 research], draft a motion to suppress the evidence seized during the vehicle search."
+        </div>
+
+        <h4>Tool comparison for Stage 2</h4>
+        <div class="tool-compare">
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Claude API <span class="tier-badge tier-3">Tier 3</span></div>
+            <div class="tool-compare-desc">Strong at legal writing. Upload police report + paste research. Zero data retention with DPA. Good first-draft quality.</div>
+          </div>
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">M365 Copilot <span class="tier-badge tier-4">Tier 4</span></div>
+            <div class="tool-compare-desc">Draft directly in Word. References documents in your SharePoint/OneDrive. Stays within your organization's tenant.</div>
+          </div>
+        </div>
+
+        <div class="callout callout-yellow">
+          <strong>AI drafts, you file.</strong> Every motion must be reviewed for factual accuracy, legal accuracy, jurisdictional fit, and local rule compliance. AI-generated motions are first drafts, not finished products. You are responsible for everything you file. (See <em>Heppner</em> &mdash; AI chat logs may be discoverable.)</div>
+      </div>
+    </div>
+
+    <div class="use-case-card">
+      <div class="use-case-header" onclick="toggleCard(this)">
+        <div class="use-case-title">Draft a Sentencing Memo with Mitigation Research</div>
+        <div class="use-case-badges">
+          <span class="tier-badge tier-3-plus">Tier 3+</span>
+        </div>
+        <div class="use-case-toggle">&#9654;</div>
+      </div>
+      <div class="use-case-body">
+        <h4>Two-stage approach</h4>
+
+        <div class="callout callout-green">
+          <strong>Stage 1 &mdash; Mitigation research (Any Tier):</strong> Research sentencing factors, statutory ranges, and mitigation strategies without using client-specific facts. "What mitigation factors does Missouri recognize in sentencing for [offense type]? What are the statutory ranges? What programs or alternatives to incarceration exist?"
+        </div>
+        <div class="callout callout-blue" style="margin-top:4px;">
+          <strong>Stage 2 &mdash; Drafting (Tier 3+ only):</strong> Upload PSI, social history, treatment records (all High sensitivity). "Draft a sentencing memorandum using the mitigation factors identified in [Stage 1] and the specific facts from these documents."
+        </div>
+
+        <h4>Mitigation research prompts (safe at any tier)</h4>
+        <ul>
+          <li>"What does current neuroscience research say about brain development and decision-making in 18-25 year olds? Cite peer-reviewed sources."</li>
+          <li>"What are the recidivism outcomes for [program type] compared to incarceration for [offense type]? Cite studies."</li>
+          <li>"What sentencing alternatives has Missouri adopted in the last 5 years for [offense category]?"</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="use-case-card">
+      <div class="use-case-header" onclick="toggleCard(this)">
+        <div class="use-case-title">Client Correspondence</div>
+        <div class="use-case-badges">
+          <span class="tier-badge tier-3-plus">Tier 3+</span>
+        </div>
+        <div class="use-case-toggle">&#9654;</div>
+      </div>
+      <div class="use-case-body">
+        <h4>The ethical line</h4>
+        <p>If the letter mentions the client's name, case number, charges, or case-specific facts &mdash; it's High sensitivity data. Use Tier 3+ tools only.</p>
+
+        <h4>Safer alternatives</h4>
+        <ul>
+          <li><strong>Template approach (Any Tier):</strong> Ask AI to draft a letter template with placeholders: "[CLIENT NAME]", "[CHARGE]", "[NEXT COURT DATE]". Then fill in the specifics yourself in Word.</li>
+          <li><strong>De-identified approach (Tier 2+):</strong> "Draft a letter explaining a plea offer of [X years] for a [charge type] to a client with no criminal history. Explain the pros and cons in plain language." No identifiable data used.</li>
+          <li><strong>Full draft (Tier 3+ only):</strong> Upload the plea offer and draft a personalized letter. Requires DPA-protected tool.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- TRANSCRIPTION & AUDIO -->
+  <!-- ============================================ -->
+  <div class="category-header">Transcription &amp; Audio</div>
+
+  <section>
+    <div class="use-case-card">
+      <div class="use-case-header" onclick="toggleCard(this)">
+        <div class="use-case-title">Jail Call Transcription</div>
+        <div class="use-case-badges">
+          <span class="tier-badge tier-3-plus">Tier 3+</span>
+        </div>
+        <div class="use-case-toggle">&#9654;</div>
+      </div>
+      <div class="use-case-body">
+        <h4>What's OK vs. what's not</h4>
+        <div class="data-boundary">
+          <div class="data-ok">
+            <strong>OK with Tier 3+ tools:</strong>
+            <ul>
+              <li>Full audio file (with DPA in place)</li>
+              <li>Transcription and summarization</li>
+              <li>Searching across multiple calls</li>
+              <li>Identifying key statements</li>
+            </ul>
+          </div>
+          <div class="data-not-ok">
+            <strong>NEVER with Tier 1-2 tools:</strong>
+            <ul>
+              <li>Any jail call audio, even a clip</li>
+              <li>Transcripts from calls</li>
+              <li>Client voiceprints (biometric data)</li>
+              <li>Family members' voices and names</li>
+            </ul>
+          </div>
+        </div>
+
+        <h4>Tool comparison</h4>
+        <div class="tool-compare">
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Reduct <span class="tier-badge tier-3">Tier 3</span></div>
+            <div class="tool-compare-desc">Purpose-built for legal audio. SOC 2 compliant. Transcription + AI summarization + redaction tools. MSPD has an enterprise agreement. <strong>Recommended for MSPD attorneys.</strong></div>
+          </div>
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Microsoft Word Transcribe <span class="tier-badge tier-4">Tier 4</span></div>
+            <div class="tool-compare-desc">Built into Word (M365). Processes within your tenant. Limited to 300 minutes/month. <strong>Significant limitations:</strong> no native video support &mdash; you must convert video to audio first, then upload one file at a time. The editing pane is minimal: once you commit the transcript to Word, you lose the timestamped editing interface. Accuracy drops significantly with poor audio quality (jail phones, background noise). Workable for short, clear recordings but painful for batch processing.</div>
+          </div>
+          <div class="tool-compare-row" style="background:#fee2e2;">
+            <div class="tool-compare-tool" style="color:#991b1b;">Otter.ai <span class="tier-badge tier-1">Tier 1</span></div>
+            <div class="tool-compare-desc"><strong>Do not use for client audio.</strong> Consumer tool. Data may be used for model training. No DPA available for individual users. Popular but ethically unsuitable for privileged recordings.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="use-case-card">
+      <div class="use-case-header" onclick="toggleCard(this)">
+        <div class="use-case-title">Body Camera Footage Analysis</div>
+        <div class="use-case-badges">
+          <span class="tier-badge tier-3-plus">Tier 3+</span>
+        </div>
+        <div class="use-case-toggle">&#9654;</div>
+      </div>
+      <div class="use-case-body">
+        <h4>The use case</h4>
+        <p>BWC footage can be hours long. AI transcription and summarization can help you find the critical moments &mdash; the Miranda warnings, the consent question, the use of force &mdash; without watching every minute.</p>
+
+        <h4>Tool comparison</h4>
+        <div class="tool-compare">
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Reduct <span class="tier-badge tier-3">Tier 3</span></div>
+            <div class="tool-compare-desc"><strong>Best option for video.</strong> Accepts video files directly &mdash; no conversion to audio required. Searchable transcripts linked to video timestamps. Click any word to jump to that moment. Redaction tools for preparing exhibits. AI summarization. MSPD has an enterprise agreement. <strong>Recommended for MSPD attorneys.</strong></div>
+          </div>
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">JusticeText <span class="tier-badge tier-3">Tier 3</span></div>
+            <div class="tool-compare-desc">Built specifically for defense attorneys working with video evidence. Transcription, timestamped clips, annotation. CJIS compliant.</div>
+          </div>
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Microsoft Word Transcribe <span class="tier-badge tier-4">Tier 4</span></div>
+            <div class="tool-compare-desc"><strong>Not designed for video.</strong> You must extract audio from BWC video, then upload one file at a time (300 min/month limit). No timestamped video linking. Workable in a pinch but impractical for multi-hour BWC footage.</div>
+          </div>
+        </div>
+
+        <div class="callout callout-blue">
+          <strong>MSPD attorneys:</strong> Reduct is your best path. It handles video natively, links transcripts to timestamps, and MSPD already has the enterprise agreement in place. Word Transcribe works but requires video-to-audio conversion and one-at-a-time uploads.
+        </div>
+      </div>
+    </div>
+
+    <div class="use-case-card">
+      <div class="use-case-header" onclick="toggleCard(this)">
+        <div class="use-case-title">NotebookLM Podcast Generation</div>
+        <div class="use-case-badges">
+          <span class="tier-badge tier-any">Any Tier</span>
+        </div>
+        <div class="use-case-toggle">&#9654;</div>
+      </div>
+      <div class="use-case-body">
+        <p>NotebookLM generates a podcast-style audio briefing from uploaded documents. Two AI hosts discuss the material conversationally. Safe at any tier when using public documents (ethics opinions, bar guidance, court rules).</p>
+
+        <h4>How to do it</h4>
+        <ol class="steps">
+          <li><strong>Open NotebookLM</strong> (notebooklm.google.com). Create a new notebook.</li>
+          <li><strong>Add sources.</strong> Paste URLs from the <a href="notebooklm-ethics-opinions-urls.md" style="color:#2c5282;">ethics opinions URL list</a> or upload PDFs. Accepts up to 50 sources.</li>
+          <li><strong>Customize focus.</strong> Add a note: "Focus on how Missouri's opinion compares to the ABA and what vendor vetting steps Missouri requires."</li>
+          <li><strong>Generate.</strong> Click "Generate" on Audio Overview. Creates a ~10-15 minute podcast.</li>
+        </ol>
+
+        <h4>Demo for presentation</h4>
+        <p>Upload the ABA, Missouri, and NYC Bar opinions. Generate. Play 60 seconds. "I learned about three bar opinions during my commute &mdash; no client data involved."</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- CASE STRATEGY -->
+  <!-- ============================================ -->
+  <div class="category-header">Case Strategy</div>
+
+  <section>
+    <div class="use-case-card">
+      <div class="use-case-header" onclick="toggleCard(this)">
+        <div class="use-case-title">Jury Selection Brainstorming</div>
+        <div class="use-case-badges">
+          <span class="tier-badge tier-any">Any Tier</span>
+        </div>
+        <div class="use-case-toggle">&#9654;</div>
+      </div>
+      <div class="use-case-body">
+        <h4>What's OK vs. what's not</h4>
+        <div class="data-boundary">
+          <div class="data-ok">
+            <strong>OK at any tier:</strong>
+            <ul>
+              <li>General voir dire questions by case type</li>
+              <li>Social science research on juror attitudes</li>
+              <li>Questionnaire templates</li>
+              <li>Bias identification strategies</li>
+            </ul>
+          </div>
+          <div class="data-not-ok">
+            <strong>Tier 3+ only:</strong>
+            <ul>
+              <li>Actual juror names or panel lists</li>
+              <li>Case-specific facts for targeted questions</li>
+              <li>Specific venue/county information</li>
+              <li>Co-defendant or victim identities</li>
+            </ul>
+          </div>
+        </div>
+
+        <h4>Example prompts</h4>
+        <ul>
+          <li>"What voir dire questions are most effective for identifying juror bias in DWI cases? Include questions from published trial advocacy resources."</li>
+          <li>"Generate a list of supplemental juror questionnaire questions for a case involving allegations of self-defense. Focus on attitudes about gun ownership, use of force, and stand-your-ground principles."</li>
+          <li>"What does the social science research say about juror attitudes toward [issue]? Cite peer-reviewed studies."</li>
+        </ul>
+
+        <div class="callout callout-yellow">
+          <strong>The line:</strong> "What questions should I ask in a DWI voir dire?" is general research (any tier). "My client John Smith is charged with DWI in Cole County and the arresting officer is..." is case-specific (Tier 3+ only).
+        </div>
+      </div>
+    </div>
+
+    <div class="use-case-card">
+      <div class="use-case-header" onclick="toggleCard(this)">
+        <div class="use-case-title">De-Identified Case Strategy Analysis</div>
+        <div class="use-case-badges">
+          <span class="tier-badge tier-2">Tier 2+</span>
+        </div>
+        <div class="use-case-toggle">&#9654;</div>
+      </div>
+      <div class="use-case-body">
+        <p>Replace all identifying information with generic descriptions. Use "my client" not the name, "a mid-Missouri county" not the specific county, "Class D felony drug possession" not the case number. Remove DOB, SSN, booking numbers.</p>
+
+        <div class="callout callout-yellow">
+          <strong>Re-identification risk.</strong> If the facts are distinctive enough that someone could Google them and find your client, treat it as High sensitivity regardless of de-identification. See the <a href="risk-matrix.html" style="color:#2c5282;">Risk Matrix</a>.
+        </div>
+
+        <h4>Example</h4>
+        <div class="tool-compare">
+          <div class="tool-compare-row" style="background:#fee2e2;">
+            <div class="tool-compare-tool" style="color:#991b1b;">Not de-identified</div>
+            <div class="tool-compare-desc">"John Smith was arrested in Boone County on Jan 15, 2026 for possession of methamphetamine after a traffic stop on I-70. Case no. 26BA-CR00123."</div>
+          </div>
+          <div class="tool-compare-row" style="background:#d1fae5;">
+            <div class="tool-compare-tool" style="color:#065f46;">De-identified</div>
+            <div class="tool-compare-desc">"My client was arrested in a mid-Missouri county for possession of a controlled substance after a highway traffic stop. What are the strongest suppression arguments based on these facts: [describe the stop circumstances without identifying details]."</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="use-case-card">
+      <div class="use-case-header" onclick="toggleCard(this)">
+        <div class="use-case-title">Sentencing Mitigation Research</div>
+        <div class="use-case-badges">
+          <span class="tier-badge tier-any">Any Tier</span>
+        </div>
+        <div class="use-case-toggle">&#9654;</div>
+      </div>
+      <div class="use-case-body">
+        <p>Mitigation research &mdash; neuroscience, recidivism data, treatment programs, sentencing alternatives &mdash; involves no client-specific facts. Use metaprompting + Deep Research for comprehensive results.</p>
+
+        <h4>Research categories</h4>
+        <ul>
+          <li>Brain development, trauma, substance use disorder as medical condition</li>
+          <li>Treatment vs. incarceration outcomes by offense type</li>
+          <li>Drug courts, veterans courts, mental health courts, diversion programs</li>
+          <li>Comparative sentencing in your jurisdiction and nationally</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- FOOTER -->
+  <!-- ============================================ -->
+  <div class="footer">
+    <p><strong>Remember:</strong> The tier system is about <em>where your data goes</em>, not <em>how good the AI is</em>. A free tool used for general research (Tier 1, Low sensitivity) can be perfectly ethical. An expensive enterprise tool used to draft a motion (Tier 4, High sensitivity) is the safest option. Match the tool's protection level to your data's sensitivity level.</p>
+    <p style="margin-top:8px;">See the <a href="risk-matrix.html">Risk Matrix</a> for the full tier framework. See <a href="agents.html">Agents &amp; Automation</a> for more advanced workflows.</p>
+    <p class="footer-meta">Part of the AI Ethics &amp; Practical Use Training Site &mdash; Built with Claude Code &mdash; 2026</p>
+  </div>
+
+</div>
+
+<script>
+function toggleCard(header) {
+  const card = header.closest('.use-case-card');
+  card.classList.toggle('open');
+}
+
+// Open the first card by default (already done via HTML class)
+</script>
+
+</body>
+</html>

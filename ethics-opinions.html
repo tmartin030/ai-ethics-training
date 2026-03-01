@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ethics Opinions &amp; Guidance &mdash; AI Ethics Training</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: #f8f9fa;
+    color: #1a1a2e;
+    line-height: 1.5;
+    font-size: 15px;
+  }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 16px 20px; }
+
+  /* Header */
+  .header {
+    background: #1a1a2e;
+    color: #fff;
+    padding: 20px 0;
+    margin-bottom: 16px;
+  }
+  .header-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .header h1 { font-size: 1.4rem; font-weight: 600; }
+  .header .subtitle { font-size: 0.85rem; color: #a0aec0; margin-top: 4px; }
+  .header-meta { font-size: 0.75rem; color: #a0aec0; text-align: right; line-height: 1.4; }
+
+  /* Navigation */
+  .site-nav {
+    background: #2d3748;
+    padding: 0;
+    border-bottom: 2px solid #4a5568;
+  }
+  .site-nav-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    gap: 0;
+    flex-wrap: wrap;
+  }
+  .site-nav a {
+    color: #a0aec0;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 10px 16px;
+    display: block;
+    transition: all 0.15s;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+  }
+  .site-nav a:hover { color: #fff; background: rgba(255,255,255,0.05); }
+  .site-nav a.active { color: #fff; border-bottom-color: #4299e1; background: rgba(255,255,255,0.05); }
+
+  /* Section titles */
+  .section-title {
+    font-size: 1rem; font-weight: 600; margin-bottom: 14px;
+    padding-bottom: 8px; border-bottom: 2px solid #e2e8f0;
+    color: #1a1a2e;
+  }
+
+  section { margin-bottom: 28px; }
+
+  /* Intro box */
+  .intro-box {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+  }
+  .intro-box p {
+    font-size: 0.88rem;
+    color: #4a5568;
+    line-height: 1.7;
+    margin-bottom: 8px;
+  }
+  .intro-box p:last-child { margin-bottom: 0; }
+
+  /* Missouri callout */
+  .mo-callout {
+    background: #eff6ff;
+    border: 2px solid #2c5282;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+  }
+  .mo-callout-header {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .mo-badge {
+    display: inline-block; background: #2c5282; color: #fff;
+    padding: 2px 8px; border-radius: 3px; font-size: 0.7rem;
+    font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .mo-callout p {
+    font-size: 0.83rem;
+    color: #4a5568;
+    line-height: 1.6;
+  }
+
+  /* Source documents (jurisdiction listings) */
+  .source-vendor {
+    margin-bottom: 14px; padding-bottom: 12px;
+    border-bottom: 1px solid #edf2f7;
+  }
+  .source-vendor:last-of-type { border-bottom: none; }
+  .source-vendor-name {
+    font-size: 0.88rem; font-weight: 700; color: #1a1a2e;
+    margin-bottom: 6px;
+  }
+  .source-list {
+    list-style: none; padding: 0; margin: 0;
+  }
+  .source-list li {
+    font-size: 0.8rem; color: #4a5568; padding: 3px 0;
+    padding-left: 12px; position: relative; line-height: 1.5;
+  }
+  .source-list li::before {
+    content: '\2192'; position: absolute; left: 0; color: #2c5282;
+  }
+  .source-list a { color: #2c5282; text-decoration: none; font-weight: 500; }
+  .source-list a:hover { text-decoration: underline; }
+
+  /* Comparison table */
+  .comparison-table {
+    width: 100%; border-collapse: collapse; font-size: 0.78rem;
+    border: 1px solid #e2e8f0; border-radius: 6px; overflow: hidden;
+  }
+  .comparison-table thead th {
+    background: #1a1a2e; color: #fff; padding: 8px 10px;
+    text-align: left; font-weight: 600; font-size: 0.75rem;
+    text-transform: uppercase; letter-spacing: 0.3px;
+    position: sticky; top: 0; z-index: 1;
+  }
+  .comparison-table thead th:first-child { min-width: 140px; }
+  .comparison-table tbody td {
+    padding: 6px 10px; border-bottom: 1px solid #edf2f7;
+    vertical-align: top; line-height: 1.4;
+  }
+  .comparison-table tbody tr:nth-child(even) { background: #f8f9fa; }
+  .comparison-table tbody tr:hover { background: #edf2f7; }
+  .comparison-table .cell-yes { color: #065f46; font-weight: 600; }
+  .comparison-table .cell-no { color: #991b1b; font-weight: 600; }
+  .comparison-table .cell-partial { color: #92400e; font-weight: 600; }
+  .comparison-table .cell-silent { color: #718096; font-style: italic; }
+  .comparison-table .table-note {
+    font-size: 0.75rem; color: #718096; font-weight: 400; display: block;
+  }
+  .table-scroll { overflow-x: auto; margin-bottom: 16px; }
+  .spectrum-label {
+    display: inline-block; padding: 2px 8px; border-radius: 3px;
+    font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px;
+  }
+  .spectrum-conservative { color: #dc2626; font-weight: 600; }
+  .spectrum-moderate { color: #d97706; font-weight: 600; }
+  .spectrum-liberal { color: #059669; font-weight: 600; }
+  .comparison-table .mo-row { background: #eff6ff !important; }
+  .comparison-table .mo-row:hover { background: #dbeafe !important; }
+
+  /* Footer */
+  .footer {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 16px;
+    margin-top: 24px;
+    font-size: 0.78rem;
+    color: #718096;
+    line-height: 1.6;
+  }
+  .footer a { color: #2c5282; text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .header-meta { display: none; }
+    .site-nav a { padding: 8px 10px; font-size: 0.75rem; }
+    .comparison-table { font-size: 0.72rem; }
+    .comparison-table thead th { font-size: 0.68rem; padding: 6px 8px; }
+    .comparison-table tbody td { padding: 5px 8px; }
+  }
+  @media (max-width: 480px) {
+    .container { padding: 12px; }
+    .header h1 { font-size: 1.2rem; }
+    .site-nav-inner { flex-wrap: wrap; }
+    .site-nav a { padding: 6px 8px; font-size: 0.7rem; }
+  }
+
+  /* Print */
+  @media print {
+    body { background: #fff; font-size: 12px; }
+    .header { background: #1a1a2e !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .site-nav { display: none !important; }
+    .mo-callout { -webkit-print-color-adjust: exact; print-color-adjust: exact; background: #eff6ff !important; border: 2px solid #2c5282 !important; }
+    .mo-badge { -webkit-print-color-adjust: exact; print-color-adjust: exact; background: #2c5282 !important; color: #fff !important; }
+    .comparison-table thead th { -webkit-print-color-adjust: exact; print-color-adjust: exact; background: #1a1a2e !important; color: #fff !important; }
+    .comparison-table .mo-row { -webkit-print-color-adjust: exact; print-color-adjust: exact; background: #eff6ff !important; }
+    .source-vendor { break-inside: avoid; }
+    .comparison-table { font-size: 0.7rem; }
+    a { color: #2c5282 !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div>
+      <h1>Ethics Opinions &amp; Guidance</h1>
+      <div class="subtitle">AI Ethics Rules by Jurisdiction</div>
+    </div>
+    <div class="header-meta">Built with Claude Code<br>2026</div>
+  </div>
+</div>
+
+<nav class="site-nav">
+  <div class="site-nav-inner">
+    <a href="index.html">Home</a>
+    <a href="risk-matrix.html">Risk Matrix</a>
+    <a href="use-cases.html">Use Cases</a>
+    <a href="agents.html">Agents</a>
+    <a href="ethics-opinions.html" class="active">Ethics Opinions</a>
+    <a href="vendor-details.html">Vendor Details</a>
+    <a href="glossary.html">Glossary</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <!-- Intro -->
+  <div class="intro-box">
+    <p>This page collects the ethics opinions, bar guidance, court policies, and case law that define how lawyers may use AI tools. Every jurisdiction that has issued formal guidance is listed here, organized by geography. Missouri is highlighted throughout because this site is built for Missouri practitioners.</p>
+    <p>The opinions vary widely &mdash; from conservative (prohibit AI-generated evidence, mandate written firm policies) to permissive (no blanket disclosure requirement, no fee reduction mandate). The <a href="#comparison-table">comparison table</a> at the bottom maps where each jurisdiction falls on the 8 key ethical dimensions.</p>
+    <p><strong>These opinions are current as of March 2026.</strong> Ethics guidance is evolving rapidly. Verify against the source links before relying on any summary.</p>
+  </div>
+
+  <!-- Missouri Callout -->
+  <div class="mo-callout">
+    <div class="mo-callout-header"><span class="mo-badge">Missouri</span> Your Jurisdiction &mdash; Informal Opinion 2024-11</div>
+    <p>Advisory Committee of the Supreme Court of Missouri, Office of Legal Ethics Counsel. Missouri's opinion sits in the moderate middle of the national spectrum. It does not require blanket AI disclosure or firm-wide policies, but it does require specific vendor vetting. Key requirements:</p>
+    <ul class="source-list" style="margin-top:8px;">
+      <li><strong>Vendor vetting:</strong> Lawyers must assess <em>"the terms and conditions of using a generative AI platform or service to understand the security of the information being inputted, how that information is being used by the platform or service, and what data sources the platform or service is using."</em></li>
+      <li><strong>Competence:</strong> Must educate themselves on generative AI types and understand risks and benefits</li>
+      <li><strong>Confidentiality:</strong> Must make reasonable efforts to prevent unauthorized disclosure (Rule 1.6(c))</li>
+      <li><strong>Candor:</strong> Must ensure accuracy of AI-assisted work product submitted to tribunals</li>
+      <li><strong>Disclosure:</strong> AI use disclosure not required as blanket rule; assessed case-by-case</li>
+      <li><strong>Supervision:</strong> Must supervise nonlawyer use of AI</li>
+    </ul>
+    <p style="margin-top:8px;"><a href="https://mo-legal-ethics.org/informal-opinion/2024-11/" target="_blank" rel="noopener">Read the full opinion</a></p>
+  </div>
+
+  <!-- ABA -->
+  <section>
+    <h2 class="section-title">ABA (American Bar Association)</h2>
+    <div class="source-vendor">
+      <div class="source-vendor-name">ABA</div>
+      <ul class="source-list">
+        <li><a href="https://www.americanbar.org/content/dam/aba/administrative/professional_responsibility/ethics-opinions/aba-formal-opinion-512.pdf" target="_blank" rel="noopener">Formal Opinion 512</a> (July 2024) &mdash; First comprehensive AI ethics opinion. Duties of competence, confidentiality, communication, candor, supervision, and reasonable fees all apply. Must verify outputs for hallucinations. Must obtain informed consent before inputting client data into AI tools that train on input.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- U.S. States -->
+  <section>
+    <h2 class="section-title">U.S. States</h2>
+
+    <div class="source-vendor">
+      <div class="source-vendor-name">Alaska</div>
+      <ul class="source-list">
+        <li><a href="https://alaskabar.org/wp-content/uploads/2025-1.pdf" target="_blank" rel="noopener">Ethics Opinion 2025-1</a> (2025) &mdash; AI use ethically permissible but lawyers must understand the technology, review all outputs, and anonymize prompts when using non-closed AI systems.</li>
+      </ul>
+    </div>
+
+    <div class="source-vendor">
+      <div class="source-vendor-name">California</div>
+      <ul class="source-list">
+        <li><a href="https://www.calbar.ca.gov/Portals/0/documents/ethics/Generative-AI-Practical-Guidance.pdf" target="_blank" rel="noopener">COPRAC Practical Guidance</a> (Nov 2023) &mdash; First state-level AI guidance. Never input confidential client info without adequate protections. Do not rely on AI outputs as substitute for independent analysis.</li>
+      </ul>
+    </div>
+
+    <div class="source-vendor">
+      <div class="source-vendor-name">DC</div>
+      <ul class="source-list">
+        <li><a href="https://www.dcbar.org/for-lawyers/legal-ethics/ethics-opinions-210-present/ethics-opinion-388" target="_blank" rel="noopener">Ethics Opinion 388</a> (April 2024) &mdash; Must understand technology sufficiently to be reasonably confident it advances client interests. Must verify outputs. Must protect confidentiality especially with free tools that exploit inputs.</li>
+      </ul>
+    </div>
+
+    <div class="source-vendor">
+      <div class="source-vendor-name">Florida</div>
+      <ul class="source-list">
+        <li><a href="https://www.floridabar.org/etopinions/opinion-24-1/" target="_blank" rel="noopener">Advisory Opinion 24-1</a> (Jan 2024) &mdash; May use AI but must protect confidentiality, develop oversight policies, avoid improper billing (no double-billing), and ensure potential clients know when communicating with a chatbot. <a href="https://www-media.floridabar.org/uploads/2024/01/FL-Bar-Ethics-Op-24-1.pdf" target="_blank" rel="noopener">[PDF]</a></li>
+      </ul>
+    </div>
+
+    <div class="source-vendor">
+      <div class="source-vendor-name">Kentucky</div>
+      <ul class="source-list">
+        <li><a href="https://kybar.org/page/opinsethics#2024" target="_blank" rel="noopener">Ethics Opinion E-457</a> (March 2024) &mdash; Notable: failing to use an available AI tool may constitute a competence failure. Fees must be reduced when AI reduces time. Cannot charge clients for general AI training costs.</li>
+      </ul>
+    </div>
+
+    <div class="source-vendor">
+      <div class="source-vendor-name">Michigan</div>
+      <ul class="source-list">
+        <li><a href="https://www.michbar.org/opinions/ethics/numbered_opinions/JI-155" target="_blank" rel="noopener">Advisory Opinion JI-155</a> (2023) &mdash; Ethical obligation under MRPC 1.1 to maintain technological competence including understanding AI's benefits and risks.</li>
+      </ul>
+    </div>
+
+    <div class="source-vendor">
+      <div class="source-vendor-name">Mississippi</div>
+      <ul class="source-list">
+        <li><a href="https://www.msbar.org/ethics-discipline/ethics-opinions/formal-opinions/267/" target="_blank" rel="noopener">Formal Ethics Opinion 267</a> (Nov 2024) &mdash; Must safeguard confidential info, verify accuracy, use reasonable billing, obtain informed consent for AI use. <a href="https://msbar.ctsites.net/media/2tvbldoc/et-op-267.pdf" target="_blank" rel="noopener">[PDF]</a></li>
+      </ul>
+    </div>
+
+    <div class="source-vendor" style="background:#eff6ff;border:2px solid #2c5282;border-radius:6px;padding:12px 14px;">
+      <div class="source-vendor-name"><span class="mo-badge">Your Jurisdiction</span> Missouri</div>
+      <ul class="source-list">
+        <li><a href="https://mo-legal-ethics.org/informal-opinion/2024-11/" target="_blank" rel="noopener">Informal Opinion 2024-11</a> (April 2024) &mdash; Advisory Committee of the Supreme Court of Missouri, Office of Legal Ethics Counsel. Key requirements:</li>
+        <li><strong>Vendor vetting:</strong> Lawyers must assess <em>"the terms and conditions of using a generative AI platform or service to understand the security of the information being inputted, how that information is being used by the platform or service, and what data sources the platform or service is using."</em></li>
+        <li><strong>Competence:</strong> Must educate themselves on generative AI types and understand risks and benefits</li>
+        <li><strong>Confidentiality:</strong> Must make reasonable efforts to prevent unauthorized disclosure (Rule 1.6(c))</li>
+        <li><strong>Candor:</strong> Must ensure accuracy of AI-assisted work product submitted to tribunals</li>
+        <li><strong>Disclosure:</strong> AI use disclosure not required as blanket rule; assessed case-by-case</li>
+        <li><strong>Supervision:</strong> Must supervise nonlawyer use of AI</li>
+      </ul>
+    </div>
+
+    <div class="source-vendor">
+      <div class="source-vendor-name">New Jersey</div>
+      <ul class="source-list">
+        <li><a href="https://www.njcourts.gov/sites/default/files/notices/2024/01/n240125a.pdf" target="_blank" rel="noopener">Supreme Court Preliminary Guidelines</a> (Jan 2024) &mdash; AI must be employed with the same commitment to diligence, confidentiality, and honesty as traditional methods. Must verify all AI information because AI can hallucinate.</li>
+      </ul>
+    </div>
+
+    <div class="source-vendor">
+      <div class="source-vendor-name">New Mexico</div>
+      <ul class="source-list">
+        <li><a href="https://www.sbnm.org/Portals/NMBAR/GenAI%20Formal%20Opinion%20-%20Sept_2024_FINAL.pdf" target="_blank" rel="noopener">Formal Ethics Advisory Opinion 2024-004</a> (Sept 2024) &mdash; Must understand AI tool parameters, refrain from inputting confidential info without protections, verify all citations, charge only actual time, develop firm-wide AI policies.</li>
+      </ul>
+    </div>
+
+    <div class="source-vendor">
+      <div class="source-vendor-name">New York (NYC Bar)</div>
+      <ul class="source-list">
+        <li><a href="https://www.nycbar.org/reports/formal-opinion-2024-5-generative-ai-in-the-practice-of-law/" target="_blank" rel="noopener">Formal Opinion 2024-5</a> (Aug 2024) &mdash; Guardrails, not hard restrictions. Must review all outputs for accuracy. Must not input confidential info into "open" AI without client consent. Addresses 12+ rules of professional conduct. <a href="https://www.nycbar.org/wp-content/uploads/2024/08/20221329_GenerativeAILawPractice.pdf" target="_blank" rel="noopener">[PDF]</a></li>
+        <li><a href="https://www.nycbar.org/reports/formal-opinion-2025-6-ethical-issues-affecting-use-of-ai-to-record-transcribe-and-summarize-conversations-with-clients/" target="_blank" rel="noopener">Formal Opinion 2025-6</a> (Dec 2025) &mdash; Must obtain client consent before using AI to record calls. Must verify transcript accuracy. Must include retainer provisions barring client recording without notice. <a href="https://www.nycbar.org/wp-content/uploads/2025/12/20221554-AIRecordingEthicsOpinion-1.pdf" target="_blank" rel="noopener">[PDF]</a></li>
+      </ul>
+    </div>
+
+    <div class="source-vendor">
+      <div class="source-vendor-name">New York (NYSBA)</div>
+      <ul class="source-list">
+        <li><a href="https://nysba.org/wp-content/uploads/2022/03/2024-April-Report-and-Recommendations-of-the-Task-Force-on-Artificial-Intelligence.pdf" target="_blank" rel="noopener">Task Force Report &amp; Recommendations</a> (April 2024) &mdash; Adopted by House of Delegates. Recommends AI guidelines: understand risks/benefits, notify clients, protect confidential data, don't let AI replace professional judgment.</li>
+        <li><a href="https://nysba.org/wp-content/uploads/2026/01/Revised-01.20.2026-Approved-Report-and-Recommendations-on-AI-and-Access-to-Justice-in-2025-online-version.pdf" target="_blank" rel="noopener">Report on AI and Access to Justice</a> (Jan 2026) &mdash; Client-facing AI requires strong governance, transparent grounding, clear disclaimers, escalation procedures. Recommended enterprise-grade ZDR, RAG grounding, mandatory human review.</li>
+      </ul>
+    </div>
+
+    <div class="source-vendor">
+      <div class="source-vendor-name">North Carolina</div>
+      <ul class="source-list">
+        <li><a href="https://www.ncbar.gov/for-lawyers/ethics/adopted-opinions/2024-formal-ethics-opinion-1/" target="_blank" rel="noopener">Formal Ethics Opinion 2024-1</a> (2024) &mdash; Must maintain technological competence regarding AI. Must evaluate vendor security protocols. Must verify all AI-generated filings. May need informed consent before using AI on client matters.</li>
+      </ul>
+    </div>
+
+    <div class="source-vendor">
+      <div class="source-vendor-name">Oregon</div>
+      <ul class="source-list">
+        <li><a href="https://www.osbar.org/_docs/ethics/2025-205.pdf" target="_blank" rel="noopener">Formal Opinion 2025-205</a> (2025) &mdash; Must conduct due diligence on AI tools, undertake adequate training, verify every citation and factual statement, may not inflate billable hours, must establish firm-wide AI policies.</li>
+      </ul>
+    </div>
+
+    <div class="source-vendor">
+      <div class="source-vendor-name">Pennsylvania</div>
+      <ul class="source-list">
+        <li><a href="https://www.lawnext.com/wp-content/uploads/2024/06/Joint-Formal-Opinion-2024-200.pdf" target="_blank" rel="noopener">Joint Formal Opinion 2024-200</a> (May 2024) &mdash; Joint opinion (PA Bar + Philadelphia Bar). AI does not replace personal review. Must be transparent with clients, colleagues, and courts. Addresses competence, confidentiality, conflicts, candor, supervision, and UPL.</li>
+      </ul>
+    </div>
+
+    <div class="source-vendor">
+      <div class="source-vendor-name">Texas</div>
+      <ul class="source-list">
+        <li><a href="https://www.legalethicstexas.com/resources/opinions/opinion-705/" target="_blank" rel="noopener">Ethics Opinion 705</a> (Feb 2025) &mdash; Must understand how AI functions. Must not disclose confidential info via inputs. Must independently verify all outputs. Cannot bill for hours not genuinely worked, but may pass through reasonable AI subscription costs with client agreement.</li>
+      </ul>
+    </div>
+
+    <div class="source-vendor">
+      <div class="source-vendor-name">Virginia</div>
+      <ul class="source-list">
+        <li><a href="https://vsb.org/Site/Site/news/rules-news/20250327-prop-1901-fees-ai.aspx" target="_blank" rel="noopener">Legal Ethics Opinion 1901</a> (Nov 2025) &mdash; No per se requirement to reduce fees solely because AI reduced time. No per se requirement to disclose AI use unless extenuating circumstances. Must still verify citations and supervise AI use by others.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- U.S. Court Policies -->
+  <section>
+    <h2 class="section-title">U.S. Court Policies &amp; Orders</h2>
+    <div class="source-vendor">
+      <div class="source-vendor-name">U.S. Court Policies</div>
+      <ul class="source-list">
+        <li><a href="https://www.jud.ct.gov/faq/CTJBResponsibleAIPolicyFramework2.1.24.pdf" target="_blank" rel="noopener">Connecticut Judicial Branch</a> (Feb 2024) &mdash; Responsible AI Policy Framework</li>
+        <li><a href="https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/e43964ab-8874-4b7a-be4e-63af019cb6f7/Illinois%20Supreme%20Court%20AI%20Policy.pdf" target="_blank" rel="noopener">Illinois Supreme Court</a> &mdash; AI Policy</li>
+        <li><a href="https://mncourts.gov/_media/migration/judicial_council_library/policies/200/policy-704-artificial-intelligence-policy-clean.pdf" target="_blank" rel="noopener">Minnesota Judicial Council Policy 704</a> &mdash; Artificial Intelligence Policy</li>
+        <li><a href="https://www.sccourts.org/media/courtOrders/PDFs/2025-03-25-01.pdf" target="_blank" rel="noopener">South Carolina Supreme Court</a> (March 2025) &mdash; Interim Policy on Generative AI</li>
+        <li><a href="https://www.vermontjudiciary.org/sites/default/files/documents/VJCAIC%20First%20Annual%20Report%20%28final%29.pdf" target="_blank" rel="noopener">Vermont Judiciary Committee on AI</a> (2025) &mdash; First Annual Report</li>
+        <li><a href="https://www.courtswv.gov/sites/default/pubfilesmnt/2023-11/JIC%20Advisory%20Opinion%202023-22_Redacted.pdf" target="_blank" rel="noopener">West Virginia JIC Advisory Opinion 2023-22</a> (Nov 2023) &mdash; Judges may use AI for research but not to decide outcomes; extreme caution in drafting opinions</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- USPTO -->
+  <section>
+    <h2 class="section-title">U.S. Patent &amp; Trademark Office</h2>
+    <div class="source-vendor">
+      <div class="source-vendor-name">USPTO</div>
+      <ul class="source-list">
+        <li><a href="https://www.federalregister.gov/documents/2024/04/11/2024-07629/guidance-on-use-of-artificial-intelligence-based-tools-in-practice-before-the-united-states-patent" target="_blank" rel="noopener">Guidance on AI-Based Tools</a> (April 2024) &mdash; All duties of candor and truthfulness apply regardless of how submissions are generated. Patent attorneys fully responsible for AI-assisted filings.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Arizona -->
+  <section>
+    <h2 class="section-title">Arizona</h2>
+    <div class="source-vendor">
+      <div class="source-vendor-name">Arizona</div>
+      <ul class="source-list">
+        <li><a href="https://www.azbar.org/for-legal-professionals/practice-tools-management/practice-2-0/choosing-and-using-technology/best-practices-for-using-artificial-intelligence/" target="_blank" rel="noopener">Best Practices Guidance</a> &mdash; Best practices for using AI (guidance, not formal opinion)</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Canada -->
+  <section>
+    <h2 class="section-title">Canada</h2>
+
+    <div class="source-vendor">
+      <div class="source-vendor-name">Canada &mdash; National</div>
+      <ul class="source-list">
+        <li><a href="https://www.cba.org/resources/practice-tools/ethics-of-artificial-intelligence-for-the-legal-practitioner/" target="_blank" rel="noopener">Canadian Bar Association AI Ethics Toolkit</a> (Nov 2024) &mdash; Lawyers must proactively manage AI risks, ensure compliance, guard against over-reliance, evaluate vendor data handling.</li>
+      </ul>
+    </div>
+
+    <div class="source-vendor">
+      <div class="source-vendor-name">Canada &mdash; Provincial</div>
+      <ul class="source-list">
+        <li><a href="https://lawsocietyontario-dwd0dscmayfwh7bj.a01.azurefd.net/media/lso/media/lawyers/practice-supports-resources/white-paper-on-licensee-use-of-generative-artificial-intelligence-en.pdf" target="_blank" rel="noopener">Law Society of Ontario</a> (April 2024) &mdash; White Paper on Generative AI. Six key obligations: competence, confidentiality, disclosure, supervision, candor, fees. <a href="https://lawsocietyontario-dwd0dscmayfwh7bj.a01.azurefd.net/media/lso/media/lawyers/practice-supports-resources/generative-ai-your-professional-obligations.pdf" target="_blank" rel="noopener">[Supplemental]</a></li>
+        <li><a href="https://www.lawsociety.sk.ca/wp-content/uploads/Law-Society-of-Saskatchewan-Generative-Artificial-Intelligence-Guidelines.pdf" target="_blank" rel="noopener">Law Society of Saskatchewan</a> (Feb 2024) &mdash; Must validate AI outputs, avoid over-reliance, ensure AI providers don't share confidential info or use it for training.</li>
+        <li><a href="https://educationcentre.lawsociety.mb.ca/wp-content/uploads/sites/2/2024/04/Generative-Artificial-Intelligence-Guidelines-for-Use-in-the-Practice-of-Law.pdf" target="_blank" rel="noopener">Law Society of Manitoba</a> (April 2024) &mdash; Duty of technological competence. Treat AI outputs as delegated work requiring review. AI is not an alternative to legal thought.</li>
+        <li><a href="https://www.lawsociety.ab.ca/resource-centre/key-resources/professional-conduct/gen-ai-rules-of-engagement-for-canadian-lawyers/" target="_blank" rel="noopener">Law Society of Alberta</a> (2024, updated Feb 2026) &mdash; Gen AI Rules of Engagement. Check court disclosure policies, maintain confidentiality, inform clients, model firm AI use policy.</li>
+        <li><a href="https://www.barreau.qc.ca/en/membres-ordre/ressources/standards-tools-references-guides/intelligence-artificielle-generative/" target="_blank" rel="noopener">Barreau du Qu&eacute;bec</a> (Oct 2024) &mdash; Practical Guide for Responsible Use of Generative AI. Competence requires mastering AI tools including understanding limitations.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- United Kingdom -->
+  <section>
+    <h2 class="section-title">United Kingdom</h2>
+    <div class="source-vendor">
+      <div class="source-vendor-name">United Kingdom</div>
+      <ul class="source-list">
+        <li><a href="https://www.barcouncilethics.co.uk/wp-content/uploads/2024/01/Considerations-when-using-ChatGPT-and-generative-artificial-intelligence-Nov-2025.pdf" target="_blank" rel="noopener">Bar Council of England &amp; Wales</a> (Jan 2024, updated Nov 2025) &mdash; Identifies hallucinations, bias, data breaches. Barrister retains ultimate responsibility. Must respect privilege and data protection. <a href="https://www.barcouncil.org.uk/resource/updated-guidance-on-generative-ai-for-the-bar.html" target="_blank" rel="noopener">[Landing page]</a></li>
+        <li><a href="https://www.sra.org.uk/solicitors/resources/innovate/compliance-tips-for-solicitors/" target="_blank" rel="noopener">Solicitors Regulation Authority (SRA)</a> &mdash; Existing SRA Principles and Codes of Conduct apply regardless of tools used. Firms should appoint senior individual for AI oversight.</li>
+        <li><a href="https://www.lawsociety.org.uk/topics/ai-and-lawtech/generative-ai-the-essentials" target="_blank" rel="noopener">Law Society of England &amp; Wales</a> &mdash; Generative AI: the essentials. Practical guidance on AI use while maintaining professional obligations.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Europe -->
+  <section>
+    <h2 class="section-title">Europe (CCBE)</h2>
+    <div class="source-vendor">
+      <div class="source-vendor-name">Europe</div>
+      <ul class="source-list">
+        <li><a href="https://www.ccbe.eu/fileadmin/speciality_distribution/public/documents/IT_LAW/ITL_Guides_recommendations/EN_ITL_20251002_CCBE-guide-on-the-use-of-the-use-of-generative-AI-for-lawyers.pdf" target="_blank" rel="noopener">CCBE Guide on Generative AI for Lawyers</a> (Oct 2025) &mdash; Council of Bars and Law Societies of Europe. Warns of hallucinations and data retention. Lawyers should inform clients of AI use and afford them opportunity to object.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Ireland -->
+  <section>
+    <h2 class="section-title">Ireland</h2>
+    <div class="source-vendor">
+      <div class="source-vendor-name">Ireland</div>
+      <ul class="source-list">
+        <li><a href="https://www.lawsociety.ie/news/news/Stories/guidance-for-solicitors-on-generative-artificial-intelligence-ai/" target="_blank" rel="noopener">Law Society of Ireland Practice Guidance</a> (May 2025) &mdash; AI concepts, policy issues, risks and challenges. 85% of solicitors reported needing upskilling to understand AI.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Australia -->
+  <section>
+    <h2 class="section-title">Australia</h2>
+    <div class="source-vendor">
+      <div class="source-vendor-name">Australia</div>
+      <ul class="source-list">
+        <li><a href="https://lsbc.vic.gov.au/news-updates/news/statement-use-artificial-intelligence-australian-legal-practice" target="_blank" rel="noopener">Joint Statement on AI in Australian Legal Practice</a> (2024) &mdash; VLSB+C, Law Society of New South Wales, Legal Practice Board of WA. All ethics rules apply including competence, diligence, supervision, candor, confidentiality.</li>
+        <li><a href="https://www.liv.asn.au/download.aspx?DocumentVersionKey=69158983-87f3-4c1d-be99-8c300b5c7afd" target="_blank" rel="noopener">Law Institute of Victoria AI Ethics Guidelines</a> (Aug 2025) &mdash; Precautions for consistency with duties of competence, honesty, confidentiality, privilege, and supervision.</li>
+        <li><a href="https://supremecourt.nsw.gov.au/documents/Practice-and-Procedure/Practice-Notes/general/current/PN_SC_Gen_23.pdf" target="_blank" rel="noopener">New South Wales Supreme Court Practice Note SC Gen 23</a> (Nov 2024, effective Feb 2025) &mdash; Prohibits entering suppression order info or sensitive material into AI. Prohibits AI-generated affidavits, witness statements, or evidentiary materials.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- New Zealand -->
+  <section>
+    <h2 class="section-title">New Zealand</h2>
+    <div class="source-vendor">
+      <div class="source-vendor-name">New Zealand</div>
+      <ul class="source-list">
+        <li><a href="https://www.lawsociety.org.nz/assets/Professional-practice-docs/Rules-and-Guidelines/Lawyers-and-AI-Guidance-Mar-2024.pdf" target="_blank" rel="noopener">New Zealand Law Society &mdash; Lawyers and Generative AI</a> (March 2024) &mdash; Guidance on managing risks for safe, ethical, and effective use. <a href="https://www.lawsociety.org.nz/professional-practice/rules-and-maintaining-professional-standards/generative-ai-guidance-for-lawyers/" target="_blank" rel="noopener">[Landing page]</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Singapore -->
+  <section>
+    <h2 class="section-title">Singapore</h2>
+    <div class="source-vendor">
+      <div class="source-vendor-name">Singapore</div>
+      <ul class="source-list">
+        <li><a href="https://www.mlaw.gov.sg/files/Guide_for_Using_Generative_AI_in_the_Legal_Sector.pdf" target="_blank" rel="noopener">Ministry of Law &mdash; Guide for Using Generative AI in the Legal Sector</a> (2025) &mdash; Proposed guide addressing ethical concerns and rapid AI development.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- International Bar Association -->
+  <section>
+    <h2 class="section-title">International Bar Association</h2>
+    <div class="source-vendor">
+      <div class="source-vendor-name">International Bar Association</div>
+      <ul class="source-list">
+        <li><a href="https://www.ibanet.org/document?id=The-future-is+now-AI-and-the-legal-profession-report" target="_blank" rel="noopener">"The Future is Now" Report</a> (Sept 2024) &mdash; IBA AI Task Force. AI increasingly used in client-facing work. Nearly half of legal professionals support AI regulation. Law firms need extensive AI training.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Key Case Law -->
+  <section>
+    <h2 class="section-title">Key Case Law</h2>
+    <div class="source-vendor">
+      <div class="source-vendor-name">Key Case Law</div>
+      <ul class="source-list">
+        <li><strong><em>United States v. Heppner</em></strong> (S.D.N.Y. Feb. 2026) &mdash; Consumer AI chat logs not privileged and not work product. <em>"Simply no reasonable expectation of confidentiality"</em> under consumer ToS. Enterprise/API tiers distinguished. <a href="https://www.joneswalker.com/en/insights/blogs/ai-law-blog/your-ai-conversations-are-not-privileged-what-a-new-sdny-ruling-means-for-every.html" target="_blank" rel="noopener">[Analysis: Jones Walker]</a> <a href="https://www.gibsondunn.com/ai-privilege-waivers-sdny-rules-against-privilege-protection-for-consumer-ai-outputs/" target="_blank" rel="noopener">[Analysis: Gibson Dunn]</a></li>
+        <li><strong><em>NYT v. OpenAI</em></strong> (S.D.N.Y. Nov. 2025) &mdash; 20 million de-identified ChatGPT logs ordered produced in discovery. AI chat logs treated as standard ESI. Enterprise/ZDR data carved out. <a href="https://www.terms.law/2025/11/12/openai-v-new-york-times-stopped-being-just-a-copyright-case-the-moment-the-court-turned-to-your-chatgpt-logs/" target="_blank" rel="noopener">[Analysis: Terms.Law]</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Compilations & Trackers -->
+  <section>
+    <h2 class="section-title">Compilations &amp; Trackers</h2>
+    <p style="font-size:0.83rem;color:#4a5568;margin-bottom:14px;">Bookmark these. They are updated regularly and track new ethics opinions as they are issued.</p>
+    <div class="source-vendor">
+      <div class="source-vendor-name">Compilations &amp; Trackers</div>
+      <ul class="source-list">
+        <li><a href="https://www.nycbar.org/reports/current-ethics-opinions-and-reports-related-to-generative-artificial-intelligence/" target="_blank" rel="noopener">NYC Bar &mdash; Current Ethics Opinions Related to AI</a> (May 2025) &mdash; Best single compilation. Catalogs and analyzes key holdings across ABA and 12+ states. <a href="https://www.nycbar.org/wp-content/uploads/2025/05/20221469-AnalysisEthicsGuidanceAI.pdf" target="_blank" rel="noopener">[PDF]</a></li>
+        <li><a href="https://www.justia.com/trials-litigation/ai-and-attorney-ethics-rules-50-state-survey/" target="_blank" rel="noopener">Justia &mdash; 50-State Survey of AI &amp; Attorney Ethics Rules</a></li>
+        <li><a href="https://www.clio.com/blog/ai-ethics-opinion/" target="_blank" rel="noopener">Clio &mdash; AI Ethics Opinions Guide</a></li>
+        <li><a href="https://brief.steno.com/legal-ai-rules-by-state" target="_blank" rel="noopener">Steno Brief &mdash; Legal AI Rules by State</a></li>
+        <li><a href="https://www.paxton.ai/post/2025-state-bar-guidance-on-legal-ai" target="_blank" rel="noopener">Paxton &mdash; 2025 State Bar Guidance on Legal AI</a></li>
+        <li><a href="https://www.spellbook.legal/learn/state-bar-rules-ai-use" target="_blank" rel="noopener">Spellbook &mdash; State Bar Rules on AI Use</a></li>
+        <li><a href="https://law.washu.edu/ai-policy-and-regulation-resources/legal-ethics/" target="_blank" rel="noopener">WashU Law &mdash; Legal Ethics AI Resources</a></li>
+        <li><a href="https://lib.law.uw.edu/c.php?g=1387996&p=10265403" target="_blank" rel="noopener">UW Law Library &mdash; Ethics &amp; Professional Responsibility AI Guide</a></li>
+        <li><a href="https://www.lawnext.com/2025/02/a-compendium-of-legal-ethics-opinions-on-gen-ai-as-compiled-by-you-guessed-it-gen-ai.html" target="_blank" rel="noopener">LawNext Compendium</a> (Feb 2025)</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Ethics Opinion Comparison Table -->
+  <section id="comparison-table">
+    <h2 class="section-title">Ethics Opinion Comparison: Through-Lines &amp; Divergences</h2>
+    <p style="font-size:0.83rem;color:#4a5568;margin-bottom:6px;">What do the opinions agree on? Where do they diverge? This table covers the 8 key ethical questions and maps where each jurisdiction falls on the spectrum from <span class="spectrum-conservative">most conservative</span> to <span class="spectrum-liberal">most permissive</span>.</p>
+    <p style="font-size:0.78rem;color:#718096;margin-bottom:14px;">Conservative = more restrictions on AI use. Liberal = more permissive, fewer requirements. Neither is "right" &mdash; this is a descriptive spectrum, not a judgment.</p>
+
+    <div class="table-scroll">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Ethical Issue</th>
+            <th>Universal Consensus?</th>
+            <th><span class="spectrum-conservative">Most Conservative</span></th>
+            <th><span class="spectrum-moderate">Middle Ground</span></th>
+            <th><span class="spectrum-liberal">Most Permissive</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="mo-row">
+            <td colspan="5" style="padding:10px 14px;">
+              <span class="mo-badge">Missouri</span> <strong style="margin-left:6px;">Where Missouri (2024-11) falls on each issue:</strong>
+              <span style="font-size:0.78rem;color:#4a5568;display:block;margin-top:4px;line-height:1.6;">
+                Competence: <span class="spectrum-moderate">Middle</span> &mdash; must educate on AI types and understand risks &bull;
+                Confidentiality: <span class="spectrum-moderate">Middle</span> &mdash; requires specific vendor vetting (terms, data security, input usage) &bull;
+                Disclosure: <span class="spectrum-moderate">Middle</span> &mdash; not required as blanket rule; case-by-case &bull;
+                Verification: <span class="spectrum-moderate">Middle</span> &mdash; must ensure candor to tribunals &bull;
+                Billing: <span class="cell-silent">Silent</span> &bull;
+                Supervision: <span class="spectrum-moderate">Middle</span> &mdash; must supervise nonlawyer AI use &bull;
+                Firm Policies: <span class="cell-silent">Silent</span> &bull;
+                Vendor Vetting: <span class="spectrum-conservative">Conservative</span> &mdash; one of the most specific requirements nationally
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Competence</strong><br><span class="table-note">Must lawyers understand AI before using it?</span></td>
+            <td class="cell-yes">YES &mdash; Universal</td>
+            <td><strong>Kentucky (E-457):</strong> Failing to use available AI <em>may itself be</em> a competence failure &mdash; pushes competence in both directions<br><strong>Oregon (2025-205):</strong> Must undertake "adequate training" before client use</td>
+            <td><strong>ABA (512), FL, NC, PA, TX, NM:</strong> Must investigate reliability, understand capabilities and limitations<br><strong>DC (388):</strong> Must understand "sufficiently to be reasonably confident"</td>
+            <td><strong>Michigan (JI-155):</strong> Acknowledges competence obligation but frames AI as "asset" for drafting and research<br><strong>Virginia (1901):</strong> Lightest touch &mdash; verify citations, supervise, but no broad competence mandate</td>
+          </tr>
+          <tr>
+            <td><strong>Confidentiality</strong><br><span class="table-note">Must lawyers protect client data from AI tools?</span></td>
+            <td class="cell-yes">YES &mdash; Universal</td>
+            <td><strong>New South Wales, Australia (SC Gen 23):</strong> Prohibits entering suppression-order info or sensitive material into AI entirely<br><strong>California (COPRAC):</strong> "Never" input confidential info without adequate protections<br><strong>ABA (512):</strong> Must obtain informed consent before inputting data into tools that train on input</td>
+            <td><strong>Missouri (2024-11), DC (388), NM, TX, PA:</strong> Must assess platform's confidentiality protections (terms, data security, training policy) before use<br><strong>Oregon (2025-205):</strong> Must carefully review operative contract</td>
+            <td><strong>Virginia (1901):</strong> Does not add AI-specific confidentiality requirements beyond existing Rule 1.6<br><strong>Michigan (JI-155):</strong> General acknowledgment only</td>
+          </tr>
+          <tr>
+            <td><strong>Disclosure to Clients</strong><br><span class="table-note">Must lawyers tell clients they used AI?</span></td>
+            <td class="cell-partial">SPLIT</td>
+            <td><strong>ABA (512):</strong> Must obtain informed consent (not boilerplate) when using tools that train on input<br><strong>North Carolina (2024-1):</strong> "May need" informed consent<br><strong>NYC Bar (2024-5):</strong> Must not use "open" AI with client data without client consent<br><strong>NYC Bar (2025-6):</strong> Must obtain consent before recording/transcribing client calls with AI</td>
+            <td><strong>Florida (24-1):</strong> Required when potential clients interact with chatbots<br><strong>Mississippi (267):</strong> "Where appropriate"<br><strong>Missouri (2024-11):</strong> Not required as blanket rule; case-by-case<br><strong>Law Society of Alberta:</strong> Must inform clients and explain benefits</td>
+            <td><strong>Virginia (1901):</strong> No per se requirement to disclose AI use unless extenuating circumstances<br><strong>Kentucky (E-457):</strong> "Routine AI research use need not be disclosed"<br><strong>Texas (705):</strong> No general disclosure requirement</td>
+          </tr>
+          <tr>
+            <td><strong>Verification / Candor</strong><br><span class="table-note">Must lawyers verify AI outputs before submitting to courts?</span></td>
+            <td class="cell-yes">YES &mdash; Universal</td>
+            <td><strong>Oregon (2025-205):</strong> Must verify "every citation and factual statement"<br><strong>USPTO (2024):</strong> Failure to correct AI inaccuracies could violate duty of candor<br><strong>New South Wales, Australia:</strong> Prohibits AI-generated affidavits, witness statements, or evidentiary materials</td>
+            <td><strong>ABA (512), FL, DC, NJ, NC, PA, TX, NM, MS, MO:</strong> Must verify AI outputs for accuracy, hallucinations, completeness, and truthfulness</td>
+            <td>No jurisdiction takes a permissive stance on verification &mdash; this is the hardest consensus point across all opinions</td>
+          </tr>
+          <tr>
+            <td><strong>Billing / Fees</strong><br><span class="table-note">Must fees be reduced when AI saves time?</span></td>
+            <td class="cell-partial">SPLIT</td>
+            <td><strong>Kentucky (E-457):</strong> Fees "must be reduced" when AI reduces time; cannot charge clients for general AI training costs<br><strong>Florida (24-1):</strong> No double-billing; develop oversight policies for billing</td>
+            <td><strong>ABA (512):</strong> Must ensure reasonable fees (Rule 1.5)<br><strong>Oregon (2025-205):</strong> May not inflate billable hours<br><strong>Texas (705):</strong> Cannot bill hours not genuinely worked but may pass through AI subscription costs with agreement<br><strong>NM, MS, PA:</strong> Must use "reasonable billing practices"</td>
+            <td><strong>Virginia (1901):</strong> No per se requirement to reduce fees solely because AI reduced time on a task &mdash; most permissive on billing</td>
+          </tr>
+          <tr>
+            <td><strong>Supervision</strong><br><span class="table-note">Must lawyers supervise non-lawyer AI use?</span></td>
+            <td class="cell-yes">YES &mdash; Universal</td>
+            <td><strong>ABA (512):</strong> Rules 5.1/5.3 apply &mdash; supervising and managing lawyers responsible for ensuring AI is used ethically<br><strong>SRA (UK):</strong> Firms should appoint senior individual for AI oversight</td>
+            <td><strong>DC, FL, PA, NC, NM, TX, MO, MS:</strong> Must supervise nonlawyer use of AI</td>
+            <td>No jurisdiction takes a permissive stance on supervision</td>
+          </tr>
+          <tr>
+            <td><strong>Firm-Wide AI Policies</strong><br><span class="table-note">Must firms adopt written AI policies?</span></td>
+            <td class="cell-partial">SPLIT</td>
+            <td><strong>Oregon (2025-205):</strong> Must "establish clear firm-wide AI policies"<br><strong>New Mexico (2024-004):</strong> Must develop firm-wide AI policies<br><strong>Florida (24-1):</strong> Must develop "oversight policies"<br><strong>Law Society of Alberta:</strong> Provides model generative AI use policy for firms</td>
+            <td><strong>ABA (512):</strong> Implies need for policies through supervision requirements but doesn't mandate written policies<br><strong>Pennsylvania (2024-200):</strong> Recommends policies</td>
+            <td><strong>Virginia, Kentucky, Michigan, Texas, Missouri, DC:</strong> Silent on firm-wide policy requirement</td>
+          </tr>
+          <tr>
+            <td><strong>Vendor Vetting</strong><br><span class="table-note">Must lawyers evaluate AI vendor's data practices?</span></td>
+            <td class="cell-partial">EMERGING CONSENSUS</td>
+            <td><strong>ABA (512):</strong> Must "investigate the reliability, security measures, and policies" and "ensure notification of service of process" &mdash; most specific<br><strong>Missouri (2024-11):</strong> Must assess "terms and conditions, data security, how inputs are used"<br><strong>North Carolina (2024-1):</strong> Must "evaluate security protocols of AI vendors"</td>
+            <td><strong>Oregon (2025-205):</strong> Must carefully review operative contract<br><strong>DC (388):</strong> Warns especially about "free tools that exploit user inputs"<br><strong>Law Society of Saskatchewan:</strong> Must ensure providers don't share info or use for training</td>
+            <td><strong>Virginia, Kentucky, Michigan:</strong> Silent on vendor vetting<br><strong>Texas (705):</strong> Must not disclose confidential info via inputs but no specific vendor vetting requirement</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="font-size:0.83rem;color:#4a5568;margin-bottom:10px;"><strong>The through-lines</strong> (every opinion agrees on these):</p>
+    <ul style="font-size:0.83rem;color:#4a5568;padding-left:20px;margin-bottom:10px;line-height:1.8;">
+      <li><strong>Competence:</strong> You must understand the AI tool before using it with client work</li>
+      <li><strong>Confidentiality:</strong> Client data must be protected &mdash; the question is how much diligence the opinion demands</li>
+      <li><strong>Verification:</strong> You must personally verify every AI output before relying on it or submitting it to a court &mdash; no exceptions anywhere</li>
+      <li><strong>Supervision:</strong> Supervising lawyers are responsible for ensuring ethical AI use by staff</li>
+      <li><strong>AI is not your lawyer:</strong> The tool does not exercise professional judgment and cannot replace yours</li>
+    </ul>
+
+    <p style="font-size:0.83rem;color:#4a5568;margin-bottom:10px;"><strong>The fault lines</strong> (where opinions diverge):</p>
+    <ul style="font-size:0.83rem;color:#4a5568;padding-left:20px;margin-bottom:10px;line-height:1.8;">
+      <li><strong>Client disclosure:</strong> Virginia and Kentucky say no unless extenuating; ABA and North Carolina say yes when data is at risk; NYC Bar says always for chatbots and recording</li>
+      <li><strong>Fee reduction:</strong> Kentucky says you must reduce; Virginia says you don't have to; everyone else is in between</li>
+      <li><strong>Vendor vetting:</strong> ABA and Missouri demand specific evaluation of vendor terms and notification practices; Virginia and Michigan are silent</li>
+      <li><strong>Firm policies:</strong> Oregon and New Mexico mandate written policies; most states are silent on this</li>
+      <li><strong>Affirmative duty to use AI:</strong> Kentucky stands alone in suggesting that <em>not</em> using available AI could be a competence failure</li>
+    </ul>
+
+    <p style="font-size:0.83rem;color:#4a5568;margin-bottom:14px;"><strong>For Missouri criminal defense attorneys:</strong> Missouri Opinion 2024-11 sits in the moderate middle. It requires you to educate yourself and assess your AI platform's data handling, but does not mandate blanket disclosure or firm-wide policies. However, ABA Opinion 512 applies as persuasive authority everywhere &mdash; its vendor-vetting and informed-consent requirements represent the direction the profession is heading. When in doubt, follow ABA 512 as the floor.</p>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>Sources current as of March 2026. Verify all guidance against the original opinion documents before relying on any summary. Not legal advice.</p>
+    <p style="margin-top:6px;">See the <a href="risk-matrix.html">Risk Matrix</a> for the full tier framework. See <a href="vendor-details.html">Vendor Details</a> for data handling specifics.</p>
+    <p style="margin-top:6px;">Part of the AI Ethics &amp; Practical Use Training Site &mdash; Built with Claude Code &mdash; 2026</p>
+  </footer>
+
+</div>
+
+</body>
+</html>

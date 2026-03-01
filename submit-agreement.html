@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Submit a Vendor Agreement &mdash; AI Ethics Training</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: #f8f9fa;
+    color: #1a1a2e;
+    line-height: 1.5;
+    font-size: 15px;
+  }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 16px 20px; }
+
+  /* Header */
+  .header {
+    background: #1a1a2e;
+    color: #fff;
+    padding: 20px 0;
+    margin-bottom: 16px;
+  }
+  .header-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .header h1 { font-size: 1.4rem; font-weight: 600; }
+  .header .subtitle { font-size: 0.85rem; color: #a0aec0; margin-top: 4px; }
+  .header-meta { font-size: 0.75rem; color: #a0aec0; text-align: right; line-height: 1.4; }
+
+  /* Navigation */
+  .site-nav {
+    background: #2d3748;
+    padding: 0;
+    border-bottom: 2px solid #4a5568;
+  }
+  .site-nav-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    gap: 0;
+    flex-wrap: wrap;
+  }
+  .site-nav a {
+    color: #a0aec0;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 10px 16px;
+    display: block;
+    transition: all 0.15s;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+  }
+  .site-nav a:hover { color: #fff; background: rgba(255,255,255,0.05); }
+  .site-nav a.active { color: #fff; border-bottom-color: #4299e1; background: rgba(255,255,255,0.05); }
+
+  /* Form styles */
+  .form-section {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .form-section h2 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 10px;
+  }
+  .form-section p {
+    font-size: 0.85rem;
+    color: #4a5568;
+    line-height: 1.7;
+    margin-bottom: 12px;
+  }
+  .form-section p:last-child { margin-bottom: 0; }
+
+  label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #1a1a2e;
+    margin-bottom: 4px;
+    margin-top: 14px;
+  }
+  label .optional {
+    font-weight: 400;
+    color: #718096;
+    font-size: 0.78rem;
+  }
+
+  input[type="text"], select, textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #cbd5e0;
+    border-radius: 6px;
+    font-size: 0.88rem;
+    font-family: inherit;
+    color: #1a1a2e;
+    background: #fff;
+    transition: border-color 0.15s;
+  }
+  input[type="text"]:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #2c5282;
+    box-shadow: 0 0 0 3px rgba(44, 82, 130, 0.1);
+  }
+  textarea { resize: vertical; min-height: 200px; font-family: 'Consolas', 'Monaco', monospace; font-size: 0.82rem; }
+
+  .btn {
+    display: inline-block;
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s;
+    margin-top: 14px;
+  }
+  .btn-primary {
+    background: #2c5282;
+    color: #fff;
+  }
+  .btn-primary:hover { background: #1a365d; }
+  .btn-primary:disabled { background: #a0aec0; cursor: not-allowed; }
+  .btn-secondary {
+    background: #edf2f7;
+    color: #2d3748;
+    margin-left: 8px;
+  }
+  .btn-secondary:hover { background: #e2e8f0; }
+
+  /* Callout boxes */
+  .callout {
+    padding: 12px 16px;
+    border-radius: 0 6px 6px 0;
+    font-size: 0.83rem;
+    margin: 10px 0;
+  }
+  .callout-blue { background: #eff6ff; border-left: 4px solid #2c5282; color: #1e40af; }
+  .callout-green { background: #ecfdf5; border-left: 4px solid #059669; color: #065f46; }
+  .callout-yellow { background: #fffbeb; border-left: 4px solid #d97706; color: #92400e; }
+  .callout strong { color: inherit; }
+
+  /* What we look for */
+  .checklist {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+  }
+  .checklist li {
+    padding: 6px 0 6px 28px;
+    position: relative;
+    font-size: 0.85rem;
+    color: #4a5568;
+    border-bottom: 1px solid #f3f4f6;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li::before {
+    content: "?";
+    position: absolute;
+    left: 0;
+    top: 6px;
+    width: 20px;
+    height: 20px;
+    background: #2c5282;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 0.72rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Analysis output */
+  .analysis-output {
+    display: none;
+    background: #fff;
+    border: 2px solid #2c5282;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+  }
+  .analysis-output.visible { display: block; }
+  .analysis-output h3 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 12px;
+  }
+  .finding {
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    font-size: 0.83rem;
+    line-height: 1.6;
+  }
+  .finding-red { background: #fee2e2; border-left: 4px solid #dc2626; color: #991b1b; }
+  .finding-yellow { background: #fffbeb; border-left: 4px solid #d97706; color: #92400e; }
+  .finding-green { background: #ecfdf5; border-left: 4px solid #059669; color: #065f46; }
+  .finding-blue { background: #eff6ff; border-left: 4px solid #2c5282; color: #1e40af; }
+
+  /* Footer */
+  .footer {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 16px;
+    margin-top: 24px;
+    font-size: 0.78rem;
+    color: #718096;
+    line-height: 1.6;
+  }
+  .footer a { color: #2c5282; text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .header-meta { display: none; }
+    .site-nav a { padding: 8px 10px; font-size: 0.75rem; }
+  }
+  @media (max-width: 480px) {
+    .container { padding: 12px; }
+    .site-nav-inner { gap: 0; }
+    .site-nav a { padding: 8px 8px; font-size: 0.72rem; }
+  }
+
+  @media print {
+    body { background: #fff; font-size: 12px; }
+    .site-nav { display: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div>
+      <h1>Submit a Vendor Agreement</h1>
+      <div class="subtitle">Help the defense bar understand what vendors do with our data</div>
+    </div>
+    <div class="header-meta">Built with Claude Code<br>2026</div>
+  </div>
+</div>
+
+<nav class="site-nav">
+  <div class="site-nav-inner">
+    <a href="index.html">Home</a>
+    <a href="risk-matrix.html">Risk Matrix</a>
+    <a href="use-cases.html">Use Cases</a>
+    <a href="agents.html">Agents</a>
+    <a href="ethics-opinions.html">Ethics Opinions</a>
+    <a href="vendor-details.html">Vendor Details</a>
+    <a href="glossary.html">Glossary</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <!-- Intro -->
+  <div class="form-section">
+    <h2>Why this matters</h2>
+    <p>Every SaaS vendor buries data handling terms in their Terms of Service, Privacy Policy, and Data Processing Agreements. Most lawyers don't read them. The ones who do often find alarming clauses &mdash; training on your data, sharing with "partners," retaining content indefinitely, using conversations for advertising.</p>
+    <p>This page lets you submit vendor agreements anonymously. We'll parse them for the clauses that matter to attorneys and add the findings to the <a href="vendor-details.html" style="color:#2c5282;">Vendor Details</a> page. No personal information is collected or stored.</p>
+  </div>
+
+  <!-- What we look for -->
+  <div class="form-section">
+    <h2>What we look for in agreements</h2>
+    <ul class="checklist">
+      <li><strong>Training clauses:</strong> Does the vendor use your content to train AI models? Can you opt out? Is the opt-out real or performative?</li>
+      <li><strong>Data retention:</strong> How long are your prompts, responses, and uploaded files kept? What happens after the retention period?</li>
+      <li><strong>Human review:</strong> Can vendor employees read your conversations? Under what circumstances?</li>
+      <li><strong>Subprocessors:</strong> Who else gets your data? Third-party AI providers, cloud hosts, analytics vendors?</li>
+      <li><strong>Advertising:</strong> Is your content used for ad targeting, even indirectly?</li>
+      <li><strong>"Content" definition:</strong> What counts as "your content"? Does it include metadata, usage patterns, feedback?</li>
+      <li><strong>Unilateral changes:</strong> Can the vendor change terms without notice? What's the notification period?</li>
+      <li><strong>Legal process:</strong> Will the vendor notify you before responding to a subpoena or government request?</li>
+    </ul>
+  </div>
+
+  <!-- Paste and analyze -->
+  <div class="form-section">
+    <h2>Paste an agreement for quick analysis</h2>
+    <p>Paste the relevant sections (or the entire ToS/Privacy Policy/DPA) below. This runs entirely in your browser &mdash; nothing is sent to a server. The analysis uses keyword matching to flag potential concerns.</p>
+
+    <label for="vendor-name">Vendor name <span class="optional">(optional)</span></label>
+    <input type="text" id="vendor-name" placeholder="e.g., Acme Legal AI">
+
+    <label for="doc-type">Document type</label>
+    <select id="doc-type">
+      <option value="tos">Terms of Service</option>
+      <option value="privacy">Privacy Policy</option>
+      <option value="dpa">Data Processing Agreement (DPA)</option>
+      <option value="other">Other / Combined</option>
+    </select>
+
+    <label for="agreement-text">Agreement text</label>
+    <textarea id="agreement-text" placeholder="Paste the agreement text here. Include as much as possible &mdash; especially sections about data use, privacy, content ownership, and AI/machine learning."></textarea>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn btn-primary" onclick="analyzeAgreement()">Analyze Agreement</button>
+      <button class="btn btn-secondary" onclick="clearForm()">Clear</button>
+    </div>
+
+    <div class="callout callout-blue" style="margin-top:14px;">
+      <strong>Privacy note:</strong> This analysis runs entirely in your browser using JavaScript pattern matching. No data is sent anywhere. No server. No tracking. You can verify this by checking the page source or disconnecting from the internet before clicking "Analyze."
+    </div>
+  </div>
+
+  <!-- Analysis output -->
+  <div id="analysis-output" class="analysis-output"></div>
+
+  <!-- Community submission -->
+  <div class="form-section">
+    <h2>Submit for community review</h2>
+    <p>Want the agreement added to the <a href="vendor-details.html" style="color:#2c5282;">Vendor Details</a> page? Send it anonymously:</p>
+    <ul style="font-size:0.85rem;color:#4a5568;padding-left:20px;line-height:1.8;">
+      <li><strong>Email:</strong> Send to <a href="mailto:ai-ethics-agreements@proton.me" style="color:#2c5282;">ai-ethics-agreements@proton.me</a> with the vendor name and agreement text. Use a throwaway email if you prefer anonymity.</li>
+      <li><strong>Wiki:</strong> Once the <a href="index.html" style="color:#2c5282;">wiki mirror</a> is live, create an account and post directly.</li>
+    </ul>
+
+    <div class="callout callout-yellow">
+      <strong>Do not include:</strong> Client names, case numbers, your firm name, or any privileged information. We only need the vendor's terms &mdash; not how you use the tool.
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>Part of the AI Ethics &amp; Practical Use Training Site. Not legal advice.</p>
+    <p class="footer-meta" style="margin-top:6px;">Built with Claude Code &mdash; 2026</p>
+  </div>
+
+</div>
+
+<script>
+const PATTERNS = [
+  // Training
+  { regex: /train(ing|ed|s)?\s+(on|using|with)\s+(your|user|customer|client)?\s*(content|data|input|prompt|conversation)/gi,
+    category: 'training', severity: 'red', label: 'Training on your data',
+    message: 'This agreement appears to allow training on your content.' },
+  { regex: /improve\s+(our|the)\s+(model|service|product|ai|algorithm)/gi,
+    category: 'training', severity: 'red', label: 'Model improvement clause',
+    message: 'Uses vague "improve our services" language that may include training.' },
+  { regex: /machine\s+learning|artificial\s+intelligence|neural\s+network|large\s+language\s+model/gi,
+    category: 'training', severity: 'yellow', label: 'AI/ML reference',
+    message: 'Agreement references AI/ML technology. Check how your data interacts with these systems.' },
+  { regex: /will\s+not\s+(use|train|process).{0,40}(train|improv|develop)/gi,
+    category: 'training', severity: 'green', label: 'No-training commitment',
+    message: 'Contains an explicit commitment not to train on your data.' },
+  { regex: /opt[\s-]?out/gi,
+    category: 'training', severity: 'yellow', label: 'Opt-out mentioned',
+    message: 'Opt-out mechanism referenced. Check whether opt-out is real (stops all use) or partial (exceptions apply).' },
+
+  // Retention
+  { regex: /retain(ed|s)?\s+(for|up\s+to|no\s+longer\s+than)\s+(\d+)\s*(day|month|year)/gi,
+    category: 'retention', severity: 'yellow', label: 'Retention period specified',
+    message: 'Specifies a data retention period. Check whether this is acceptable.' },
+  { regex: /indefinite(ly)?|perpetual(ly)?|unlimited\s+(time|period|duration)/gi,
+    category: 'retention', severity: 'red', label: 'Indefinite retention',
+    message: 'May retain your data indefinitely.' },
+  { regex: /zero[\s-]?data[\s-]?retention|immediately\s+delet/gi,
+    category: 'retention', severity: 'green', label: 'Zero data retention',
+    message: 'References ZDR or immediate deletion.' },
+  { regex: /delete(d|s)?\s+(within|after|upon)\s+/gi,
+    category: 'retention', severity: 'blue', label: 'Deletion policy',
+    message: 'Contains a deletion policy. Verify the timeframe and conditions.' },
+
+  // Human review
+  { regex: /human\s+review|manual(ly)?\s+review|employee.{0,20}(access|review|read)/gi,
+    category: 'review', severity: 'yellow', label: 'Human review possible',
+    message: 'Indicates that humans may review your data. Check under what circumstances.' },
+  { regex: /safety|abuse|trust\s+and\s+safety|content\s+moderation/gi,
+    category: 'review', severity: 'blue', label: 'Safety review carve-out',
+    message: 'Contains a safety/abuse review carve-out (standard practice, but check scope).' },
+
+  // Advertising
+  { regex: /advertis(ing|ement|er|e)|ad\s+targeting|personalized?\s+ad/gi,
+    category: 'advertising', severity: 'red', label: 'Advertising clause',
+    message: 'References advertising. Check whether your data is used for ad targeting.' },
+  { regex: /third[\s-]?part(y|ies).{0,30}(share|disclose|provide|transfer|sell)/gi,
+    category: 'advertising', severity: 'red', label: 'Third-party data sharing',
+    message: 'May share your data with third parties. Check who and why.' },
+
+  // DPA/compliance
+  { regex: /data\s+process(ing|or)\s+a(greement|ddendum)|DPA/gi,
+    category: 'compliance', severity: 'green', label: 'DPA referenced',
+    message: 'References a Data Processing Agreement.' },
+  { regex: /SOC\s*2|ISO\s*27001|FedRAMP|HIPAA|CJIS/gi,
+    category: 'compliance', severity: 'green', label: 'Certification referenced',
+    message: 'References security certifications.' },
+  { regex: /GDPR|CCPA|data\s+protection\s+(act|law|regulation)/gi,
+    category: 'compliance', severity: 'blue', label: 'Privacy regulation reference',
+    message: 'References privacy regulations. Check which apply to your use case.' },
+
+  // Content definition
+  { regex: /"content"\s+(includes?|means?|encompasses)/gi,
+    category: 'definitions', severity: 'yellow', label: 'Content definition',
+    message: 'Defines "Content." Check whether this includes metadata, usage patterns, or feedback beyond just your prompts.' },
+  { regex: /metadata|usage\s+pattern|telemetry|diagnostic/gi,
+    category: 'definitions', severity: 'yellow', label: 'Metadata collection',
+    message: 'Collects metadata or usage patterns beyond your explicit input.' },
+
+  // Changes
+  { regex: /modify\s+(these?\s+)?terms|change\s+(these?\s+)?terms|update\s+(these?\s+)?terms/gi,
+    category: 'changes', severity: 'yellow', label: 'Unilateral term changes',
+    message: 'Vendor may change terms. Check notification period and whether continued use = acceptance.' },
+  { regex: /without\s+(prior\s+)?notice|at\s+(our|any)\s+time/gi,
+    category: 'changes', severity: 'red', label: 'Changes without notice',
+    message: 'May change terms without prior notice.' },
+
+  // Feedback
+  { regex: /feedback|thumbs\s+up|thumbs\s+down|rating|flag(ged|ging)?/gi,
+    category: 'feedback', severity: 'yellow', label: 'Feedback data use',
+    message: 'References feedback mechanisms. Check whether feedback causes data retention or training on that conversation.' },
+
+  // Legal process
+  { regex: /subpoena|court\s+order|law\s+enforcement|legal\s+process|government\s+request/gi,
+    category: 'legal', severity: 'blue', label: 'Legal process clause',
+    message: 'Contains legal process provisions. Check whether you get notification before data is disclosed.' },
+  { regex: /notify.{0,30}(before|prior|advance).{0,30}(disclos|respond|comply)/gi,
+    category: 'legal', severity: 'green', label: 'Pre-disclosure notification',
+    message: 'Commits to notifying you before responding to legal process.' },
+];
+
+function analyzeAgreement() {
+  const text = document.getElementById('agreement-text').value;
+  const vendorName = document.getElementById('vendor-name').value || 'this vendor';
+  const docType = document.getElementById('doc-type').selectedOptions[0].text;
+  const output = document.getElementById('analysis-output');
+
+  if (!text.trim()) {
+    output.className = 'analysis-output visible';
+    output.innerHTML = '<div class="finding finding-yellow"><strong>No text to analyze.</strong> Paste an agreement above.</div>';
+    return;
+  }
+
+  const findings = [];
+  const seen = new Set();
+
+  for (const pattern of PATTERNS) {
+    const matches = text.match(pattern.regex);
+    if (matches && !seen.has(pattern.label)) {
+      seen.add(pattern.label);
+      const snippets = [];
+      // Find context around matches
+      let m;
+      const re = new RegExp(pattern.regex.source, pattern.regex.flags);
+      while ((m = re.exec(text)) !== null && snippets.length < 2) {
+        const start = Math.max(0, m.index - 60);
+        const end = Math.min(text.length, m.index + m[0].length + 60);
+        let snippet = text.slice(start, end).replace(/\n/g, ' ').trim();
+        if (start > 0) snippet = '...' + snippet;
+        if (end < text.length) snippet = snippet + '...';
+        snippets.push(snippet);
+      }
+      findings.push({ ...pattern, matches: matches.length, snippets });
+    }
+  }
+
+  let html = `<h3>Analysis: ${vendorName} (${docType})</h3>`;
+
+  if (findings.length === 0) {
+    html += '<div class="finding finding-yellow"><strong>No specific patterns detected.</strong> This does not mean the agreement is safe &mdash; it may use non-standard language. Consider manual review or submitting for community analysis.</div>';
+  } else {
+    // Sort: red first, then yellow, then blue, then green
+    const order = { red: 0, yellow: 1, blue: 2, green: 3 };
+    findings.sort((a, b) => order[a.severity] - order[b.severity]);
+
+    const counts = { red: 0, yellow: 0, green: 0, blue: 0 };
+    findings.forEach(f => counts[f.severity]++);
+
+    html += `<p style="font-size:0.85rem;color:#4a5568;margin-bottom:14px;">Found <strong>${findings.length}</strong> patterns: `;
+    if (counts.red) html += `<span style="color:#dc2626;font-weight:600;">${counts.red} concern${counts.red > 1 ? 's' : ''}</span> `;
+    if (counts.yellow) html += `<span style="color:#d97706;font-weight:600;">${counts.yellow} caution${counts.yellow > 1 ? 's' : ''}</span> `;
+    if (counts.green) html += `<span style="color:#059669;font-weight:600;">${counts.green} positive</span> `;
+    if (counts.blue) html += `<span style="color:#2c5282;font-weight:600;">${counts.blue} info</span>`;
+    html += `</p>`;
+
+    for (const f of findings) {
+      html += `<div class="finding finding-${f.severity}">`;
+      html += `<strong>${f.label}</strong> (${f.matches} match${f.matches > 1 ? 'es' : ''}) &mdash; ${f.message}`;
+      if (f.snippets.length > 0) {
+        html += `<div style="margin-top:6px;font-size:0.78rem;color:#718096;font-style:italic;">`;
+        for (const s of f.snippets) {
+          html += `<div style="margin-bottom:3px;">"${s}"</div>`;
+        }
+        html += `</div>`;
+      }
+      html += `</div>`;
+    }
+
+    html += '<div class="finding finding-blue" style="margin-top:14px;"><strong>This is automated pattern matching, not legal analysis.</strong> Patterns may match false positives. Absence of a pattern does not mean the clause doesn\'t exist. Always read the full agreement. For a thorough review, submit it to the community or consult your ethics board.</div>';
+  }
+
+  output.className = 'analysis-output visible';
+  output.innerHTML = html;
+  output.scrollIntoView({ behavior: 'smooth' });
+}
+
+function clearForm() {
+  document.getElementById('vendor-name').value = '';
+  document.getElementById('agreement-text').value = '';
+  document.getElementById('analysis-output').className = 'analysis-output';
+  document.getElementById('analysis-output').innerHTML = '';
+}
+</script>
+
+</body>
+</html>

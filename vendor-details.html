@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vendor Deep Dives &mdash; AI Ethics Training</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: #f8f9fa;
+    color: #1a1a2e;
+    line-height: 1.5;
+    font-size: 15px;
+  }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 16px 20px; }
+
+  /* Header */
+  .header {
+    background: #1a1a2e;
+    color: #fff;
+    padding: 20px 0;
+    margin-bottom: 16px;
+  }
+  .header-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .header h1 { font-size: 1.4rem; font-weight: 600; }
+  .header .subtitle { font-size: 0.85rem; color: #a0aec0; margin-top: 4px; }
+  .header-meta { font-size: 0.75rem; color: #a0aec0; text-align: right; line-height: 1.4; }
+
+  /* Navigation */
+  .site-nav {
+    background: #2d3748;
+    padding: 0;
+    border-bottom: 2px solid #4a5568;
+  }
+  .site-nav-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    gap: 0;
+    flex-wrap: wrap;
+  }
+  .site-nav a {
+    color: #a0aec0;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 10px 16px;
+    display: block;
+    transition: all 0.15s;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+  }
+  .site-nav a:hover { color: #fff; background: rgba(255,255,255,0.05); }
+  .site-nav a.active { color: #fff; border-bottom-color: #4299e1; background: rgba(255,255,255,0.05); }
+
+  /* Section titles */
+  .section-title {
+    font-size: 1rem; font-weight: 600; margin-bottom: 14px;
+    padding-bottom: 8px; border-bottom: 2px solid #e2e8f0;
+    color: #1a1a2e;
+  }
+
+  section { margin-bottom: 28px; }
+
+  /* Tier badges */
+  .tier-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    vertical-align: middle;
+  }
+  .tier-any { background: #d1fae5; color: #065f46; }
+  .tier-1 { background: #fee2e2; color: #991b1b; }
+  .tier-2 { background: #fef3c7; color: #92400e; }
+  .tier-3 { background: #dbeafe; color: #1e40af; }
+  .tier-4 { background: #e0e7ff; color: #3730a3; }
+
+  /* Vendor cards */
+  .vendor-card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .vendor-header {
+    padding: 14px 18px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    transition: background 0.15s;
+  }
+  .vendor-header:hover { background: #f7fafc; }
+  .vendor-title {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: #1a1a2e;
+    flex: 1;
+  }
+  .vendor-badges { display: flex; gap: 6px; flex-shrink: 0; flex-wrap: wrap; }
+  .vendor-toggle {
+    font-size: 1.1rem;
+    color: #718096;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+    width: 20px;
+    text-align: center;
+  }
+  .vendor-card.open .vendor-toggle { transform: rotate(90deg); }
+  .vendor-body {
+    display: none;
+    padding: 0 18px 18px;
+    border-top: 1px solid #edf2f7;
+  }
+  .vendor-card.open .vendor-body { display: block; }
+
+  .vendor-body h4 {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #718096;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-top: 14px;
+    margin-bottom: 6px;
+  }
+  .vendor-body p, .vendor-body li {
+    font-size: 0.85rem;
+    color: #4a5568;
+    line-height: 1.6;
+  }
+  .vendor-body ul, .vendor-body ol {
+    padding-left: 20px;
+    margin-bottom: 10px;
+  }
+  .vendor-body li { margin-bottom: 4px; }
+
+  /* Spec grid */
+  .spec-grid {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 0;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 10px 0;
+    font-size: 0.83rem;
+  }
+  .spec-label {
+    background: #f7fafc;
+    padding: 8px 12px;
+    font-weight: 600;
+    color: #1a1a2e;
+    border-bottom: 1px solid #edf2f7;
+  }
+  .spec-value {
+    padding: 8px 12px;
+    color: #4a5568;
+    border-bottom: 1px solid #edf2f7;
+  }
+  .spec-label:last-of-type, .spec-value:last-of-type { border-bottom: none; }
+
+  /* Tool comparison rows */
+  .tool-compare {
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 10px 0;
+  }
+  .tool-compare-row {
+    display: flex;
+    padding: 8px 14px;
+    font-size: 0.82rem;
+    border-bottom: 1px solid #edf2f7;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .tool-compare-row:last-child { border-bottom: none; }
+  .tool-compare-row:nth-child(even) { background: #f8f9fa; }
+  .tool-compare-tool {
+    font-weight: 600;
+    color: #1a1a2e;
+    min-width: 160px;
+    flex-shrink: 0;
+  }
+  .tool-compare-desc { color: #4a5568; flex: 1; }
+
+  /* Callout boxes */
+  .callout {
+    padding: 12px 16px;
+    border-radius: 0 6px 6px 0;
+    font-size: 0.83rem;
+    margin: 10px 0;
+  }
+  .callout-blue { background: #eff6ff; border-left: 4px solid #2c5282; color: #1e40af; }
+  .callout-yellow { background: #fffbeb; border-left: 4px solid #d97706; color: #92400e; }
+  .callout-red { background: #fee2e2; border-left: 4px solid #dc2626; color: #991b1b; }
+  .callout-green { background: #ecfdf5; border-left: 4px solid #059669; color: #065f46; }
+  .callout strong { color: inherit; }
+
+  /* Pricing callout */
+  .price-tag {
+    display: inline-block;
+    background: #1a1a2e;
+    color: #fff;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    margin-right: 6px;
+  }
+
+  /* Category headers */
+  .category-header {
+    background: #1a1a2e;
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 14px;
+    margin-top: 8px;
+  }
+
+  /* Comparison table */
+  .comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.78rem;
+    margin: 10px 0;
+  }
+  .comparison-table th {
+    background: #1a1a2e;
+    color: #fff;
+    padding: 8px 10px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+  .comparison-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid #e2e8f0;
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .comparison-table tr:nth-child(even) { background: #f8f9fa; }
+  .table-scroll { overflow-x: auto; margin: 10px 0; }
+
+  /* Footer */
+  .footer {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 16px;
+    margin-top: 24px;
+    font-size: 0.78rem;
+    color: #718096;
+    line-height: 1.6;
+  }
+  .footer a { color: #2c5282; text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .header-meta { display: none; }
+    .spec-grid { grid-template-columns: 120px 1fr; }
+    .vendor-badges { display: none; }
+    .site-nav a { padding: 8px 10px; font-size: 0.75rem; }
+    .tool-compare-row { flex-direction: column; gap: 2px; }
+    .tool-compare-tool { min-width: auto; }
+  }
+  @media (max-width: 480px) {
+    .container { padding: 12px; }
+    .site-nav-inner { gap: 0; }
+    .site-nav a { padding: 8px 8px; font-size: 0.72rem; }
+  }
+
+  /* Print */
+  @media print {
+    body { background: #fff; font-size: 12px; }
+    .header { background: #1a1a2e !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .site-nav, .vendor-toggle { display: none !important; }
+    .vendor-body { display: block !important; }
+    .tier-badge { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .container { max-width: 100%; }
+    section { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div>
+      <h1>Vendor Deep Dives</h1>
+      <div class="subtitle">Data Protection Cards &amp; Pricing for AI Tools</div>
+    </div>
+    <div class="header-meta">Built with Claude Code<br>2026</div>
+  </div>
+</div>
+
+<nav class="site-nav">
+  <div class="site-nav-inner">
+    <a href="index.html">Home</a>
+    <a href="risk-matrix.html">Risk Matrix</a>
+    <a href="use-cases.html">Use Cases</a>
+    <a href="agents.html">Agents</a>
+    <a href="ethics-opinions.html">Ethics Opinions</a>
+    <a href="vendor-details.html" class="active">Vendor Details</a>
+    <a href="glossary.html">Glossary</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <div class="callout callout-blue" style="margin-bottom:20px;">
+    <strong>How to read these cards.</strong> Each vendor card shows: pricing, what data protections they offer (training policy, DPA, ZDR, certifications), and which tier they fall under in the <a href="risk-matrix.html" style="color:#2c5282;">Risk Matrix</a>. The same product can be different tiers depending on the plan. Pricing is current as of March 2026 but changes &mdash; verify before purchasing.
+  </div>
+
+  <!-- ============================================ -->
+  <!-- PLATFORM VENDORS (Microsoft, Google, Anthropic) -->
+  <!-- ============================================ -->
+  <div class="category-header">Platform Vendors</div>
+  <p style="font-size:0.83rem;color:#4a5568;margin-bottom:14px;">These are the companies whose AI models power most legal AI tools. Understanding their data protections sets the baseline for evaluating every other vendor.</p>
+
+  <section>
+
+    <!-- MICROSOFT -->
+    <div class="vendor-card open">
+      <div class="vendor-header" onclick="toggleCard(this)">
+        <div class="vendor-title">Microsoft</div>
+        <div class="vendor-badges">
+          <span class="tier-badge tier-1">Tier 1-2</span>
+          <span class="tier-badge tier-4">Tier 4</span>
+        </div>
+        <div class="vendor-toggle">&#9654;</div>
+      </div>
+      <div class="vendor-body">
+        <h4>The split</h4>
+        <p>Microsoft runs two completely different AI ecosystems under the same brand. <strong>Copilot Free/Pro</strong> is a consumer product. <strong>M365 Copilot</strong> is an enterprise product. Same name, completely different data handling.</p>
+
+        <h4>Products &amp; pricing</h4>
+        <div class="spec-grid">
+          <div class="spec-label">Copilot Free</div>
+          <div class="spec-value"><span class="tier-badge tier-1">Tier 1</span> Free. Consumer terms. Data may be used for training. <strong>Uses conversation data for advertising</strong> &mdash; opting out of training does NOT opt out of ad use.</div>
+          <div class="spec-label">M365 E3 + Copilot</div>
+          <div class="spec-value"><span class="tier-badge tier-4">Tier 4</span> <span class="price-tag">$42 + $30/user/mo</span> (July 2026 pricing). Enterprise terms, DPA. No training. No ads. Data stays in your tenant.</div>
+          <div class="spec-label">M365 E5 + Copilot</div>
+          <div class="spec-value"><span class="tier-badge tier-4">Tier 4</span> <span class="price-tag">$65 + $30/user/mo</span> (July 2026 pricing). Everything in E3 plus Security Copilot features.</div>
+          <div class="spec-label">M365 Business Premium</div>
+          <div class="spec-value"><span class="tier-badge tier-4">Tier 4</span> <span class="price-tag">~$22 + $30/user/mo</span> Small/mid-size option. Same enterprise data protections.</div>
+          <div class="spec-label">Azure OpenAI Service</div>
+          <div class="spec-value"><span class="tier-badge tier-3">Tier 3</span> Pay-per-token. Microsoft does not train on customer data. You can opt out of abuse monitoring. DPA available.</div>
+        </div>
+
+        <h4>Data protection details</h4>
+        <ul>
+          <li><strong>Training:</strong> M365 Copilot does NOT train on customer data. Prompts, responses, and Microsoft Graph data are never used to train foundation models.</li>
+          <li><strong>DPA:</strong> Automatically included under Microsoft Products and Services Data Protection Addendum. Microsoft acts as data processor.</li>
+          <li><strong>Data residency:</strong> EU Data Boundary available. Data stays in your M365 tenant.</li>
+          <li><strong>Certifications:</strong> SOC 2 Type II, ISO 27001, ISO 27018, FedRAMP High, HIPAA BAA, CJIS</li>
+          <li><strong>Admin controls:</strong> Tenant admins control which Copilot features are enabled, who can use them, and what data sources Copilot can access.</li>
+        </ul>
+
+        <h4>How M365 meets ABA 512 requirements</h4>
+        <div class="tool-compare">
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Confidentiality (Rule 1.6)</div>
+            <div class="tool-compare-desc">Data stays in-tenant. No training. DPA with processor commitments. Encryption at rest (BitLocker) and in transit (TLS 1.2+). Tenant isolation.</div>
+          </div>
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Competence (Rule 1.1)</div>
+            <div class="tool-compare-desc">Copilot provides citations to source documents within your tenant. Attorney must still verify AI outputs.</div>
+          </div>
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Supervision (Rules 5.1-5.3)</div>
+            <div class="tool-compare-desc">Admin controls allow firms to restrict features by role. Usage logs available for audit. DLP policies apply to Copilot outputs.</div>
+          </div>
+        </div>
+
+        <div class="callout callout-green">
+          <strong>Bottom line:</strong> M365 Copilot (with E3/E5 or Business Premium) is the gold standard for attorney data protection. If your office already pays for Microsoft 365, the $30/user/month Copilot add-on gets you Tier 4 AI across Word, Outlook, Teams, Excel, and PowerPoint with zero additional compliance work.
+        </div>
+
+        <div class="callout callout-red">
+          <strong>The trap:</strong> Copilot Free looks identical to M365 Copilot but has completely different data protections. It uses your conversations for advertising. If an attorney sees "Copilot" in their browser and starts using it for case work, they may be using the consumer version &mdash; not the enterprise one. Verify which version you're using.
+        </div>
+
+        <p style="font-size:0.78rem;color:#718096;margin-top:10px;">Sources: <a href="https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-privacy" target="_blank" style="color:#2c5282;">M365 Copilot Privacy</a> &bull; <a href="https://learn.microsoft.com/en-us/copilot/microsoft-365/enterprise-data-protection" target="_blank" style="color:#2c5282;">Enterprise Data Protection</a> &bull; <a href="https://www.microsoft.com/en-us/microsoft-365-copilot/pricing-new" target="_blank" style="color:#2c5282;">Copilot Pricing</a></p>
+      </div>
+    </div>
+
+    <!-- GOOGLE -->
+    <div class="vendor-card open">
+      <div class="vendor-header" onclick="toggleCard(this)">
+        <div class="vendor-title">Google</div>
+        <div class="vendor-badges">
+          <span class="tier-badge tier-1">Tier 1</span>
+          <span class="tier-badge tier-4">Tier 4</span>
+        </div>
+        <div class="vendor-toggle">&#9654;</div>
+      </div>
+      <div class="vendor-body">
+        <h4>The split</h4>
+        <p>Google also runs two separate AI ecosystems. <strong>Personal Gemini</strong> (gemini.google.com on a personal account) is consumer-grade. <strong>Google Workspace Gemini</strong> (even Business Starter at $7/mo) gets enterprise data protections. Same model, completely different data handling.</p>
+
+        <h4>Products &amp; pricing</h4>
+        <div class="spec-grid">
+          <div class="spec-label">Personal Gemini</div>
+          <div class="spec-value"><span class="tier-badge tier-1">Tier 1</span> Free. Trains on your data by default. "Keep Activity OFF" is a weak opt-out &mdash; 72-hour retention, possible human review, history of silently re-enabling.</div>
+          <div class="spec-label">Workspace Business Starter</div>
+          <div class="spec-value"><span class="tier-badge tier-4">Tier 4</span> <span class="price-tag">$8.40/user/mo</span> ($7/mo annual). Enterprise data protections. Gemini in Gmail, Docs, Sheets. No training. DPA included. 30 GB storage.</div>
+          <div class="spec-label">Workspace Business Standard</div>
+          <div class="spec-value"><span class="tier-badge tier-4">Tier 4</span> <span class="price-tag">$16.80/user/mo</span> ($14/mo annual). Full Gemini AI suite across all apps. 2 TB storage.</div>
+          <div class="spec-label">Workspace Business Plus</div>
+          <div class="spec-value"><span class="tier-badge tier-4">Tier 4</span> <span class="price-tag">$26.40/user/mo</span> ($22/mo annual). Advanced security + compliance. 5 TB storage.</div>
+          <div class="spec-label">Workspace Enterprise</div>
+          <div class="spec-value"><span class="tier-badge tier-4">Tier 4</span> <span class="price-tag">Custom</span> Unlimited storage. eDiscovery, Vault, advanced DLP. Custom terms.</div>
+          <div class="spec-label">NotebookLM (personal)</div>
+          <div class="spec-value"><span class="tier-badge tier-2">Tier 2</span> Free. Does not train on uploaded content. Some human review possible. Good for public documents only.</div>
+          <div class="spec-label">NotebookLM Enterprise</div>
+          <div class="spec-value"><span class="tier-badge tier-4">Tier 4</span> Full enterprise security. No human review.</div>
+          <div class="spec-label">Vertex AI (Google Cloud)</div>
+          <div class="spec-value"><span class="tier-badge tier-3">Tier 3</span> Pay-per-token. No training on customer data. DPA available. ISO 42001, FedRAMP High, HIPAA BAA.</div>
+        </div>
+
+        <h4>Data protection details</h4>
+        <ul>
+          <li><strong>Training:</strong> Workspace Gemini does NOT train on customer data. Content is not human reviewed. This applies to all Workspace plans, even Business Starter.</li>
+          <li><strong>DPA:</strong> Cloud Data Processing Addendum automatically included for all Workspace plans. Google acts as data processor.</li>
+          <li><strong>Data residency:</strong> Available on Business Plus and Enterprise. Choose specific regions for data at rest.</li>
+          <li><strong>Certifications:</strong> SOC 2 Type II, ISO 27001, ISO 42001 (AI-specific), FedRAMP High, HIPAA BAA, BSI C5</li>
+          <li><strong>Admin controls:</strong> Workspace admins can enable/disable Gemini features per organizational unit. Detailed audit logs.</li>
+          <li><strong>DPIA support:</strong> Google has published a formal DPIA resource for organizations assessing Gemini in Workspace.</li>
+        </ul>
+
+        <h4>How Workspace meets ABA 512 requirements</h4>
+        <div class="tool-compare">
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Confidentiality (Rule 1.6)</div>
+            <div class="tool-compare-desc">Data stays in Workspace tenant. No training. DPA with processor commitments. Not used for advertising. Encryption at rest and in transit.</div>
+          </div>
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Competence (Rule 1.1)</div>
+            <div class="tool-compare-desc">Gemini in Docs/Gmail provides AI assistance within your existing documents. Attorney must verify all AI suggestions.</div>
+          </div>
+          <div class="tool-compare-row">
+            <div class="tool-compare-tool">Supervision (Rules 5.1-5.3)</div>
+            <div class="tool-compare-desc">Admin console controls per org unit. Usage reporting and audit logs. DLP rules apply to Gemini-generated content.</div>
+          </div>
+        </div>
+
+        <div class="callout callout-green">
+          <strong>Bottom line:</strong> Google Workspace Business Starter at $7/mo/user is the most affordable path to Tier 4 AI. If your office uses Gmail and Google Docs, you already have the infrastructure &mdash; you just need the Workspace plan instead of a personal Google account.
+        </div>
+
+        <div class="callout callout-red">
+          <strong>The trap:</strong> Personal Gemini exists within the broader Google ad ecosystem. Even if chat content is walled off from ads, Google knows your search history, YouTube activity, location, and browsing habits. Workspace completely separates your data from Google's consumer ad profile. The difference is the plan, not the URL.
+        </div>
+
+        <p style="font-size:0.78rem;color:#718096;margin-top:10px;">Sources: <a href="https://support.google.com/a/answer/15706919" target="_blank" style="color:#2c5282;">Workspace Gemini Privacy Hub</a> &bull; <a href="https://workspace.google.com/security/ai-privacy/" target="_blank" style="color:#2c5282;">AI Privacy &amp; Compliance</a> &bull; <a href="https://workspace.google.com/pricing" target="_blank" style="color:#2c5282;">Workspace Pricing</a></p>
+      </div>
+    </div>
+
+    <!-- ANTHROPIC -->
+    <div class="vendor-card">
+      <div class="vendor-header" onclick="toggleCard(this)">
+        <div class="vendor-title">Anthropic (Claude)</div>
+        <div class="vendor-badges">
+          <span class="tier-badge tier-1">Tier 1-2</span>
+          <span class="tier-badge tier-3">Tier 3-4</span>
+        </div>
+        <div class="vendor-toggle">&#9654;</div>
+      </div>
+      <div class="vendor-body">
+        <h4>Products &amp; pricing</h4>
+        <div class="spec-grid">
+          <div class="spec-label">Claude Free</div>
+          <div class="spec-value"><span class="tier-badge tier-1">Tier 1</span> Free. Consumer terms. Training on by default since Sept 2025.</div>
+          <div class="spec-label">Claude Pro</div>
+          <div class="spec-value"><span class="tier-badge tier-1">Tier 1</span> <span class="price-tag">$20/mo</span> Consumer terms. Same data policy as Free &mdash; training on by default. Toggle off for Tier 2.</div>
+          <div class="spec-label">Claude Max 5x</div>
+          <div class="spec-value"><span class="tier-badge tier-1">Tier 1</span> <span class="price-tag">$100/mo</span> Consumer terms. Higher usage limits. Same data policy.</div>
+          <div class="spec-label">Claude Max 20x</div>
+          <div class="spec-value"><span class="tier-badge tier-1">Tier 1</span> <span class="price-tag">$200/mo</span> Consumer terms. Highest usage limits. Same data policy.</div>
+          <div class="spec-label">Claude Team</div>
+          <div class="spec-value"><span class="tier-badge tier-3">Tier 3</span> <span class="price-tag">$25/seat/mo</span> Commercial terms. No training. DPA included.</div>
+          <div class="spec-label">Claude Enterprise</div>
+          <div class="spec-value"><span class="tier-badge tier-4">Tier 4</span> <span class="price-tag">Custom</span> Commercial terms. SSO/SCIM. ZDR addendum available.</div>
+          <div class="spec-label">API (Sonnet 4.6)</div>
+          <div class="spec-value"><span class="tier-badge tier-3">Tier 3</span> <span class="price-tag">$3/$15 per M tokens</span> Commercial terms. No training. DPA auto-included. 7-day log retention.</div>
+          <div class="spec-label">API (Opus 4.6)</div>
+          <div class="spec-value"><span class="tier-badge tier-3">Tier 3</span> <span class="price-tag">$5/$25 per M tokens</span> Same protections. Most capable model.</div>
+          <div class="spec-label">API (Haiku 4.5)</div>
+          <div class="spec-value"><span class="tier-badge tier-3">Tier 3</span> <span class="price-tag">$1/$5 per M tokens</span> Fastest/cheapest. Same protections.</div>
+        </div>
+
+        <h4>Data protection details</h4>
+        <ul>
+          <li><strong>Training (consumer):</strong> Training on by default since Sept 28, 2025. Toggle off in Settings &rarr; Data Privacy Controls. Opted-out data retained 30 days. Opted-in data retained up to 5 years (de-identified).</li>
+          <li><strong>Training (commercial/API):</strong> NO training on customer data. Exception: voluntary Developer Partner Program opt-in.</li>
+          <li><strong>Feedback trap:</strong> Thumbs up/down feedback retained for 5 years even if you've opted out of general training. Feedback = consent to train on that conversation.</li>
+          <li><strong>DPA:</strong> Automatically included with commercial terms (Team, Enterprise, API). No separate signing needed. Includes EU SCCs.</li>
+          <li><strong>ZDR:</strong> Available for Enterprise accounts. Must request through sales. Immediate deletion after abuse checks.</li>
+          <li><strong>API log retention:</strong> 7 days (reduced from 30 days in Sept 2025).</li>
+          <li><strong>No advertising:</strong> No ads, no ad-supported tiers, no ad-targeting of any kind.</li>
+        </ul>
+
+        <h4>Claude Code &amp; Claude Cowork</h4>
+        <p><strong>Your login method determines your tier.</strong> Claude Code and Cowork authenticated with a consumer Pro/Max subscription follow Consumer Terms (Tier 1/2). Authenticated with an API key, they follow Commercial Terms (Tier 3). The product is the same &mdash; the legal framework changes based on how you log in. See <a href="agents.html" style="color:#2c5282;">Agents page</a> for full details.</p>
+
+        <div class="callout callout-yellow">
+          <strong>For MSPD:</strong> If you use Claude Pro/Max for case-related work, at minimum toggle training off (Settings &rarr; Data Privacy). Better: use an API key ($5-25/M tokens for the best model). Best: request Team or Enterprise plan with DPA.
+        </div>
+
+        <p style="font-size:0.78rem;color:#718096;margin-top:10px;">Sources: <a href="https://code.claude.com/docs/en/data-usage" target="_blank" style="color:#2c5282;">Claude Code Data Usage</a> &bull; <a href="https://privacy.claude.com/en/articles/7996868-is-my-data-used-for-model-training" target="_blank" style="color:#2c5282;">Training Policy</a> &bull; <a href="https://platform.claude.com/docs/en/about-claude/pricing" target="_blank" style="color:#2c5282;">API Pricing</a></p>
+      </div>
+    </div>
+
+    <!-- OPENAI -->
+    <div class="vendor-card">
+      <div class="vendor-header" onclick="toggleCard(this)">
+        <div class="vendor-title">OpenAI (ChatGPT)</div>
+        <div class="vendor-badges">
+          <span class="tier-badge tier-1">Tier 1-2</span>
+          <span class="tier-badge tier-3">Tier 3-4</span>
+        </div>
+        <div class="vendor-toggle">&#9654;</div>
+      </div>
+      <div class="vendor-body">
+        <h4>Products &amp; pricing</h4>
+        <div class="spec-grid">
+          <div class="spec-label">ChatGPT Free</div>
+          <div class="spec-value"><span class="tier-badge tier-1">Tier 1</span> Free. Training on. Now shows ads (since Feb 2026).</div>
+          <div class="spec-label">ChatGPT Plus</div>
+          <div class="spec-value"><span class="tier-badge tier-1">Tier 1</span> <span class="price-tag">$20/mo</span> Training on by default. No ads. Toggle "Improve the model" off for Tier 2.</div>
+          <div class="spec-label">ChatGPT Pro</div>
+          <div class="spec-value"><span class="tier-badge tier-2">Tier 2</span> <span class="price-tag">$200/mo</span> Training off by default. Access to o1 Pro mode. Consumer terms.</div>
+          <div class="spec-label">ChatGPT Team</div>
+          <div class="spec-value"><span class="tier-badge tier-3">Tier 3</span> <span class="price-tag">$25/seat/mo</span> Business terms. No training. Admin controls.</div>
+          <div class="spec-label">ChatGPT Enterprise</div>
+          <div class="spec-value"><span class="tier-badge tier-4">Tier 4</span> <span class="price-tag">Custom</span> SOC 2. SSO/SCIM. DPA. No training.</div>
+          <div class="spec-label">API (GPT-4o)</div>
+          <div class="spec-value"><span class="tier-badge tier-3">Tier 3</span> <span class="price-tag">$2.50/$10 per M tokens</span> No training. DPA available. 30-day log retention (can request ZDR).</div>
+        </div>
+
+        <h4>Key concern</h4>
+        <div class="callout callout-red">
+          <strong>Feedback trap applies here too.</strong> Even with "Improve the model" OFF and even in Temporary Chat mode, clicking thumbs up/down on a response causes that entire conversation to be retained for training.
+        </div>
+
+        <p style="font-size:0.78rem;color:#718096;margin-top:10px;">Sources: <a href="https://help.openai.com/en/articles/7730893-data-controls-faq" target="_blank" style="color:#2c5282;">Data Controls FAQ</a> &bull; <a href="https://openai.com/enterprise-privacy/" target="_blank" style="color:#2c5282;">Enterprise Privacy</a></p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============================================ -->
+  <!-- LEGAL-SPECIFIC AI VENDORS -->
+  <!-- ============================================ -->
+  <div class="category-header">Legal AI Vendors</div>
+  <p style="font-size:0.83rem;color:#4a5568;margin-bottom:14px;">Tools built specifically for legal work. Generally safer because they start with legal data protection requirements, but pricing reflects the enterprise market.</p>
+
+  <section>
+
+    <!-- COCOUNSEL -->
+    <div class="vendor-card">
+      <div class="vendor-header" onclick="toggleCard(this)">
+        <div class="vendor-title">CoCounsel / Westlaw (Thomson Reuters)</div>
+        <div class="vendor-badges">
+          <span class="tier-badge tier-4">Tier 4</span>
+        </div>
+        <div class="vendor-toggle">&#9654;</div>
+      </div>
+      <div class="vendor-body">
+        <div class="spec-grid">
+          <div class="spec-label">CoCounsel Core</div>
+          <div class="spec-value"><span class="price-tag">~$225/user/mo</span> AI for document work. Volume discounts available.</div>
+          <div class="spec-label">CoCounsel Legal</div>
+          <div class="spec-value"><span class="price-tag">Custom (multiyear)</span> Agentic AI + Deep Research. Launched Aug 2025. Bundled with new Westlaw.</div>
+          <div class="spec-label">Westlaw Precision</div>
+          <div class="spec-value"><span class="price-tag">$78-381/mo</span> (flat rate; custom for 7+ attorneys). CoCounsel can be bundled.</div>
+          <div class="spec-label">Training</div>
+          <div class="spec-value">No. Data not used for model training.</div>
+          <div class="spec-label">DPA/ZDR</div>
+          <div class="spec-value">DPA available. ZDR with OpenAI backend.</div>
+          <div class="spec-label">Certifications</div>
+          <div class="spec-value">SOC 2 Type II, ISO 27001.</div>
+          <div class="spec-label">Model</div>
+          <div class="spec-value">GPT-4 (OpenAI partnership) + proprietary legal models. Grounded in Westlaw database.</div>
+          <div class="spec-label">Target market</div>
+          <div class="spec-value">All firm sizes through Westlaw integration. 1M+ users as of Feb 2026.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LEXIS+ PROTEGE -->
+    <div class="vendor-card">
+      <div class="vendor-header" onclick="toggleCard(this)">
+        <div class="vendor-title">Lexis+ with Protege (LexisNexis)</div>
+        <div class="vendor-badges">
+          <span class="tier-badge tier-4">Tier 4</span>
+        </div>
+        <div class="vendor-toggle">&#9654;</div>
+      </div>
+      <div class="vendor-body">
+        <div class="spec-grid">
+          <div class="spec-label">Pricing</div>
+          <div class="spec-value"><span class="price-tag">Contact sales</span> Bundled with Lexis+ subscription. Negotiated per-seat.</div>
+          <div class="spec-label">Product</div>
+          <div class="spec-value">Replaced Lexis+ AI in Feb 2026. End-to-end workflow platform: research, drafting, analysis. Shepard's-grounded citations.</div>
+          <div class="spec-label">Training</div>
+          <div class="spec-value">No. Data not used for model training.</div>
+          <div class="spec-label">DPA/ZDR</div>
+          <div class="spec-value">DPA available. Enterprise data protections.</div>
+          <div class="spec-label">Certifications</div>
+          <div class="spec-value">SOC 2, ISO 27001.</div>
+          <div class="spec-label">Model</div>
+          <div class="spec-value">Multi-model approach (multiple providers). Also partnered with Harvey AI (June 2025).</div>
+          <div class="spec-label">Target market</div>
+          <div class="spec-value">All firm sizes through LexisNexis ecosystem. Global rollout throughout 2026.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HARVEY -->
+    <div class="vendor-card">
+      <div class="vendor-header" onclick="toggleCard(this)">
+        <div class="vendor-title">Harvey AI</div>
+        <div class="vendor-badges">
+          <span class="tier-badge tier-4">Tier 4</span>
+        </div>
+        <div class="vendor-toggle">&#9654;</div>
+      </div>
+      <div class="vendor-body">
+        <div class="spec-grid">
+          <div class="spec-label">Pricing</div>
+          <div class="spec-value"><span class="price-tag">~$100-500/user/mo</span> Enterprise only. 25-50+ seat minimums. $30K-$300K+ annual contracts. No public pricing, no self-serve, no free trial.</div>
+          <div class="spec-label">Training</div>
+          <div class="spec-value">No. ZDR. Data not used for model training.</div>
+          <div class="spec-label">DPA/ZDR</div>
+          <div class="spec-value">DPA and ZDR available.</div>
+          <div class="spec-label">Certifications</div>
+          <div class="spec-value">SOC 2 Type II.</div>
+          <div class="spec-label">Model</div>
+          <div class="spec-value">Custom models on GPT-4 base + proprietary fine-tuning. Anthropic partnership announced.</div>
+          <div class="spec-label">Target market</div>
+          <div class="spec-value">BigLaw exclusively (A&amp;O Shearman, PwC, etc.). Not accessible to solo/small firms or public defenders.</div>
+        </div>
+
+        <div class="callout callout-yellow">
+          <strong>Not realistic for MSPD or small firms.</strong> Harvey's minimum contract is $30K+/year with 25+ seats. Strong data protections but priced for AmLaw 100.
+        </div>
+      </div>
+    </div>
+
+    <!-- VLEX / VINCENT -->
+    <div class="vendor-card">
+      <div class="vendor-header" onclick="toggleCard(this)">
+        <div class="vendor-title">vLex / Vincent AI</div>
+        <div class="vendor-badges">
+          <span class="tier-badge tier-3">Tier 3-4</span>
+        </div>
+        <div class="vendor-toggle">&#9654;</div>
+      </div>
+      <div class="vendor-body">
+        <div class="spec-grid">
+          <div class="spec-label">Pricing</div>
+          <div class="spec-value"><span class="price-tag">$399/mo</span> Single user. Volume discounts. Owned by Clio.</div>
+          <div class="spec-label">Product</div>
+          <div class="spec-value">AI legal research over 130M+ documents. Case analysis, summarization, document drafting.</div>
+          <div class="spec-label">Training</div>
+          <div class="spec-value">No. Explicit ZDR. Data not used for model training.</div>
+          <div class="spec-label">DPA</div>
+          <div class="spec-value">Available.</div>
+          <div class="spec-label">Model</div>
+          <div class="spec-value">GPT-4 + proprietary "Vincent" models.</div>
+          <div class="spec-label">Target market</div>
+          <div class="spec-value">Mid-size to large firms. 8 of 10 top global law firms. Academic/research.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAXTON -->
+    <div class="vendor-card">
+      <div class="vendor-header" onclick="toggleCard(this)">
+        <div class="vendor-title">Paxton AI</div>
+        <div class="vendor-badges">
+          <span class="tier-badge tier-3">Tier 3</span>
+        </div>
+        <div class="vendor-toggle">&#9654;</div>
+      </div>
+      <div class="vendor-body">
+        <div class="spec-grid">
+          <div class="spec-label">Student Plan</div>
+          <div class="spec-value"><span class="price-tag">$25-29/user/mo</span></div>
+          <div class="spec-label">Professional Plan</div>
+          <div class="spec-value"><span class="price-tag">$159-199/user/mo</span></div>
+          <div class="spec-label">Enterprise</div>
+          <div class="spec-value"><span class="price-tag">Custom</span></div>
+          <div class="spec-label">Training</div>
+          <div class="spec-value">No. Data not used for model training.</div>
+          <div class="spec-label">DPA</div>
+          <div class="spec-value">Available on request.</div>
+          <div class="spec-label">Certifications</div>
+          <div class="spec-value">SOC 2, ISO 27001.</div>
+          <div class="spec-label">Model</div>
+          <div class="spec-value">GPT-4 and Claude models.</div>
+          <div class="spec-label">Criminal defense</div>
+          <div class="spec-value">Specific criminal defense features: motions to suppress, sentencing memos, police report analysis, discovery review. Reports 50-70% reduction in drafting time.</div>
+          <div class="spec-label">Target market</div>
+          <div class="spec-value">Solo practitioners, small firms, public defenders.</div>
+        </div>
+
+        <div class="callout callout-green">
+          <strong>Worth evaluating for MSPD.</strong> Most affordable dedicated legal AI tool with criminal defense-specific features. At $159/mo, significantly cheaper than CoCounsel ($225/mo) or vLex ($399/mo).
+        </div>
+      </div>
+    </div>
+
+    <!-- CLIO DUO -->
+    <div class="vendor-card">
+      <div class="vendor-header" onclick="toggleCard(this)">
+        <div class="vendor-title">Clio Duo</div>
+        <div class="vendor-badges">
+          <span class="tier-badge tier-3">Tier 3</span>
+        </div>
+        <div class="vendor-toggle">&#9654;</div>
+      </div>
+      <div class="vendor-body">
+        <div class="spec-grid">
+          <div class="spec-label">Pricing</div>
+          <div class="spec-value"><span class="price-tag">~$39/user/mo</span> Add-on or included in top-tier Clio Manage plan.</div>
+          <div class="spec-label">Product</div>
+          <div class="spec-value">AI assistant within Clio practice management. Drafts, summarizes, searches across matters.</div>
+          <div class="spec-label">Training</div>
+          <div class="spec-value">No. Data not used for model training.</div>
+          <div class="spec-label">DPA</div>
+          <div class="spec-value">Available. Powered by Azure OpenAI (Microsoft's enterprise API, not consumer OpenAI).</div>
+          <div class="spec-label">Certifications</div>
+          <div class="spec-value">SOC 2 Type II.</div>
+          <div class="spec-label">Target market</div>
+          <div class="spec-value">Solo and small firms (Clio's core market).</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WEXLER -->
+    <div class="vendor-card">
+      <div class="vendor-header" onclick="toggleCard(this)">
+        <div class="vendor-title">WexlerAI (UK)</div>
+        <div class="vendor-badges">
+          <span class="tier-badge tier-3">Tier 3</span>
+        </div>
+        <div class="vendor-toggle">&#9654;</div>
+      </div>
+      <div class="vendor-body">
+        <div class="spec-grid">
+          <div class="spec-label">Pricing</div>
+          <div class="spec-value"><span class="price-tag">Contact sales</span> Enterprise contracts. Raised $5.3M seed (Sept 2025).</div>
+          <div class="spec-label">Product</div>
+          <div class="spec-value">AI-powered litigation platform. eDiscovery, document review, real-time fact-checking of live testimony (depositions/hearings). Processes up to 500K documents per upload.</div>
+          <div class="spec-label">Training</div>
+          <div class="spec-value">No. Data not used for model training.</div>
+          <div class="spec-label">Compliance</div>
+          <div class="spec-value">UK/EU GDPR compliant. Further certifications not published.</div>
+          <div class="spec-label">Target market</div>
+          <div class="spec-value">Large firms globally. 70%+ of users in U.S. despite UK headquarters. Rapid expansion (20x ARR growth since pre-seed).</div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============================================ -->
+  <!-- TRANSCRIPTION & EVIDENCE VENDORS -->
+  <!-- ============================================ -->
+  <div class="category-header">Transcription &amp; Evidence Tools</div>
+
+  <section>
+
+    <!-- REDUCT -->
+    <div class="vendor-card">
+      <div class="vendor-header" onclick="toggleCard(this)">
+        <div class="vendor-title">Reduct</div>
+        <div class="vendor-badges">
+          <span class="tier-badge tier-3">Tier 3</span>
+        </div>
+        <div class="vendor-toggle">&#9654;</div>
+      </div>
+      <div class="vendor-body">
+        <div class="spec-grid">
+          <div class="spec-label">Pricing</div>
+          <div class="spec-value"><span class="price-tag">Contact sales</span> MSPD has an enterprise agreement in place.</div>
+          <div class="spec-label">Product</div>
+          <div class="spec-value">Video + audio transcription with AI summarization. Searchable transcripts linked to timestamps. Click any word to jump to that moment in the video. Redaction tools for exhibits.</div>
+          <div class="spec-label">Training</div>
+          <div class="spec-value">No. Data never used for training.</div>
+          <div class="spec-label">Certifications</div>
+          <div class="spec-value">SOC 2, HIPAA compliant.</div>
+          <div class="spec-label">Best for</div>
+          <div class="spec-value">Jail call transcription, BWC footage analysis, interview recordings. Handles video natively (no audio conversion required).</div>
+        </div>
+
+        <div class="callout callout-green">
+          <strong>MSPD recommended tool for audio/video transcription.</strong> Enterprise agreement already in place. Accepts video files directly. See <a href="use-cases.html" style="color:#065f46;">Use Cases</a> for workflow details.
+        </div>
+      </div>
+    </div>
+
+    <!-- JUSTICETEXT -->
+    <div class="vendor-card">
+      <div class="vendor-header" onclick="toggleCard(this)">
+        <div class="vendor-title">JusticeText</div>
+        <div class="vendor-badges">
+          <span class="tier-badge tier-3">Tier 3</span>
+        </div>
+        <div class="vendor-toggle">&#9654;</div>
+      </div>
+      <div class="vendor-body">
+        <div class="spec-grid">
+          <div class="spec-label">Pricing</div>
+          <div class="spec-value"><span class="price-tag">Contact sales</span> Public defender pricing/discounts available.</div>
+          <div class="spec-label">Product</div>
+          <div class="spec-value">AI transcription and analysis of BWC footage, police interviews, court recordings. Timestamped clips, annotation tools.</div>
+          <div class="spec-label">Training</div>
+          <div class="spec-value">No. Built for sensitive criminal case data.</div>
+          <div class="spec-label">Compliance</div>
+          <div class="spec-value">CJIS compliant. Designed specifically for criminal defense workflow.</div>
+          <div class="spec-label">Target market</div>
+          <div class="spec-value">Public defenders and criminal defense attorneys. Purpose-built for defense.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EVERLAW -->
+    <div class="vendor-card">
+      <div class="vendor-header" onclick="toggleCard(this)">
+        <div class="vendor-title">Everlaw</div>
+        <div class="vendor-badges">
+          <span class="tier-badge tier-4">Tier 4</span>
+        </div>
+        <div class="vendor-toggle">&#9654;</div>
+      </div>
+      <div class="vendor-body">
+        <div class="spec-grid">
+          <div class="spec-label">Pricing</div>
+          <div class="spec-value"><span class="price-tag">Contact sales</span> Enterprise pricing. Per-GB or per-seat depending on deployment.</div>
+          <div class="spec-label">Product</div>
+          <div class="spec-value">E-discovery platform with AI-powered document review, predictive coding, AI assistant.</div>
+          <div class="spec-label">Training</div>
+          <div class="spec-value">No. ZDR.</div>
+          <div class="spec-label">Certifications</div>
+          <div class="spec-value">SOC 2 Type II, ISO 27001, FedRAMP Authorized, HIPAA compliant.</div>
+          <div class="spec-label">DPA</div>
+          <div class="spec-value">Available.</div>
+          <div class="spec-label">Target market</div>
+          <div class="spec-value">Mid-size to BigLaw. Government agencies. Corporate legal departments.</div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============================================ -->
+  <!-- PRICING COMPARISON -->
+  <!-- ============================================ -->
+  <h2 class="section-title">Pricing Comparison</h2>
+  <p style="font-size:0.83rem;color:#4a5568;margin-bottom:14px;">What does ethical AI cost? Less than you think, if you already pay for M365 or Google Workspace.</p>
+
+  <div class="table-scroll">
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Tool</th>
+          <th>Monthly Cost</th>
+          <th>Tier</th>
+          <th>Best For</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="background:#ecfdf5;">
+          <td><strong>Google Workspace Business Starter</strong></td>
+          <td>$7/user/mo</td>
+          <td><span class="tier-badge tier-4">Tier 4</span></td>
+          <td>Cheapest path to Tier 4 AI (Gmail, Docs, Sheets)</td>
+        </tr>
+        <tr>
+          <td><strong>Anthropic API (Haiku 4.5)</strong></td>
+          <td>~$1-5/mo (light use)</td>
+          <td><span class="tier-badge tier-3">Tier 3</span></td>
+          <td>Cheapest API option for developers</td>
+        </tr>
+        <tr>
+          <td><strong>Claude Team</strong></td>
+          <td>$25/seat/mo</td>
+          <td><span class="tier-badge tier-3">Tier 3</span></td>
+          <td>Small teams needing Claude with DPA</td>
+        </tr>
+        <tr>
+          <td><strong>M365 Copilot add-on</strong></td>
+          <td>$30/user/mo (on top of M365)</td>
+          <td><span class="tier-badge tier-4">Tier 4</span></td>
+          <td>Offices already on Microsoft 365</td>
+        </tr>
+        <tr>
+          <td><strong>Clio Duo</strong></td>
+          <td>~$39/user/mo add-on</td>
+          <td><span class="tier-badge tier-3">Tier 3</span></td>
+          <td>Firms already on Clio</td>
+        </tr>
+        <tr>
+          <td><strong>Paxton AI (Professional)</strong></td>
+          <td>$159-199/user/mo</td>
+          <td><span class="tier-badge tier-3">Tier 3</span></td>
+          <td>Criminal defense solo/small firms</td>
+        </tr>
+        <tr>
+          <td><strong>CoCounsel Core</strong></td>
+          <td>~$225/user/mo</td>
+          <td><span class="tier-badge tier-4">Tier 4</span></td>
+          <td>Westlaw users wanting AI research</td>
+        </tr>
+        <tr>
+          <td><strong>vLex / Vincent AI</strong></td>
+          <td>$399/mo</td>
+          <td><span class="tier-badge tier-3">Tier 3-4</span></td>
+          <td>Deep legal research (130M+ docs)</td>
+        </tr>
+        <tr>
+          <td><strong>Harvey AI</strong></td>
+          <td>$100-500/user/mo (enterprise only)</td>
+          <td><span class="tier-badge tier-4">Tier 4</span></td>
+          <td>BigLaw only</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout-blue" style="margin-top:14px;">
+    <strong>The math for MSPD:</strong> You likely already pay for Microsoft 365. Adding Copilot at $30/user/month gets you Tier 4 AI across Word, Outlook, Teams, and Excel with zero compliance headaches. For transcription, you already have Reduct. For legal research AI specifically, Paxton ($159/mo) is the most affordable option with criminal defense features. Google Workspace Business Starter ($7/mo) is the cheapest Tier 4 option if you're starting fresh.
+  </div>
+
+  <!-- ============================================ -->
+  <!-- WHAT TO ASK A VENDOR -->
+  <!-- ============================================ -->
+  <h2 class="section-title">What to Ask Any AI Vendor</h2>
+  <p style="font-size:0.83rem;color:#4a5568;margin-bottom:10px;">Missouri Opinion 2024-11 requires you to assess the terms of service, security of inputs, and data sources. Use this checklist when evaluating any AI tool for legal work:</p>
+
+  <div class="spec-grid" style="margin-bottom:20px;">
+    <div class="spec-label">1. Training</div>
+    <div class="spec-value">Do you train on my data? Can I opt out? Does opting out actually work (or do you retain data anyway for "product improvement")?</div>
+    <div class="spec-label">2. DPA</div>
+    <div class="spec-value">Do you offer a Data Processing Agreement? Is it automatically included or do I need to request it?</div>
+    <div class="spec-label">3. Retention</div>
+    <div class="spec-value">How long do you retain my prompts and responses? What is the retention period for logs? Is ZDR available?</div>
+    <div class="spec-label">4. Feedback</div>
+    <div class="spec-value">If I provide feedback (thumbs up/down), does that conversation get retained for training even if I've opted out?</div>
+    <div class="spec-label">5. Human review</div>
+    <div class="spec-value">Can your employees read my conversations? Under what circumstances? Safety review only, or general product improvement?</div>
+    <div class="spec-label">6. Subprocessors</div>
+    <div class="spec-value">What third-party AI models do you use? What are their data protections? (If a legal AI tool uses OpenAI's API, what are OpenAI's terms?)</div>
+    <div class="spec-label">7. Certifications</div>
+    <div class="spec-value">SOC 2? ISO 27001? HIPAA? FedRAMP? What independent audits have you completed?</div>
+    <div class="spec-label">8. Legal process</div>
+    <div class="spec-value">Will you notify me before responding to a subpoena or government data request? (Most vendors have carve-outs for law enforcement requests without notification.)</div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>Pricing current as of March 2026. Verify directly with vendors before purchasing decisions. Not legal advice.</p>
+    <p style="margin-top:6px;">See the <a href="risk-matrix.html">Risk Matrix</a> for the full tier framework. See <a href="agents.html">Agents</a> for Claude Code and Cowork details.</p>
+    <p class="footer-meta" style="margin-top:6px;">Part of the AI Ethics &amp; Practical Use Training Site &mdash; Built with Claude Code &mdash; 2026</p>
+  </div>
+
+</div>
+
+<script>
+function toggleCard(header) {
+  const card = header.closest('.vendor-card');
+  card.classList.toggle('open');
+}
+</script>
+
+</body>
+</html>
