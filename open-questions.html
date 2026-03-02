@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Open Questions — Risks Not Yet Resolved</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: #f8f9fa;
+    color: #1a1a2e;
+    line-height: 1.5;
+    font-size: 15px;
+  }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 16px 20px; }
+
+  /* Header */
+  .header {
+    background: #1a1a2e;
+    color: #fff;
+    padding: 20px 0;
+    margin-bottom: 16px;
+  }
+  .header-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .header h1 { font-size: 1.4rem; font-weight: 600; }
+  .header .subtitle { font-size: 0.85rem; color: #a0aec0; margin-top: 4px; }
+  .header-meta { font-size: 0.75rem; color: #a0aec0; text-align: right; line-height: 1.4; }
+
+  /* Navigation */
+  .site-nav {
+    background: #2d3748;
+    padding: 0;
+    border-bottom: 2px solid #4a5568;
+  }
+  .site-nav-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    gap: 0;
+    flex-wrap: wrap;
+  }
+  .site-nav a {
+    color: #a0aec0;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 10px 16px;
+    display: block;
+    transition: all 0.15s;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+  }
+  .site-nav a:hover { color: #fff; background: rgba(255,255,255,0.05); }
+  .site-nav a.active { color: #fff; border-bottom-color: #4299e1; background: rgba(255,255,255,0.05); }
+
+  /* Section titles */
+  .section-title {
+    font-size: 1rem; font-weight: 600; margin-bottom: 14px;
+    padding-bottom: 8px; border-bottom: 2px solid #e2e8f0;
+    color: #1a1a2e;
+  }
+
+  section { margin-bottom: 28px; }
+
+  /* Intro */
+  .intro {
+    font-size: 0.88rem;
+    color: #4a5568;
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+
+  /* Question card */
+  .q-card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 18px 22px;
+    margin-bottom: 14px;
+  }
+  .q-card h3 {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 8px;
+  }
+  .q-card p, .q-card li {
+    font-size: 0.85rem;
+    color: #4a5568;
+    line-height: 1.7;
+  }
+  .q-card p + p { margin-top: 8px; }
+  .q-card ul { margin: 8px 0 0 20px; }
+  .q-card li { margin-bottom: 5px; }
+  .q-card a { color: #2c5282; text-decoration: none; }
+  .q-card a:hover { text-decoration: underline; }
+  .q-card strong { color: #1a1a2e; }
+  .q-card em { color: #718096; font-style: italic; }
+
+  /* Status badges */
+  .status {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 2px 10px;
+    border-radius: 10px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+  .status-open { background: #fee2e2; color: #991b1b; }
+  .status-partial { background: #fef3c7; color: #92400e; }
+  .status-emerging { background: #eff6ff; color: #1e40af; }
+
+  /* Rule tag */
+  .rule-tag {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: #f3f4f6;
+    color: #4b5563;
+    margin-right: 4px;
+  }
+
+  /* Callouts */
+  .callout-yellow {
+    background: #fef3c7;
+    border-left: 4px solid #d97706;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 10px 0;
+    font-size: 0.83rem;
+    color: #92400e;
+    line-height: 1.6;
+  }
+  .callout-blue {
+    background: #eff6ff;
+    border-left: 4px solid #3b82f6;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 10px 0;
+    font-size: 0.83rem;
+    color: #1e40af;
+    line-height: 1.6;
+  }
+
+  /* Cross-links */
+  .cross-links {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-top: 28px;
+  }
+  .cross-links h3 {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #1e40af;
+    margin-bottom: 10px;
+  }
+  .cross-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .cross-links li { margin: 0; }
+  .cross-links a {
+    display: inline-block;
+    background: #fff;
+    border: 1px solid #93c5fd;
+    border-radius: 4px;
+    padding: 6px 14px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #2c5282;
+    text-decoration: none;
+    transition: all 0.15s;
+  }
+  .cross-links a:hover {
+    background: #2c5282;
+    color: #fff;
+    border-color: #2c5282;
+  }
+
+  /* Footer */
+  .footer {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 16px;
+    margin-top: 24px;
+    font-size: 0.78rem;
+    color: #718096;
+    line-height: 1.6;
+  }
+  .footer a { color: #2c5282; text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .header-meta { display: none; }
+    .site-nav a { padding: 8px 10px; font-size: 0.75rem; }
+    .q-card { padding: 14px 16px; }
+    .cross-links ul { flex-direction: column; }
+  }
+  @media (max-width: 480px) {
+    .container { padding: 12px; }
+    .site-nav-inner { gap: 0; }
+    .site-nav a { padding: 8px 8px; font-size: 0.72rem; }
+    .q-card { padding: 12px; }
+  }
+
+  /* Print */
+  @media print {
+    body { background: #fff; font-size: 12px; }
+    .header { background: #1a1a2e !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .site-nav, .cross-links { display: none !important; }
+    .container { max-width: 100%; }
+    .q-card { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div>
+      <h1>Open Questions</h1>
+      <div class="subtitle">Risks and Obligations Not Yet Resolved</div>
+    </div>
+    <div class="header-meta">Built with Claude Code<br>2026</div>
+  </div>
+</div>
+
+<nav class="site-nav">
+  <div class="site-nav-inner">
+    <a href="index.html">Home</a>
+    <a href="risk-matrix.html">Risk Matrix</a>
+    <a href="use-cases.html">Use Cases</a>
+    <a href="agents.html">Agents</a>
+    <a href="prompting-library.html">Prompts</a>
+    <a href="ethics-opinions.html">Ethics Opinions</a>
+    <a href="vendor-details.html">Vendor Details</a>
+    <a href="glossary.html">Glossary</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <div style="background:#fef3c7;border:1px solid #d97706;border-radius:6px;padding:10px 14px;margin-bottom:16px;font-size:0.8rem;color:#92400e;line-height:1.5;">
+    <strong>Training content &mdash; not maintained.</strong> These are genuinely unresolved questions as of March 2026. They are presented for discussion, not as answers. If you have thoughts, bring them up.
+  </div>
+
+  <p class="intro">The <a href="risk-matrix.html">Risk Matrix</a> gives you a framework for the questions that have clear answers. This page collects the questions that don't &mdash; yet. These are real issues that practicing attorneys will encounter, and no bar opinion, court ruling, or vendor policy has fully addressed them.</p>
+
+  <!-- ============================================ -->
+  <!-- CLIENT FILE & RETENTION -->
+  <!-- ============================================ -->
+  <section>
+    <h2 class="section-title">Client File &amp; Retention</h2>
+
+    <div class="q-card">
+      <h3>Are AI chat logs part of the client file? <span class="status status-open">Open</span></h3>
+      <p><span class="rule-tag">Rule 1.16(d)</span> <span class="rule-tag">Rule 1.15</span> When you use AI to draft a motion, analyze discovery, or develop case strategy, the resulting chat log may contain work product, attorney mental impressions, and privileged communications. When the representation ends, Rule 1.16(d) requires you to deliver the client's file.</p>
+      <ul>
+        <li><strong>Is the AI chat log part of that file?</strong> No bar opinion has addressed this directly. But if a chat contains the substantive reasoning behind a legal strategy, it's hard to argue it isn't.</li>
+        <li><strong>What about intermediate work?</strong> Not every brainstorming session with AI is a "document." But some chats will be indistinguishable from a memo to the file.</li>
+        <li><strong>What if the client requests their file?</strong> You'd need to produce or reconstruct those chats. Can you?</li>
+      </ul>
+    </div>
+
+    <div class="q-card">
+      <h3>How do you capture and preserve AI chat logs? <span class="status status-partial">Partially Answered</span></h3>
+      <p>If chats are part of the file, you need a system for preserving them. The options depend on your tier:</p>
+      <ul>
+        <li><strong>Consumer (Tier 1-2):</strong> <a href="https://help.openai.com/en/articles/7730893-data-controls-faq" target="_blank" rel="noopener">ChatGPT lets you export chat history</a> (Settings > Data Controls > Export). Claude lets you copy individual conversations. Gemini has a Google Takeout export. These exports are JSON or markdown &mdash; not exactly client-file-ready.</li>
+        <li><strong>API (Tier 3):</strong> Logs are retained <a href="https://privacy.claude.com/en/articles/10023548-how-long-do-you-store-my-data" target="_blank" rel="noopener">7-30 days by the provider</a>, then deleted. If you need a record, you must capture it yourself at the application layer. Tools like Open WebUI or Cursor don't automatically save a permanent log.</li>
+        <li><strong>Enterprise (Tier 4):</strong> <a href="https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-privacy" target="_blank" rel="noopener">M365 Copilot interactions</a> are governed by your tenant's retention policies and can be placed on legal hold via Microsoft Purview. Google Workspace has Vault for eDiscovery. These are the only tiers with real retention infrastructure.</li>
+      </ul>
+      <div class="callout-yellow">
+        <strong>The gap:</strong> At Tier 3 (the tier this site recommends for client work), there is no automatic retention. If you're using the Anthropic API with a 7-day log window, your work product disappears after a week unless you save it. No one has a good system for this yet.
+      </div>
+    </div>
+
+    <div class="q-card">
+      <h3>Are AI chat transcripts discoverable as attorney work product? <span class="status status-emerging">Emerging Law</span></h3>
+      <p><span class="rule-tag">FRCP 26(b)(3)</span> <a href="heppner.html"><em>Heppner</em></a> held that a client's consumer AI chats are not work product because the client wasn't acting at counsel's direction. But what about an attorney's own AI chats? If you use Claude to draft a motion to suppress, is that chat log &mdash; which contains your mental impressions about case strategy &mdash; protected work product?</p>
+      <ul>
+        <li><strong>At Tier 3-4:</strong> Probably yes, because there's a contractual expectation of confidentiality (DPA). But no court has ruled on this.</li>
+        <li><strong>At Tier 1-2:</strong> <em>Heppner's</em> reasoning suggests no &mdash; consumer ToS destroy the confidentiality that work-product protection presupposes.</li>
+        <li><strong>The question no one has asked:</strong> If you don't preserve the chat log, and opposing counsel asks for it in discovery, is failure to preserve it a spoliation issue?</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- INFORMED CONSENT -->
+  <!-- ============================================ -->
+  <section>
+    <h2 class="section-title">Informed Consent</h2>
+
+    <div class="q-card">
+      <h3>When is informed consent required for AI use? <span class="status status-partial">Partially Answered</span></h3>
+      <p><span class="rule-tag">Rule 1.6</span> <span class="rule-tag">Rule 1.4</span> <a href="https://www.americanbar.org/content/dam/aba/administrative/professional_responsibility/ethics-opinions/aba-formal-opinion-512.pdf" target="_blank" rel="noopener">ABA Formal Opinion 512</a> says informed consent is required before inputting client information into a "self-learning" AI tool (one that trains on your data). But the opinion goes further:</p>
+      <ul>
+        <li><strong>Consent must be specific, not boilerplate.</strong> A blanket statement in an engagement letter ("we may use AI tools") is not enough. The client needs to know which tool, what data, and what risks.</li>
+        <li><strong>Consent must reflect your best judgment.</strong> You need to explain why you're using AI, what specific client information will be disclosed, how others might use the information against the client, and what benefits AI provides to the representation.</li>
+        <li><strong>Even when consent isn't required, communication may be.</strong> Rule 1.4(a)(2) requires you to "reasonably consult" with the client about the means of representation. If AI substantially shapes a strategy decision, the client should know.</li>
+      </ul>
+      <div class="callout-blue">
+        <strong>Missouri's position (Informal Opinion 2024-11):</strong> More moderate than ABA 512. Does not require blanket AI disclosure. Case-by-case. But requires lawyers to assess vendor terms before using AI with client data &mdash; the tier framework operationalizes exactly this.
+      </div>
+    </div>
+
+    <div class="q-card">
+      <h3>At what sensitivity level is consent required? <span class="status status-open">Open</span></h3>
+      <p>The tier framework uses three sensitivity levels: Low (general research), Medium (de-identified client data), High (identifiable client data). ABA 512 triggers informed consent when client information is "inputted" into a self-learning tool. But what about:</p>
+      <ul>
+        <li><strong>Low sensitivity, Tier 1:</strong> "What's the standard for a motion to suppress in Missouri?" No client data. No consent needed. Clear.</li>
+        <li><strong>Medium sensitivity, Tier 3:</strong> You paste a de-identified police report into Claude via API. No training, DPA in place. Do you need consent? ABA 512's language targets "self-learning" tools, which Tier 3 is not. But Rule 1.6 requires "reasonable efforts" to prevent unauthorized disclosure, and you're still sending data to a third party.</li>
+        <li><strong>High sensitivity, Tier 3:</strong> You paste an unredacted police report into Claude via API. Same DPA, same no-training, but now there are real names. Consent seems clearly required here. But what does "informed" look like for a client who doesn't understand what an API is?</li>
+        <li><strong>High sensitivity, Tier 4:</strong> You use M365 Copilot to summarize a case file. Data stays in your tenant. Is this meaningfully different from using any other M365 feature? Does the AI layer add a consent obligation that Word alone doesn't?</li>
+      </ul>
+    </div>
+
+    <div class="q-card">
+      <h3>Does client consent cover third-party information? <span class="status status-open">Open</span></h3>
+      <p><span class="rule-tag">Rule 1.6</span> <span class="rule-tag">Rule 3.4</span> A client can consent to the use of <em>their own</em> information. But a typical AI prompt for case work contains much more than client data:</p>
+      <ul>
+        <li><strong>Witness names and statements</strong></li>
+        <li><strong>Victim information</strong> (including details protected by statute in some jurisdictions)</li>
+        <li><strong>Co-defendant information</strong> (which may be subject to joint defense agreements)</li>
+        <li><strong>Officer names and badge numbers</strong></li>
+        <li><strong>Informant information</strong> (potentially protected under Roviaro or state equivalents)</li>
+      </ul>
+      <p>Your client can waive their own privilege. They cannot waive other people's privacy. If you paste an unredacted police report into an AI tool, the client's consent covers the client's data &mdash; but what about the victim's name, the witness's address, the informant's identity?</p>
+      <div class="callout-yellow">
+        <strong>No bar opinion addresses this.</strong> At Tier 3-4 with a DPA, the vendor is a data processor acting on your behalf &mdash; similar to a paralegal or an expert. The third-party data is handled under the same confidentiality obligations. At Tier 1-2, the vendor may be a data controller, and the confidentiality framework is weaker. The safest approach is to redact third-party identifying information regardless of tier, but this may not be practical for all workflows.
+      </div>
+    </div>
+
+    <div class="q-card">
+      <h3>Does AI use need to be disclosed in court filings? <span class="status status-partial">Partially Answered</span></h3>
+      <p>Several courts now require disclosure of AI use in filings. The landscape varies:</p>
+      <ul>
+        <li><strong>Some courts:</strong> Standing orders requiring disclosure of AI-assisted drafting (mainly in response to Mata v. Avianca-type hallucination cases)</li>
+        <li><strong><a href="https://www.americanbar.org/content/dam/aba/administrative/professional_responsibility/ethics-opinions/aba-formal-opinion-512.pdf" target="_blank" rel="noopener">ABA 512</a>:</strong> Disclosure may be required when the court has ordered it, when AI output influences a significant decision, or when opposing counsel asks</li>
+        <li><strong>Missouri:</strong> No statewide AI disclosure requirement as of March 2026. Check individual judges' standing orders.</li>
+        <li><strong>The practical question:</strong> If you use AI to research case law and then verify every citation yourself, is that "AI-assisted"? Where's the line between using AI and using a search engine?</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- MEMORY & CROSS-CONTAMINATION -->
+  <!-- ============================================ -->
+  <section>
+    <h2 class="section-title">Memory &amp; Cross-Contamination</h2>
+
+    <div class="q-card">
+      <h3>Can AI memory create a conflict of interest? <span class="status status-open">Open</span></h3>
+      <p><span class="rule-tag">Rule 1.7</span> <span class="rule-tag">Rule 1.6</span> If ChatGPT Memory or Claude Memory retains facts from Client A's case and surfaces them during work on Client B's case, is that a Rule 1.7 conflict? The AI isn't "adverse" to either client, but it's using one client's confidential information in the context of another client's matter.</p>
+      <ul>
+        <li>This is different from an attorney remembering facts &mdash; an attorney has ethical obligations that constrain how they use information. An AI tool has no such constraints.</li>
+        <li>At Tier 3 (API), memory isn't a concern because each call is stateless. At consumer tiers with memory on, it is.</li>
+        <li>No bar opinion addresses AI memory as a conflict-of-interest mechanism.</li>
+      </ul>
+    </div>
+
+    <div class="q-card">
+      <h3>Project isolation exists &mdash; is it good enough? <span class="status status-emerging">Emerging Feature</span></h3>
+      <p>Both ChatGPT and Claude now offer project-level memory isolation:</p>
+      <ul>
+        <li><strong><a href="https://help.openai.com/en/articles/10169521-projects-in-chatgpt" target="_blank" rel="noopener">ChatGPT Projects</a></strong> (Aug 2025): Project-only memory creates isolated workspaces. Conversations within a project build context over time, but memories don't leak to other projects or your general chat. <a href="https://www.techradar.com/ai-platforms-assistants/chatgpt/chatgpt-project-only-memory-is-live-and-it-might-change-how-you-work-with-ai" target="_blank" rel="noopener">"Won't carry anything from the project into future chats outside of the project."</a></li>
+        <li><strong><a href="https://www.anthropic.com/news/memory" target="_blank" rel="noopener">Claude Projects</a></strong> (Team/Enterprise): Project-scoped memory with strict isolation. Each project operates independently. A Work Project cannot access information from a Personal Project. Admins can disable memory at the org level.</li>
+      </ul>
+      <p>This is promising for managing multiple matters. But questions remain:</p>
+      <ul>
+        <li>Is the isolation enforced at the infrastructure level, or is it a software-layer guardrail the model could theoretically bypass?</li>
+        <li>Do project memories count as data "shared with" the AI provider for purposes of privilege analysis?</li>
+        <li>If a project is shared with colleagues (ChatGPT shared projects), does that affect privilege?</li>
+        <li>These features are only available on certain plans &mdash; ChatGPT Plus/Pro/Team, Claude Team/Enterprise. Not on free tiers.</li>
+      </ul>
+      <div class="callout-blue">
+        <strong>Memories can be useful.</strong> If managed carefully, project-scoped memories reduce repetitive context-setting and make the AI more effective for sustained work on a matter. You can review, prune, and delete memories at any time. The risk isn't that memories exist &mdash; it's that they cross boundaries between matters. Per-project isolation, if it works as described, addresses this directly. But "if it works as described" is doing a lot of work in that sentence.
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- DATA HANDLING CHAIN -->
+  <!-- ============================================ -->
+  <section>
+    <h2 class="section-title">Data Handling Chain</h2>
+
+    <div class="q-card">
+      <h3>Who is responsible when an intermediary SaaS vendor passes data to a model provider? <span class="status status-open">Open</span></h3>
+      <p>When you use Clio Duo, your data flows: You &rarr; Clio &rarr; Azure (Microsoft) &rarr; OpenAI (via Azure). When you use Paxton, your data flows through Paxton to GPT-4 and Claude. Each link has its own terms, retention policies, and notification commitments.</p>
+      <ul>
+        <li>Your DPA is with the SaaS vendor (Clio, Paxton). You have no direct contractual relationship with the underlying model provider.</li>
+        <li>If the model provider changes its terms (e.g., OpenAI changes its API data retention from 30 days to 90 days), does the SaaS vendor have to tell you?</li>
+        <li>If law enforcement subpoenas the model provider directly (bypassing the SaaS vendor), does the SaaS vendor's notification commitment still apply?</li>
+      </ul>
+    </div>
+
+    <div class="q-card">
+      <h3>What happens to your data if an AI vendor is acquired, shuts down, or goes through bankruptcy? <span class="status status-open">Open</span></h3>
+      <p>AI startups are volatile. If your legal AI vendor is acquired (Clio acquired vLex), goes through bankruptcy, or shuts down:</p>
+      <ul>
+        <li>Does the DPA survive the acquisition?</li>
+        <li>Is retained data transferred to the acquiring entity?</li>
+        <li>Do you get notified and given a chance to delete your data?</li>
+        <li>Most DPAs address this. But the answers vary, and few attorneys read the assignment and change-of-control provisions before signing up.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- PRACTICAL GAPS -->
+  <!-- ============================================ -->
+  <section>
+    <h2 class="section-title">Practical Gaps</h2>
+
+    <div class="q-card">
+      <h3>How do you explain AI tiers to a client who doesn't know what an API is? <span class="status status-open">Open</span></h3>
+      <p>ABA 512 requires "informed" consent &mdash; meaning the client understands the risks. But many criminal defense clients will not understand the difference between "I used a website" and "I used an API with a data processing agreement." What does meaningful informed consent look like for a client who has never heard of any of these concepts?</p>
+      <ul>
+        <li>Analogy-based: "I'm using a tool that's like a locked office, not a public library"</li>
+        <li>Risk-based: "The company I'm sending your information to has signed a contract promising not to share it or use it for anything else"</li>
+        <li>Outcome-based: "Here's what could happen if this information got out, and here's why I think the risk is acceptable"</li>
+      </ul>
+    </div>
+
+    <div class="q-card">
+      <h3>Should AI-generated legal analysis be cited differently than human analysis? <span class="status status-open">Open</span></h3>
+      <p>If you use AI to identify a legal theory and then verify it independently, do you cite the AI? If you use AI to draft language and then rewrite it substantially, is it still "AI-generated"? There's a spectrum from "AI found it" to "AI wrote it" to "AI inspired the structure and I rewrote every word." No clear standard exists for where on that spectrum disclosure kicks in.</p>
+    </div>
+
+    <div class="q-card">
+      <h3>What records should a firm keep about its AI use? <span class="status status-open">Open</span></h3>
+      <p>Beyond individual chat logs, should a firm maintain:</p>
+      <ul>
+        <li>A log of which AI tools were used on which matters?</li>
+        <li>Records of what tier each tool was at when it was used (tiers change as vendors update terms)?</li>
+        <li>Copies of the ToS/DPA in effect at the time of use (vendors update terms regularly)?</li>
+        <li>An AI use policy that staff acknowledge?</li>
+      </ul>
+      <p>ABA 512 says supervising lawyers must ensure compliance with AI-related obligations (Rules 5.1, 5.3). But it doesn't specify what record-keeping that requires.</p>
+    </div>
+  </section>
+
+  <!-- Cross-links -->
+  <div class="cross-links">
+    <h3>Related Pages</h3>
+    <ul>
+      <li><a href="risk-matrix.html">Risk Matrix &amp; Tier Framework</a></li>
+      <li><a href="heppner.html">Heppner Case Breakdown</a></li>
+      <li><a href="ethics-opinions.html">Ethics Opinions</a></li>
+      <li><a href="glossary.html">Glossary</a></li>
+      <li><a href="vendor-details.html">Vendor Details</a></li>
+    </ul>
+  </div>
+
+  <!-- Sources -->
+  <section>
+    <h2 class="section-title">Sources</h2>
+    <div class="q-card">
+      <ul>
+        <li><a href="https://www.americanbar.org/content/dam/aba/administrative/professional_responsibility/ethics-opinions/aba-formal-opinion-512.pdf" target="_blank" rel="noopener">ABA Formal Opinion 512</a> (July 2024) &mdash; First comprehensive ABA guidance on lawyer use of generative AI</li>
+        <li><a href="https://thebarexaminer.ncbex.org/article/fall-2024/generative-artificial-intelligence-tools/" target="_blank" rel="noopener">NCBE Bar Examiner &mdash; Analysis of ABA Opinion 512</a></li>
+        <li><a href="https://www.americanbar.org/groups/business_law/resources/business-law-today/2024-october/aba-ethics-opinion-generative-ai-offers-useful-framework/" target="_blank" rel="noopener">ABA Business Law Today &mdash; ABA Ethics Opinion Framework</a></li>
+        <li><a href="heppner.html"><em>United States v. Heppner</em> &mdash; Full Case Breakdown</a> (S.D.N.Y. Feb. 2026)</li>
+        <li><a href="https://help.openai.com/en/articles/10169521-projects-in-chatgpt" target="_blank" rel="noopener">OpenAI &mdash; Projects in ChatGPT</a></li>
+        <li><a href="https://help.openai.com/en/articles/8590148-memory-faq" target="_blank" rel="noopener">OpenAI &mdash; Memory FAQ</a></li>
+        <li><a href="https://help.openai.com/en/articles/8914046-temporary-chat-faq" target="_blank" rel="noopener">OpenAI &mdash; Temporary Chat FAQ</a></li>
+        <li><a href="https://help.openai.com/en/articles/7730893-data-controls-faq" target="_blank" rel="noopener">OpenAI &mdash; Data Controls FAQ</a></li>
+        <li><a href="https://www.anthropic.com/news/memory" target="_blank" rel="noopener">Anthropic &mdash; Bringing Memory to Teams</a></li>
+        <li><a href="https://privacy.claude.com/en/articles/10023548-how-long-do-you-store-my-data" target="_blank" rel="noopener">Anthropic Privacy Center &mdash; Data Retention</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-privacy" target="_blank" rel="noopener">Microsoft &mdash; M365 Copilot Privacy</a></li>
+        <li><a href="https://embracethered.com/blog/posts/2025/chatgpt-how-does-chat-history-memory-preferences-work/" target="_blank" rel="noopener">Embrace The Red &mdash; How ChatGPT Memory Works Technically</a> (security research)</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>Built with Claude Code (Anthropic). Not legal advice &mdash; these are open questions, not answers.</p>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>United States v. Heppner — Case Breakdown</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: #f8f9fa;
+    color: #1a1a2e;
+    line-height: 1.5;
+    font-size: 15px;
+  }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 16px 20px; }
+
+  /* Header */
+  .header {
+    background: #1a1a2e;
+    color: #fff;
+    padding: 20px 0;
+    margin-bottom: 16px;
+  }
+  .header-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .header h1 { font-size: 1.4rem; font-weight: 600; }
+  .header .subtitle { font-size: 0.85rem; color: #a0aec0; margin-top: 4px; }
+  .header-meta { font-size: 0.75rem; color: #a0aec0; text-align: right; line-height: 1.4; }
+
+  /* Navigation */
+  .site-nav {
+    background: #2d3748;
+    padding: 0;
+    border-bottom: 2px solid #4a5568;
+  }
+  .site-nav-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    gap: 0;
+    flex-wrap: wrap;
+  }
+  .site-nav a {
+    color: #a0aec0;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 10px 16px;
+    display: block;
+    transition: all 0.15s;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+  }
+  .site-nav a:hover { color: #fff; background: rgba(255,255,255,0.05); }
+  .site-nav a.active { color: #fff; border-bottom-color: #4299e1; background: rgba(255,255,255,0.05); }
+
+  /* Section titles */
+  .section-title {
+    font-size: 1rem; font-weight: 600; margin-bottom: 14px;
+    padding-bottom: 8px; border-bottom: 2px solid #e2e8f0;
+    color: #1a1a2e;
+  }
+
+  section { margin-bottom: 28px; }
+
+  /* Content card */
+  .card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+  }
+  .card h3 {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 10px;
+  }
+  .card p, .card li {
+    font-size: 0.85rem;
+    color: #4a5568;
+    line-height: 1.7;
+  }
+  .card p + p { margin-top: 10px; }
+  .card ul { margin: 8px 0 0 20px; }
+  .card li { margin-bottom: 6px; }
+  .card a { color: #2c5282; text-decoration: none; }
+  .card a:hover { text-decoration: underline; }
+  .card strong { color: #1a1a2e; }
+  .card em { color: #718096; font-style: italic; }
+
+  /* Quote block */
+  .court-quote {
+    background: #fef3c7;
+    border-left: 4px solid #d97706;
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 0.85rem;
+    font-style: italic;
+    color: #92400e;
+    line-height: 1.7;
+  }
+  .court-quote .attribution {
+    font-style: normal;
+    font-weight: 600;
+    display: block;
+    margin-top: 6px;
+    font-size: 0.8rem;
+  }
+
+  /* Red callout */
+  .red-callout {
+    background: #fee2e2;
+    border-left: 4px solid #dc2626;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 0.85rem;
+    color: #991b1b;
+    line-height: 1.7;
+  }
+
+  /* Green callout */
+  .green-callout {
+    background: #d1fae5;
+    border-left: 4px solid #059669;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 0.85rem;
+    color: #065f46;
+    line-height: 1.7;
+  }
+
+  /* Blue callout */
+  .blue-callout {
+    background: #eff6ff;
+    border-left: 4px solid #3b82f6;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 0.85rem;
+    color: #1e40af;
+    line-height: 1.7;
+  }
+
+  /* Compare row */
+  .compare-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 12px 0;
+  }
+  .compare-item {
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+  .compare-item h4 {
+    font-size: 0.88rem;
+    margin-bottom: 6px;
+  }
+  .compare-red {
+    background: #fee2e2;
+    border: 1px solid #fca5a5;
+    color: #991b1b;
+  }
+  .compare-red h4 { color: #dc2626; }
+  .compare-green {
+    background: #d1fae5;
+    border: 1px solid #6ee7b7;
+    color: #065f46;
+  }
+  .compare-green h4 { color: #059669; }
+
+  /* Timeline */
+  .timeline {
+    margin: 12px 0;
+    padding: 0;
+    list-style: none;
+  }
+  .timeline li {
+    position: relative;
+    padding-left: 24px;
+    padding-bottom: 14px;
+    font-size: 0.85rem;
+    color: #4a5568;
+    line-height: 1.6;
+  }
+  .timeline li::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 8px;
+    width: 8px;
+    height: 8px;
+    background: #4a5568;
+    border-radius: 50%;
+  }
+  .timeline li::after {
+    content: '';
+    position: absolute;
+    left: 9px;
+    top: 16px;
+    width: 2px;
+    height: calc(100% - 8px);
+    background: #e2e8f0;
+  }
+  .timeline li:last-child::after { display: none; }
+  .timeline li strong { color: #1a1a2e; }
+
+  /* Cross-links */
+  .cross-links {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-top: 28px;
+  }
+  .cross-links h3 {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #1e40af;
+    margin-bottom: 10px;
+  }
+  .cross-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .cross-links li { margin: 0; }
+  .cross-links a {
+    display: inline-block;
+    background: #fff;
+    border: 1px solid #93c5fd;
+    border-radius: 4px;
+    padding: 6px 14px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #2c5282;
+    text-decoration: none;
+    transition: all 0.15s;
+  }
+  .cross-links a:hover {
+    background: #2c5282;
+    color: #fff;
+    border-color: #2c5282;
+  }
+
+  /* Footer */
+  .footer {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 16px;
+    margin-top: 24px;
+    font-size: 0.78rem;
+    color: #718096;
+    line-height: 1.6;
+  }
+  .footer a { color: #2c5282; text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .header-meta { display: none; }
+    .site-nav a { padding: 8px 10px; font-size: 0.75rem; }
+    .card { padding: 16px; }
+    .compare-row { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .container { padding: 12px; }
+    .site-nav-inner { gap: 0; }
+    .site-nav a { padding: 8px 8px; font-size: 0.72rem; }
+    .card { padding: 12px; }
+    .cross-links ul { flex-direction: column; }
+  }
+
+  /* Print */
+  @media print {
+    body { background: #fff; font-size: 12px; }
+    .header { background: #1a1a2e !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .site-nav, .cross-links { display: none !important; }
+    .container { max-width: 100%; }
+    .card { border: none; padding: 0; box-shadow: none; }
+    .court-quote { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div>
+      <h1>United States v. Heppner</h1>
+      <div class="subtitle">Case Breakdown: Consumer AI and Privilege</div>
+    </div>
+    <div class="header-meta">Built with Claude Code<br>2026</div>
+  </div>
+</div>
+
+<nav class="site-nav">
+  <div class="site-nav-inner">
+    <a href="index.html">Home</a>
+    <a href="risk-matrix.html">Risk Matrix</a>
+    <a href="use-cases.html">Use Cases</a>
+    <a href="agents.html">Agents</a>
+    <a href="prompting-library.html">Prompts</a>
+    <a href="ethics-opinions.html">Ethics Opinions</a>
+    <a href="vendor-details.html">Vendor Details</a>
+    <a href="glossary.html">Glossary</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <div style="background:#fef3c7;border:1px solid #d97706;border-radius:6px;padding:10px 14px;margin-bottom:16px;font-size:0.8rem;color:#92400e;line-height:1.5;">
+    <strong>Training content &mdash; not maintained.</strong> This page summarizes published analyses of the ruling. It is not legal advice. Read the primary sources linked below.
+  </div>
+
+  <!-- Case header -->
+  <section>
+    <h2 class="section-title">The Case</h2>
+    <div class="card">
+      <p><strong><em>United States v. Heppner</em></strong>, No. 25-cr-00503-JSR (S.D.N.Y. Feb. 10, 2026; written opinion Feb. 17, 2026)</p>
+      <p>Judge Jed S. Rakoff, Southern District of New York</p>
+      <p>First federal ruling squarely addressing whether consumer AI chat logs are protected by attorney-client privilege or work-product doctrine.</p>
+    </div>
+  </section>
+
+  <!-- What happened -->
+  <section>
+    <h2 class="section-title">What Happened</h2>
+    <div class="card">
+      <ul class="timeline">
+        <li><strong>Bradley Heppner</strong>, a Dallas financial services executive, was arrested in November 2025 and charged with securities fraud and wire fraud (related to Beneficient and GWG Holdings Inc.).</li>
+        <li>After receiving a grand jury subpoena and retaining counsel at Quinn Emanuel, Heppner <strong>independently</strong> used Anthropic's consumer Claude AI to research legal issues related to the government's investigation.</li>
+        <li>He fed information <strong>he had learned from his attorneys</strong> into Claude, generating <strong>31 documents</strong> containing prompts and responses that outlined defense strategy and potential legal arguments.</li>
+        <li>He shared these AI-generated documents with his legal team.</li>
+        <li>The FBI later <strong>seized these materials during a search</strong> of his residence.</li>
+        <li>The government sought to use the documents. Heppner's counsel moved to suppress, claiming attorney-client privilege and work-product protection.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- What the court held -->
+  <section>
+    <h2 class="section-title">What the Court Held</h2>
+    <div class="card">
+      <h3>1. Claude is not an attorney</h3>
+      <div class="court-quote">
+        "Heppner d[id] not, and indeed could not, maintain that Claude is an attorney."
+        <span class="attribution">&mdash; Judge Rakoff</span>
+      </div>
+      <p>Attorney-client privilege requires a communication between a client and a lawyer (or the lawyer's agent) for the purpose of obtaining legal advice. Claude is none of these. Claude's own materials state it chooses responses that "least give impression of giving specific legal advice."</p>
+    </div>
+
+    <div class="card">
+      <h3>2. No reasonable expectation of confidentiality</h3>
+      <div class="court-quote">
+        "[There was] simply no reasonable expectation of confidentiality."
+        <span class="attribution">&mdash; Judge Rakoff</span>
+      </div>
+      <p>Anthropic's consumer terms expressly permit disclosure to "governmental regulatory authorities" and allow use of prompts and outputs for model training. The court held that submitting information to a system with these provisions destroyed any expectation of confidentiality.</p>
+      <div class="red-callout">
+        <strong>This is the holding that matters most for attorneys.</strong> The court didn't just say "Claude isn't a lawyer" (obvious). It said that consumer Terms of Service destroy confidentiality &mdash; and that applies to anyone using consumer AI, whether client or attorney.
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>3. Not work product</h3>
+      <div class="court-quote">
+        Sharing information with a consumer AI tool "effected a waiver by destroying the confidentiality that work product protection presupposes."
+        <span class="attribution">&mdash; Judge Rakoff</span>
+      </div>
+      <p>The work-product doctrine protects materials prepared in anticipation of litigation <em>by or at the direction of counsel</em>. Heppner created the documents on his own initiative. Neither Heppner nor Claude are legal counsel. The documents did not reflect the mental impressions or strategy of Heppner's actual attorneys.</p>
+    </div>
+
+    <div class="card">
+      <h3>4. Sharing unprivileged documents with a lawyer doesn't make them privileged</h3>
+      <p>Pre-existing documents that were never privileged in the first place don't gain privilege protection just because a client sends them to a lawyer. The AI-generated reports were unprivileged from the moment Heppner created them by submitting information to a consumer AI tool.</p>
+    </div>
+  </section>
+
+  <!-- The Kovel carve-out -->
+  <section>
+    <h2 class="section-title">The Kovel Carve-Out</h2>
+    <div class="card">
+      <div class="court-quote">
+        "[H]ad counsel directed Heppner to use Claude, Claude might arguably be said to have functioned in a manner akin to a highly trained professional who may act as a lawyer's agent within the protection of the attorney-client privilege."
+        <span class="attribution">&mdash; Judge Rakoff</span>
+      </div>
+      <p>This is an important signal. The court left open the possibility that AI tools used <em>at counsel's direction</em>, as part of the legal representation, might receive privilege protection under a <a href="https://en.wikipedia.org/wiki/Kovel_letter" target="_blank" rel="noopener">Kovel-type arrangement</a>. But that's not what happened here &mdash; Heppner acted on his own.</p>
+      <div class="blue-callout">
+        <strong>For attorneys:</strong> This is the distinction that matters. If you direct your client to use a specific AI tool as part of your representation, there may be a privilege argument. If your client uses consumer AI on their own and hands you the results, there isn't one. Either way, the consumer ToS problem remains &mdash; which is why the tier of the tool matters regardless.
+      </div>
+    </div>
+  </section>
+
+  <!-- Why this matters for attorneys -->
+  <section>
+    <h2 class="section-title">Why This Matters for Attorneys</h2>
+    <div class="card">
+      <h3>Whose chats were these?</h3>
+      <p>A client's. Not an attorney's. This is an important distinction. The case did not hold that an attorney's own AI use waives privilege. But the court's reasoning about consumer ToS destroying confidentiality applies to everyone &mdash; client and attorney alike.</p>
+
+      <div class="compare-row">
+        <div class="compare-red">
+          <h4>What Heppner actually held</h4>
+          <p>A client's independent use of consumer AI, without counsel's direction, does not create privileged or work-product-protected materials &mdash; even if shared with counsel afterward.</p>
+        </div>
+        <div class="compare-red">
+          <h4>What the reasoning implies for attorneys</h4>
+          <p>If consumer ToS destroy a client's expectation of confidentiality, they destroy yours too. The privilege analysis turns on the same consumer terms whether you're the client or the lawyer.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Three things to do now</h3>
+      <ul>
+        <li><strong>Tell your clients.</strong> Advise clients that anything they type into consumer AI (ChatGPT, Claude, Gemini) is potentially discoverable. Add this to engagement letters.</li>
+        <li><strong>Use the right tier.</strong> If you use AI for client work, use Tier 3 (API with DPA) or higher. The court explicitly distinguished enterprise/API tiers with contractual confidentiality protections.</li>
+        <li><strong>Check your tools.</strong> Consumer accounts with training "turned off" (Tier 2) may be better than Tier 1, but the court's reasoning focused on the ToS provisions about disclosure and data use &mdash; not just training. A DPA (Tier 3) is the floor.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Tier connection -->
+  <section>
+    <h2 class="section-title">How This Maps to the Tier Framework</h2>
+    <div class="card">
+      <div class="compare-row">
+        <div class="compare-red">
+          <h4>Tier 1-2 (Consumer)</h4>
+          <p>ToS permit disclosure to government, use for training, and unilateral changes. <em>Heppner</em> found "simply no reasonable expectation of confidentiality" under these terms.</p>
+        </div>
+        <div class="compare-green">
+          <h4>Tier 3-4 (API / Enterprise)</h4>
+          <p>DPA creates bilateral contract. Vendor is data processor, not controller. Contractual confidentiality protections. The court explicitly distinguished these tiers.</p>
+        </div>
+      </div>
+      <p style="font-size:0.83rem;color:#718096;margin-top:12px;">See the <a href="risk-matrix.html">Risk Matrix</a> for the full tier framework and how to evaluate your tools.</p>
+    </div>
+  </section>
+
+  <!-- Primary sources -->
+  <section>
+    <h2 class="section-title">Primary Sources &amp; Analysis</h2>
+    <div class="card">
+      <ul>
+        <li><a href="https://www.debevoisedatablog.com/2026/02/11/district-court-rules-ai-generated-documents-are-not-protected-by-privilege/" target="_blank" rel="noopener">Debevoise &mdash; "District Court Rules AI-Generated Documents Are Not Protected by Privilege"</a></li>
+        <li><a href="https://www.joneswalker.com/en/insights/blogs/ai-law-blog/your-ai-conversations-are-not-privileged-what-a-new-sdny-ruling-means-for-every.html" target="_blank" rel="noopener">Jones Walker &mdash; "Your AI Conversations Are Not Privileged"</a></li>
+        <li><a href="https://www.gibsondunn.com/ai-privilege-waivers-sdny-rules-against-privilege-protection-for-consumer-ai-outputs/" target="_blank" rel="noopener">Gibson Dunn &mdash; "AI Privilege Waivers"</a></li>
+        <li><a href="https://www.omm.com/insights/alerts-publications/sdny-first-of-its-kind-ruling-ai-generated-documents-are-not-privileged/" target="_blank" rel="noopener">O'Melveny &mdash; "First-of-its-Kind Ruling"</a></li>
+        <li><a href="https://www.proskauer.com/alert/sdny-addresses-privilege-and-work-product-implications-of-using-unsecured-public-ai-tools" target="_blank" rel="noopener">Proskauer &mdash; "Privilege and Work Product Implications"</a></li>
+        <li><a href="https://www.mcdermottlaw.com/insights/using-ai-without-waiving-privilege-lessons-from-heppner/" target="_blank" rel="noopener">McDermott &mdash; "Using AI Without Waiving Privilege"</a></li>
+        <li><a href="https://www.aoshearman.com/en/insights/ao-shearman-on-investigations/sdny-rules-that-ai-generated-documents-prepared-without-the-direction" target="_blank" rel="noopener">A&amp;O Shearman &mdash; "AI Documents Prepared Without Direction of Counsel"</a></li>
+        <li><a href="https://www.casepoint.com/blog/heppner-ai-attorney-client-privilege-ruling/" target="_blank" rel="noopener">Casepoint &mdash; "When AI Becomes Discoverable"</a></li>
+        <li><a href="https://www.msba.org/site/content/News-and-Publications/News/General-News/AI_Platforms_and_Confidentiality_A_Closer_Look_at_United_States_v_Heppner.aspx" target="_blank" rel="noopener">Maryland State Bar Association &mdash; "AI Platforms and Confidentiality"</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Cross-links -->
+  <div class="cross-links">
+    <h3>Related Pages</h3>
+    <ul>
+      <li><a href="risk-matrix.html">Risk Matrix &amp; Tier Framework</a></li>
+      <li><a href="risk-matrix.html#legal-process">Legal Process &amp; Notification</a></li>
+      <li><a href="ethics-opinions.html">Ethics Opinions</a></li>
+      <li><a href="vendor-details.html">Vendor Details &amp; Pricing</a></li>
+      <li><a href="glossary.html">Glossary</a></li>
+    </ul>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>Built with Claude Code (Anthropic). Case summary based on published analyses from Debevoise, Jones Walker, Gibson Dunn, O'Melveny, Proskauer, McDermott, A&amp;O Shearman, and Casepoint. Not legal advice.</p>
+  </div>
+
+</div>
+
+</body>
+</html>

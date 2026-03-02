@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prompt Library &mdash; Criminal Defense AI Templates</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: #f8f9fa;
+    color: #1a1a2e;
+    line-height: 1.5;
+    font-size: 15px;
+  }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 16px 20px; }
+
+  /* Header */
+  .header {
+    background: #1a1a2e;
+    color: #fff;
+    padding: 20px 0;
+    margin-bottom: 16px;
+  }
+  .header-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .header h1 { font-size: 1.4rem; font-weight: 600; }
+  .header .subtitle { font-size: 0.85rem; color: #a0aec0; margin-top: 4px; }
+  .header-meta { font-size: 0.75rem; color: #a0aec0; text-align: right; line-height: 1.4; }
+
+  /* Navigation */
+  .site-nav {
+    background: #2d3748;
+    padding: 0;
+    border-bottom: 2px solid #4a5568;
+  }
+  .site-nav-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    gap: 0;
+    flex-wrap: wrap;
+  }
+  .site-nav a {
+    color: #a0aec0;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 10px 16px;
+    display: block;
+    transition: all 0.15s;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+  }
+  .site-nav a:hover { color: #fff; background: rgba(255,255,255,0.05); }
+  .site-nav a.active { color: #fff; border-bottom-color: #4299e1; background: rgba(255,255,255,0.05); }
+
+  /* Disclaimer banner */
+  .disclaimer-banner {
+    background: #fffbeb;
+    border: 1px solid #d69e2e;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    font-size: 0.85rem;
+    color: #744210;
+  }
+  .disclaimer-banner strong { color: #92400e; }
+
+  /* Section titles */
+  .section-title {
+    font-size: 1rem; font-weight: 600; margin-bottom: 14px;
+    padding-bottom: 8px; border-bottom: 2px solid #e2e8f0;
+    color: #1a1a2e;
+  }
+
+  section { margin-bottom: 28px; }
+
+  /* Tier badges */
+  .tier-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    vertical-align: middle;
+  }
+  .tier-any { background: #d1fae5; color: #065f46; }
+  .tier-3-plus { background: #dbeafe; color: #1e40af; }
+
+  /* Category headers */
+  .category-header {
+    background: #1a1a2e;
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 14px;
+    margin-top: 8px;
+  }
+
+  /* Prompt cards */
+  .prompt-card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    margin-bottom: 14px;
+    overflow: hidden;
+  }
+  .prompt-header {
+    padding: 12px 16px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    transition: background 0.15s;
+  }
+  .prompt-header:hover { background: #f7fafc; }
+  .prompt-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1a1a2e;
+    flex: 1;
+  }
+  .prompt-badges { display: flex; gap: 6px; flex-shrink: 0; }
+  .prompt-toggle {
+    font-size: 1.1rem;
+    color: #718096;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+    width: 20px;
+    text-align: center;
+  }
+  .prompt-card.open .prompt-toggle { transform: rotate(90deg); }
+  .prompt-body {
+    display: none;
+    padding: 0 16px 16px;
+    border-top: 1px solid #edf2f7;
+  }
+  .prompt-card.open .prompt-body { display: block; }
+
+  .prompt-body p, .prompt-body li {
+    font-size: 0.85rem;
+    color: #4a5568;
+    line-height: 1.6;
+  }
+  .prompt-body ul { padding-left: 20px; margin-bottom: 8px; }
+  .prompt-body li { margin-bottom: 3px; }
+
+  /* Copyable prompt box */
+  .prompt-box {
+    background: #1a1a2e;
+    color: #e2e8f0;
+    border-radius: 6px;
+    padding: 14px 16px;
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    margin: 10px 0;
+    position: relative;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  .prompt-box .bracket { color: #f6ad55; font-weight: 700; }
+  .copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: #4a5568;
+    color: #e2e8f0;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .copy-btn:hover { background: #4299e1; }
+  .copy-btn.copied { background: #48bb78; }
+
+  /* Pro tip */
+  .pro-tip {
+    background: #eff6ff;
+    border-left: 3px solid #2c5282;
+    padding: 8px 12px;
+    font-size: 0.8rem;
+    color: #1e40af;
+    margin-top: 8px;
+    border-radius: 0 4px 4px 0;
+  }
+  .pro-tip strong { color: #1e40af; }
+
+  /* Customize note */
+  .customize {
+    font-size: 0.78rem;
+    color: #718096;
+    margin-top: 6px;
+  }
+  .customize code {
+    background: #edf2f7;
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-size: 0.76rem;
+    color: #4a5568;
+  }
+
+  /* Callout boxes */
+  .callout {
+    padding: 12px 16px;
+    border-radius: 0 6px 6px 0;
+    font-size: 0.83rem;
+    margin: 10px 0;
+  }
+  .callout-blue { background: #eff6ff; border-left: 4px solid #2c5282; color: #1e40af; }
+  .callout-yellow { background: #fffbeb; border-left: 4px solid #d97706; color: #92400e; }
+  .callout-red { background: #fee2e2; border-left: 4px solid #dc2626; color: #991b1b; }
+  .callout-green { background: #ecfdf5; border-left: 4px solid #059669; color: #065f46; }
+  .callout strong { color: inherit; }
+
+  /* How to use intro box */
+  .intro-box {
+    background: #fff;
+    border: 2px solid #4299e1;
+    border-radius: 8px;
+    padding: 18px;
+    margin-bottom: 20px;
+  }
+  .intro-box h3 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 8px;
+  }
+  .intro-box p, .intro-box li {
+    font-size: 0.85rem;
+    color: #4a5568;
+    line-height: 1.6;
+  }
+  .intro-box ul { padding-left: 20px; margin-top: 6px; }
+  .intro-box li { margin-bottom: 4px; }
+
+  /* Cross-links */
+  .cross-links {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 20px;
+  }
+  .cross-links h3 {
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .cross-links ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .cross-links a {
+    display: inline-block;
+    padding: 4px 12px;
+    background: #edf2f7;
+    border-radius: 4px;
+    color: #2c5282;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: background 0.15s;
+  }
+  .cross-links a:hover { background: #dbeafe; }
+
+  /* Footer */
+  .footer {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 16px;
+    margin-top: 24px;
+    font-size: 0.78rem;
+    color: #718096;
+    line-height: 1.6;
+  }
+  .footer a { color: #2c5282; text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .header-meta { display: none; }
+    .prompt-badges { display: none; }
+    .site-nav a { padding: 8px 10px; font-size: 0.75rem; }
+  }
+  @media (max-width: 480px) {
+    .container { padding: 12px; }
+    .site-nav-inner { gap: 0; }
+    .site-nav a { padding: 8px 8px; font-size: 0.72rem; }
+    .prompt-box { font-size: 0.75rem; padding: 12px; }
+  }
+
+  /* Print */
+  @media print {
+    body { background: #fff; font-size: 12px; }
+    .header { background: #1a1a2e !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .site-nav, .disclaimer-banner, .prompt-toggle, .copy-btn { display: none !important; }
+    .prompt-body { display: block !important; }
+    .prompt-box { background: #f3f4f6 !important; color: #1a1a2e !important; border: 1px solid #ccc; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .tier-badge { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .container { max-width: 100%; }
+    section { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div>
+      <h1>Prompt Library</h1>
+      <div class="subtitle">Copy-Paste Templates for Criminal Defense Practice</div>
+    </div>
+    <div class="header-meta">Built with Claude Code<br>2026</div>
+  </div>
+</div>
+
+<nav class="site-nav">
+  <div class="site-nav-inner">
+    <a href="index.html">Home</a>
+    <a href="risk-matrix.html">Risk Matrix</a>
+    <a href="use-cases.html">Use Cases</a>
+    <a href="agents.html">Agents</a>
+    <a href="prompting-library.html" class="active">Prompts</a>
+    <a href="ethics-opinions.html">Ethics Opinions</a>
+    <a href="vendor-details.html">Vendor Details</a>
+    <a href="glossary.html">Glossary</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <div style="background:#fef3c7;border:1px solid #d97706;border-radius:6px;padding:10px 14px;margin-bottom:16px;font-size:0.8rem;color:#92400e;line-height:1.5;">
+    <strong>Training content &mdash; not maintained.</strong> This site is illustrative and static as of March 2026. Content is AI-generated and may contain errors or dead links. Do your own research before relying on any claim, price, or link.
+  </div>
+
+  <!-- How to use -->
+  <div class="intro-box">
+    <h3>How to use these prompts</h3>
+    <p>Each prompt is ready to copy and paste. Customize the <span style="color:#f6ad55;font-weight:700;">[bracketed text]</span> for your situation.</p>
+    <ul>
+      <li><span class="tier-badge tier-any">Any Tier</span> = no client data involved. Use ChatGPT, Claude, Gemini, Perplexity &mdash; whatever you prefer.</li>
+      <li><span class="tier-badge tier-3-plus">Tier 3+</span> = contains or touches client data. Use only DPA-protected tools (Claude API, NotebookLM, M365 Copilot, Reduct).</li>
+      <li>Always verify AI-generated case citations on Westlaw, Lexis, or Google Scholar before relying on them.</li>
+    </ul>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- RESEARCH -->
+  <!-- ============================================ -->
+  <div class="category-header">Research</div>
+
+  <section>
+    <div class="prompt-card open">
+      <div class="prompt-header" onclick="toggleCard(this)">
+        <div class="prompt-title">Metaprompt: Write a Better Research Prompt</div>
+        <div class="prompt-badges"><span class="tier-badge tier-any">Any Tier</span></div>
+        <div class="prompt-toggle">&#9654;</div>
+      </div>
+      <div class="prompt-body">
+        <p>Instead of asking your question directly, ask AI to design the question for you. Then use that designed prompt with Deep Research tools for dramatically better results.</p>
+        <div class="prompt-box">I need to research <span class="bracket">[legal issue]</span>. Write me a detailed research prompt that will produce the most thorough results. Specify: exact scope, relevant jurisdictions <span class="bracket">[8th Circuit + Missouri / your jurisdiction]</span>, source types to consult, preferred output format, and what to do when sources conflict.<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="customize">Customize: <code>[legal issue]</code> = your research topic. <code>[jurisdiction]</code> = your circuit + state.</div>
+        <div class="pro-tip"><strong>Pro tip:</strong> Paste the metaprompted result into Gemini Deep Research, Perplexity Pro, or ChatGPT Research for a comprehensive, multi-source report.</div>
+      </div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-header" onclick="toggleCard(this)">
+        <div class="prompt-title">Fourth Amendment Vehicle Search Survey</div>
+        <div class="prompt-badges"><span class="tier-badge tier-any">Any Tier</span></div>
+        <div class="prompt-toggle">&#9654;</div>
+      </div>
+      <div class="prompt-body">
+        <div class="prompt-box">Conduct exhaustive legal research on warrantless vehicle searches under the Fourth Amendment. Cover: (1) automobile exception from Carroll v. United States through current circuit splits, (2) inventory search doctrine, (3) search incident to arrest post-Gant, (4) consent search validity factors, (5) K-9 sniff cases post-Rodriguez. For each category, identify the controlling Supreme Court case, <span class="bracket">[8th Circuit]</span> interpretation, and <span class="bracket">[Missouri]</span> state court application. Organize by category with case name, year, and one-sentence holding. Flag any active circuit splits or pending cert petitions.<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="customize">Customize: <code>[8th Circuit]</code> and <code>[Missouri]</code> = your circuit and state.</div>
+        <div class="pro-tip"><strong>Pro tip:</strong> This is already a metaprompted result. Paste directly into Deep Research.</div>
+      </div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-header" onclick="toggleCard(this)">
+        <div class="prompt-title">Case Law Survey by Issue Area</div>
+        <div class="prompt-badges"><span class="tier-badge tier-any">Any Tier</span></div>
+        <div class="prompt-toggle">&#9654;</div>
+      </div>
+      <div class="prompt-body">
+        <div class="prompt-box">Survey all <span class="bracket">[8th Circuit and Missouri]</span> case law on <span class="bracket">[legal issue]</span> from the last <span class="bracket">[5]</span> years. For each case: case name, citation, year, court, one-sentence holding, and whether it's still good law. Organize chronologically. Note any trend in how courts are moving on this issue. Identify the strongest and weakest authority for <span class="bracket">[defense / prosecution]</span>.<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="customize">Customize: <code>[legal issue]</code>, <code>[jurisdiction]</code>, <code>[time period]</code>, <code>[defense / prosecution]</code>.</div>
+      </div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-header" onclick="toggleCard(this)">
+        <div class="prompt-title">Sentencing Mitigation Research</div>
+        <div class="prompt-badges"><span class="tier-badge tier-any">Any Tier</span></div>
+        <div class="prompt-toggle">&#9654;</div>
+      </div>
+      <div class="prompt-body">
+        <div class="prompt-box">Research sentencing mitigation for <span class="bracket">[offense type]</span> cases. Cover: (1) what mitigation factors does <span class="bracket">[Missouri]</span> recognize for this offense category, (2) statutory sentencing range and any mandatory minimums, (3) available alternatives to incarceration (drug courts, diversion programs, probation options), (4) relevant social science on recidivism outcomes for treatment vs. incarceration, (5) any recent legislative changes to sentencing in this area. Cite peer-reviewed studies and statutes.<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="customize">Customize: <code>[offense type]</code> = drug possession, DWI, assault, etc. <code>[Missouri]</code> = your state.</div>
+      </div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-header" onclick="toggleCard(this)">
+        <div class="prompt-title">Legislative History / Statutory Interpretation</div>
+        <div class="prompt-badges"><span class="tier-badge tier-any">Any Tier</span></div>
+        <div class="prompt-toggle">&#9654;</div>
+      </div>
+      <div class="prompt-body">
+        <div class="prompt-box">Trace the legislative history of <span class="bracket">[statute citation, e.g., Mo. Rev. Stat. &sect; 571.030]</span>. Identify: (1) when the statute was originally enacted and its original language, (2) every amendment with year, bill number, and what changed, (3) any committee reports or floor debate transcripts discussing legislative intent, (4) how <span class="bracket">[Missouri]</span> courts have interpreted ambiguous terms, (5) any pending legislation that would modify this statute.<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="customize">Customize: <code>[statute citation]</code> = the specific section you're researching.</div>
+        <div class="pro-tip"><strong>Pro tip:</strong> Cross-reference AI results with the official Missouri Revisor of Statutes site (revisor.mo.gov) for current text and history notes.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- DRAFTING -->
+  <!-- ============================================ -->
+  <div class="category-header">Drafting</div>
+
+  <section>
+    <div class="prompt-card">
+      <div class="prompt-header" onclick="toggleCard(this)">
+        <div class="prompt-title">Motion to Suppress &mdash; Stage 1 (Research)</div>
+        <div class="prompt-badges"><span class="tier-badge tier-any">Any Tier</span></div>
+        <div class="prompt-toggle">&#9654;</div>
+      </div>
+      <div class="prompt-body">
+        <div class="prompt-box">What are the current legal standards for challenging a <span class="bracket">[vehicle search / traffic stop / warrantless entry / consent search]</span> in <span class="bracket">[Missouri]</span> under the Fourth Amendment? Include controlling 8th Circuit and Missouri appellate cases. For each standard, provide: (1) the legal test, (2) the leading case, (3) how Missouri courts have applied it, (4) common factual patterns where suppression was granted vs. denied.<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="customize">Customize: <code>[type of search/seizure]</code> and <code>[jurisdiction]</code>.</div>
+        <div class="callout callout-green"><strong>No client data in this prompt.</strong> This is pure legal research &mdash; safe at any tier. Save the output for Stage 2.</div>
+      </div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-header" onclick="toggleCard(this)">
+        <div class="prompt-title">Motion to Suppress &mdash; Stage 2 (Drafting)</div>
+        <div class="prompt-badges"><span class="tier-badge tier-3-plus">Tier 3+</span></div>
+        <div class="prompt-toggle">&#9654;</div>
+      </div>
+      <div class="prompt-body">
+        <div class="prompt-box">Using the attached police report and the following legal research, draft a motion to suppress the evidence seized during the <span class="bracket">[vehicle search / traffic stop / etc.]</span>. Structure: (1) statement of facts drawn from the police report, (2) legal standards from the research, (3) argument applying the standards to these specific facts, (4) conclusion and prayer for relief. Use Missouri motion formatting. Flag any facts in the report that support the motion and any facts that cut against it.<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="customize">Attach: police report + Stage 1 research output.</div>
+        <div class="callout callout-red"><strong>This prompt requires client data.</strong> Only use with Tier 3+ tools (Claude API, M365 Copilot). Never paste client facts into ChatGPT Free, Claude Free, or Gemini personal.</div>
+      </div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-header" onclick="toggleCard(this)">
+        <div class="prompt-title">Sentencing Memo</div>
+        <div class="prompt-badges"><span class="tier-badge tier-3-plus">Tier 3+</span></div>
+        <div class="prompt-toggle">&#9654;</div>
+      </div>
+      <div class="prompt-body">
+        <div class="prompt-box">Draft a sentencing memorandum for a <span class="bracket">[charge type]</span> case. Use the attached PSI and social history documents. Structure: (1) introduction and sentencing request, (2) personal history and mitigating circumstances, (3) acceptance of responsibility (if applicable), (4) sentencing factors under <span class="bracket">[Mo. Rev. Stat. &sect; 557.036 / applicable statute]</span>, (5) argument for <span class="bracket">[probation / reduced sentence / alternative program]</span>, (6) conclusion. Cite the mitigation research provided. Humanize the client without being maudlin.<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="customize">Attach: PSI, social history, Stage 1 mitigation research.</div>
+      </div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-header" onclick="toggleCard(this)">
+        <div class="prompt-title">Client Letter &mdash; Plea Offer Explanation</div>
+        <div class="prompt-badges"><span class="tier-badge tier-any">Any Tier (template) / Tier 3+ (full draft)</span></div>
+        <div class="prompt-toggle">&#9654;</div>
+      </div>
+      <div class="prompt-body">
+        <p style="margin-top:10px;"><strong>Template approach (Any Tier):</strong></p>
+        <div class="prompt-box">Draft a letter template explaining a plea offer to a client. The offer is <span class="bracket">[X years / probation / SIS / SES]</span> for a <span class="bracket">[charge type]</span>. The client has <span class="bracket">[no criminal history / prior convictions for X]</span>. Use placeholders: [CLIENT NAME], [CASE NUMBER], [NEXT COURT DATE]. Explain in plain language: (1) what the offer means, (2) what happens if they accept, (3) what happens if they reject and go to trial, (4) sentencing range if convicted at trial. No legalese. Write at a 9th-grade reading level.<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="customize">Customize: <code>[offer terms]</code>, <code>[charge type]</code>, <code>[criminal history]</code>. Fill in placeholders yourself in Word.</div>
+        <div class="pro-tip"><strong>Pro tip:</strong> The template approach keeps client data out of AI entirely. You fill in the names and case numbers after.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- DOCUMENT ANALYSIS -->
+  <!-- ============================================ -->
+  <div class="category-header">Document Analysis</div>
+
+  <section>
+    <div class="prompt-card">
+      <div class="prompt-header" onclick="toggleCard(this)">
+        <div class="prompt-title">Police Report Summary</div>
+        <div class="prompt-badges"><span class="tier-badge tier-3-plus">Tier 3+</span></div>
+        <div class="prompt-toggle">&#9654;</div>
+      </div>
+      <div class="prompt-body">
+        <div class="prompt-box">Summarize the attached police report. Provide: (1) a one-paragraph narrative summary, (2) a chronological timeline of events with times, (3) all individuals mentioned with their roles (officer, witness, suspect, victim), (4) all physical evidence collected, (5) any Miranda warnings given (and when), (6) any statements attributed to anyone. Flag anything that seems inconsistent, unusual, or legally significant.<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-header" onclick="toggleCard(this)">
+        <div class="prompt-title">Discovery Inconsistency Analysis</div>
+        <div class="prompt-badges"><span class="tier-badge tier-3-plus">Tier 3+</span></div>
+        <div class="prompt-toggle">&#9654;</div>
+      </div>
+      <div class="prompt-body">
+        <div class="prompt-box">I've uploaded <span class="bracket">[X]</span> documents from discovery in a criminal case. Do the following:
+
+1. Create a chronological timeline of all events described across all documents. Note the source document for each event.
+2. Identify any factual inconsistencies between documents &mdash; different times, different descriptions, conflicting statements about who was present.
+3. Identify any gaps &mdash; events or time periods that are referenced but not documented.
+4. For each inconsistency or gap, explain why it might matter for the defense.
+5. List any questions these documents raise but don't answer.<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="customize">Upload: police reports, witness statements, lab results, probable cause statement, etc.</div>
+        <div class="pro-tip"><strong>Pro tip:</strong> NotebookLM handles multiple documents natively. Upload all at once and ask questions across the entire set.</div>
+      </div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-header" onclick="toggleCard(this)">
+        <div class="prompt-title">Multi-Document Comparison</div>
+        <div class="prompt-badges"><span class="tier-badge tier-3-plus">Tier 3+</span></div>
+        <div class="prompt-toggle">&#9654;</div>
+      </div>
+      <div class="prompt-body">
+        <div class="prompt-box">Compare the officer's description of <span class="bracket">[the stop / the search / the arrest]</span> in the probable cause statement with the description in the police report <span class="bracket">[and the body camera transcript, if available]</span>. For each factual claim, note: (1) what each document says, (2) whether they agree or disagree, (3) if they disagree, which version is more favorable for the defense and why.<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-header" onclick="toggleCard(this)">
+        <div class="prompt-title">Timeline Extraction</div>
+        <div class="prompt-badges"><span class="tier-badge tier-3-plus">Tier 3+</span></div>
+        <div class="prompt-toggle">&#9654;</div>
+      </div>
+      <div class="prompt-body">
+        <div class="prompt-box">Extract a detailed chronological timeline from the attached documents. For each event: (1) exact date and time (if available), (2) what happened, (3) who was involved, (4) which document is the source (with page number if possible). Organize in a table format. Highlight any time gaps longer than <span class="bracket">[30 minutes]</span> that are not accounted for.<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-header" onclick="toggleCard(this)">
+        <div class="prompt-title">PSI Review and Fact-Check</div>
+        <div class="prompt-badges"><span class="tier-badge tier-3-plus">Tier 3+</span></div>
+        <div class="prompt-toggle">&#9654;</div>
+      </div>
+      <div class="prompt-body">
+        <div class="prompt-box">Review the attached PSI (Pre-Sentence Investigation Report). Identify: (1) any factual claims that are not supported by the underlying discovery documents (also attached), (2) any characterizations of the defendant that are editorializing rather than fact-reporting, (3) any sentencing-relevant information that is missing (employment, education, family support, mental health, substance abuse treatment), (4) any errors in criminal history or charges. Create a list of objections organized by PSI section number.<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="customize">Upload: PSI + discovery documents for cross-reference.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- VOIR DIRE & TRIAL PREP -->
+  <!-- ============================================ -->
+  <div class="category-header">Voir Dire &amp; Trial Prep</div>
+
+  <section>
+    <div class="prompt-card">
+      <div class="prompt-header" onclick="toggleCard(this)">
+        <div class="prompt-title">Voir Dire Question Generation</div>
+        <div class="prompt-badges"><span class="tier-badge tier-any">Any Tier</span></div>
+        <div class="prompt-toggle">&#9654;</div>
+      </div>
+      <div class="prompt-body">
+        <div class="prompt-box">Generate voir dire questions for a <span class="bracket">[DWI / drug possession / assault / domestic violence / homicide]</span> case. For each question: (1) what bias or attitude it's designed to surface, (2) whether it's a for-cause or peremptory challenge question, (3) what answer would be favorable vs. unfavorable for the defense. Include questions from published trial advocacy resources. Organize by topic: attitudes toward <span class="bracket">[law enforcement / the charge type / the defendant's background / reasonable doubt]</span>.<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="customize">Customize: <code>[case type]</code> and <code>[specific topics]</code> relevant to your case.</div>
+      </div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-header" onclick="toggleCard(this)">
+        <div class="prompt-title">Supplemental Juror Questionnaire</div>
+        <div class="prompt-badges"><span class="tier-badge tier-any">Any Tier</span></div>
+        <div class="prompt-toggle">&#9654;</div>
+      </div>
+      <div class="prompt-body">
+        <div class="prompt-box">Draft a supplemental juror questionnaire for a <span class="bracket">[case type]</span> trial. Include <span class="bracket">[20-30]</span> questions covering: (1) media exposure to the case or similar cases, (2) personal experiences with <span class="bracket">[law enforcement / the criminal justice system / the specific crime type]</span>, (3) attitudes about <span class="bracket">[self-defense / drug use / mental health / police credibility]</span>, (4) ability to follow the law on <span class="bracket">[burden of proof / presumption of innocence / specific jury instructions]</span>. Use a mix of yes/no, scale (1-5), and short-answer questions. Keep language accessible.<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-header" onclick="toggleCard(this)">
+        <div class="prompt-title">Cross-Examination Prep from Depositions</div>
+        <div class="prompt-badges"><span class="tier-badge tier-3-plus">Tier 3+</span></div>
+        <div class="prompt-toggle">&#9654;</div>
+      </div>
+      <div class="prompt-body">
+        <div class="prompt-box">Review the attached <span class="bracket">[deposition transcript / prior testimony / police report]</span> for <span class="bracket">[witness name / officer name]</span>. Identify: (1) every factual claim the witness makes, (2) any internal inconsistencies within the testimony, (3) any statements that contradict the other discovery documents, (4) any areas where the witness hedges, qualifies, or is uncertain, (5) any assumptions the witness makes that could be challenged. For each point, draft a leading cross-examination question.<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-header" onclick="toggleCard(this)">
+        <div class="prompt-title">Jury Instruction Analysis</div>
+        <div class="prompt-badges"><span class="tier-badge tier-any">Any Tier</span></div>
+        <div class="prompt-toggle">&#9654;</div>
+      </div>
+      <div class="prompt-body">
+        <div class="prompt-box">Analyze the pattern jury instructions for <span class="bracket">[MAI-CR 3d &sect; XX.XX / your state's instruction]</span> for a <span class="bracket">[charge type]</span> case. Break down: (1) each element the prosecution must prove, (2) what evidence would satisfy each element, (3) what evidence would negate each element, (4) any lesser-included offenses and their instructions, (5) any defense instructions that might apply <span class="bracket">(self-defense, intoxication, mistake of fact, etc.)]</span>. For each element, explain in plain language what the jury will be asked to decide.<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="customize">Customize: <code>[instruction number]</code> and <code>[charge type]</code>. MAI-CR 3d = Missouri Approved Instructions.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- WRITING & EDITING -->
+  <!-- ============================================ -->
+  <div class="category-header">Writing &amp; Editing</div>
+
+  <section>
+    <div class="prompt-card">
+      <div class="prompt-header" onclick="toggleCard(this)">
+        <div class="prompt-title">Extract a Style Guide from Exemplar Writing</div>
+        <div class="prompt-badges"><span class="tier-badge tier-any">Any Tier</span></div>
+        <div class="prompt-toggle">&#9654;</div>
+      </div>
+      <div class="prompt-body">
+        <p style="margin-top:10px;">Upload 3-5 briefs or opinions from writers you admire (public documents only).</p>
+        <div class="prompt-box">Analyze the writing style of these documents. Identify specific patterns: sentence length and variation, paragraph structure, how arguments are introduced and transitioned, citation integration (inline vs. footnotes), use of facts vs. law, tone, and rhetorical devices. Based on your analysis, create a concise, reusable style guide. For each pattern, give a rule and a before/after example.<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="pro-tip"><strong>Pro tip:</strong> Save the generated style guide as a document. Upload it at the start of any writing session: "Apply this style guide to the following draft."</div>
+      </div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-header" onclick="toggleCard(this)">
+        <div class="prompt-title">Polish / Edit a Draft</div>
+        <div class="prompt-badges"><span class="tier-badge tier-any">Any Tier (no client data) / Tier 3+ (with client data)</span></div>
+        <div class="prompt-toggle">&#9654;</div>
+      </div>
+      <div class="prompt-body">
+        <div class="prompt-box">Review this draft for: (1) passive voice &mdash; convert to active, (2) unnecessary qualifiers &mdash; "very," "somewhat," "rather," "quite," (3) sentences over 30 words &mdash; split or tighten, (4) paragraphs over 5 sentences &mdash; break up, (5) throat-clearing &mdash; weak openings like "It is important to note that." For each issue, show the original and your suggested edit.<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-header" onclick="toggleCard(this)">
+        <div class="prompt-title">Tone Shift (Formal to Conversational or Vice Versa)</div>
+        <div class="prompt-badges"><span class="tier-badge tier-any">Any Tier</span></div>
+        <div class="prompt-toggle">&#9654;</div>
+      </div>
+      <div class="prompt-body">
+        <p style="margin-top:10px;"><strong>Formal to conversational:</strong></p>
+        <div class="prompt-box">Rewrite this text for a general audience. Keep the substance but make it conversational: shorter sentences, no legalese, active voice, plain language. Aim for a 9th-grade reading level. If a legal term is essential, define it in parentheses the first time it appears.<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+        <p style="margin-top:10px;"><strong>Conversational to formal:</strong></p>
+        <div class="prompt-box">Rewrite this text for a court filing. Use formal legal register: precise terminology, citation format, structured paragraphs with topic sentences. Remove colloquialisms, contractions, and first person. Maintain the substantive arguments.<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-header" onclick="toggleCard(this)">
+        <div class="prompt-title">Citation Formatting</div>
+        <div class="prompt-badges"><span class="tier-badge tier-any">Any Tier</span></div>
+        <div class="prompt-toggle">&#9654;</div>
+      </div>
+      <div class="prompt-body">
+        <div class="prompt-box">Review the citations in this document for Bluebook formatting errors. For each citation: (1) identify what's wrong, (2) provide the corrected citation. Check: case name italicization, reporter abbreviations, pinpoint citations, subsequent history, and signal usage (see, see also, cf., etc.). Flag any citations that appear to be hallucinated (unusual reporter, wrong court for the reporter, year doesn't match).<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="callout callout-yellow"><strong>Caution:</strong> AI is mediocre at Bluebook formatting. Use this as a first pass, not a final check. Always verify citations independently.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- TRANSCRIPTION & AUDIO -->
+  <!-- ============================================ -->
+  <div class="category-header">Transcription &amp; Audio</div>
+
+  <section>
+    <div class="prompt-card">
+      <div class="prompt-header" onclick="toggleCard(this)">
+        <div class="prompt-title">Jail Call Summary</div>
+        <div class="prompt-badges"><span class="tier-badge tier-3-plus">Tier 3+</span></div>
+        <div class="prompt-toggle">&#9654;</div>
+      </div>
+      <div class="prompt-body">
+        <div class="prompt-box">Transcribe and summarize this jail call recording. Provide: (1) a one-paragraph summary of the conversation, (2) all participants identified (by voice if names aren't stated), (3) any statements that could be relevant to the case &mdash; admissions, plans, references to the charges or co-defendants, (4) any statements that indicate the caller's mental state, (5) timestamps for each significant statement.<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="pro-tip"><strong>Pro tip:</strong> Use Reduct for jail calls. It links transcripts to audio timestamps &mdash; click any word to hear that moment.</div>
+      </div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-header" onclick="toggleCard(this)">
+        <div class="prompt-title">BWC Key-Moment Extraction</div>
+        <div class="prompt-badges"><span class="tier-badge tier-3-plus">Tier 3+</span></div>
+        <div class="prompt-toggle">&#9654;</div>
+      </div>
+      <div class="prompt-body">
+        <div class="prompt-box">Review the transcript of this body camera footage. Identify and timestamp: (1) initial contact &mdash; what was said and how the stop was initiated, (2) any Miranda warnings (exact wording and time), (3) any consent requests and responses, (4) any use of force or physical contact, (5) any statements by the suspect, (6) any statements by witnesses, (7) when backup arrived, (8) when the suspect was placed in custody. For each moment, note the exact timestamp and quote the relevant language.<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-header" onclick="toggleCard(this)">
+        <div class="prompt-title">Multi-Call Pattern Analysis</div>
+        <div class="prompt-badges"><span class="tier-badge tier-3-plus">Tier 3+</span></div>
+        <div class="prompt-toggle">&#9654;</div>
+      </div>
+      <div class="prompt-body">
+        <div class="prompt-box">I've uploaded transcripts from <span class="bracket">[X]</span> jail calls. Analyze across all calls for: (1) who the caller spoke with most frequently, (2) recurring topics or themes, (3) any evolution in the caller's account of events over time, (4) any mentions of co-defendants, witnesses, or evidence, (5) any statements about the attorney-client relationship or case strategy (flag these &mdash; they may be privileged). Create a summary table: date, duration, participants, key topics, notable statements.<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- GENERAL PRODUCTIVITY -->
+  <!-- ============================================ -->
+  <div class="category-header">General Productivity</div>
+
+  <section>
+    <div class="prompt-card">
+      <div class="prompt-header" onclick="toggleCard(this)">
+        <div class="prompt-title">Email Summary / Drafting</div>
+        <div class="prompt-badges"><span class="tier-badge tier-3-plus">Tier 3+ (work email)</span></div>
+        <div class="prompt-toggle">&#9654;</div>
+      </div>
+      <div class="prompt-body">
+        <p style="margin-top:10px;"><strong>Summarize a thread:</strong></p>
+        <div class="prompt-box">Summarize this email thread. Identify: (1) the core issue or request, (2) what each participant is asking for, (3) any deadlines mentioned, (4) what action is needed from me, (5) any unanswered questions.<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+        <p style="margin-top:10px;"><strong>Draft a reply:</strong></p>
+        <div class="prompt-box">Draft a reply to this email. Tone: <span class="bracket">[professional / conversational / formal]</span>. Key points to address: <span class="bracket">[list your points]</span>. Keep it under <span class="bracket">[100 / 200]</span> words.<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="callout callout-yellow"><strong>Work email = client data.</strong> Only use Tier 4 tools (M365 Copilot, Google Workspace Gemini) for email that contains client names, case numbers, or case details.</div>
+      </div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-header" onclick="toggleCard(this)">
+        <div class="prompt-title">CLE Tracking</div>
+        <div class="prompt-badges"><span class="tier-badge tier-any">Any Tier</span></div>
+        <div class="prompt-toggle">&#9654;</div>
+      </div>
+      <div class="prompt-body">
+        <div class="prompt-box">I attended a CLE on <span class="bracket">[topic]</span> on <span class="bracket">[date]</span>. It was <span class="bracket">[X hours]</span>, including <span class="bracket">[Y hours]</span> of ethics credit. Provider: <span class="bracket">[organization]</span>. Create a tracking entry with: topic, date, hours (general + ethics), provider, and my current running total for this reporting period. My <span class="bracket">[Missouri]</span> bar requires <span class="bracket">[15 hours including 3 ethics]</span> per reporting period.<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-header" onclick="toggleCard(this)">
+        <div class="prompt-title">Meeting Prep from Calendar Context</div>
+        <div class="prompt-badges"><span class="tier-badge tier-3-plus">Tier 3+ (if case-related)</span></div>
+        <div class="prompt-toggle">&#9654;</div>
+      </div>
+      <div class="prompt-body">
+        <div class="prompt-box">I have a <span class="bracket">[hearing type]</span> in <span class="bracket">[X days]</span>. The case involves <span class="bracket">[brief description]</span>. Help me prepare a checklist: (1) documents I need to bring, (2) legal issues likely to arise, (3) questions the judge might ask, (4) any motions I should have ready, (5) a one-page summary I can bring to the podium.<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="callout callout-yellow"><strong>If case-specific:</strong> Use Tier 3+ only. For general hearing prep (e.g., "What should I prepare for a preliminary hearing?"), any tier is fine.</div>
+      </div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-header" onclick="toggleCard(this)">
+        <div class="prompt-title">Weekly Legal News Digest</div>
+        <div class="prompt-badges"><span class="tier-badge tier-any">Any Tier</span></div>
+        <div class="prompt-toggle">&#9654;</div>
+      </div>
+      <div class="prompt-body">
+        <div class="prompt-box">Search for new <span class="bracket">[8th Circuit / Missouri appellate]</span> opinions from the past week in these practice areas: <span class="bracket">[criminal defense / Fourth Amendment / sentencing / habeas]</span>. For each new opinion: case name, citation, date, one-sentence summary, and whether it's favorable or unfavorable for the defense. Also check for any new bar ethics opinions related to AI use in legal practice.<button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+        <div class="pro-tip"><strong>Pro tip:</strong> Run this prompt every Monday morning with Perplexity or Gemini Deep Research. No client data involved &mdash; safe at any tier.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cross-links -->
+  <div class="cross-links">
+    <h3>Related Pages</h3>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="risk-matrix.html">Risk Matrix &amp; Tier Framework</a></li>
+      <li><a href="use-cases.html">Use Cases (full workflows)</a></li>
+      <li><a href="agents.html">Agents &amp; Automation</a></li>
+      <li><a href="heppner.html">Heppner Case Breakdown</a></li>
+      <li><a href="open-questions.html">Open Questions</a></li>
+      <li><a href="ethics-opinions.html">Ethics Opinions</a></li>
+      <li><a href="glossary.html">Glossary</a></li>
+      <li><a href="vendor-details.html">Vendor Details</a></li>
+    </ul>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p><strong>Every prompt comes back to the same question:</strong> does it contain client data? If yes, use Tier 3+ tools. If no, use whatever you want. See the <a href="risk-matrix.html">Risk Matrix</a> for the full framework.</p>
+    <p style="margin-top:8px;">Part of the AI Ethics &amp; Practical Use Training Site &mdash; Built with Claude Code &mdash; 2026</p>
+  </div>
+
+</div>
+
+<script>
+function toggleCard(header) {
+  const card = header.closest('.prompt-card');
+  card.classList.toggle('open');
+}
+
+function copyPrompt(btn) {
+  const box = btn.closest('.prompt-box');
+  // Get text content excluding the button
+  const clone = box.cloneNode(true);
+  const btnClone = clone.querySelector('.copy-btn');
+  if (btnClone) btnClone.remove();
+  const text = clone.textContent.trim();
+
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Copy';
+      btn.classList.remove('copied');
+    }, 2000);
+  }).catch(() => {
+    // Fallback for older browsers
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.textContent = 'Copied';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Copy';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+</script>
+
+</body>
+</html>
