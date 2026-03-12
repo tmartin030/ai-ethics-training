@@ -49,7 +49,7 @@
   .slide a.page-link:hover { text-decoration-color: #f6ad55; }
 
   /* Accent colors */
-  .red { color: #fc8181; }
+  .red { color: #fc8181; font-size: 2.6rem; }
   .blue { color: #63b3ed; }
   .amber { color: #d97706; }
 
@@ -80,7 +80,7 @@
     background: rgba(217, 119, 6, 0.12); border: 2px solid #d97706;
   }
   .compare-col h4 { color: #f6ad55; font-size: 1rem; margin-bottom: 8px; }
-  .compare-col p { font-size: 0.95rem; }
+  .compare-col p { font-size: 1.1rem; }
   .compare-col.warn { background: rgba(220, 38, 38, 0.15); border-color: #fc8181; }
   .compare-col.warn h4 { color: #fc8181; }
 
@@ -91,7 +91,7 @@
     max-width: 800px; margin-top: 20px;
   }
   .callout-box h4 { color: #63b3ed; font-size: 1.1rem; margin-bottom: 8px; }
-  .callout-box p { font-size: 1rem; }
+  .callout-box p { font-size: 1.1rem; }
 
   /* Navigation */
   .nav-bar {
@@ -108,14 +108,6 @@
   .nav-btn:hover { border-color: #4299e1; color: #fff; }
   .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
   .slide-counter { color: #718096; font-size: 0.85rem; font-weight: 600; }
-
-  /* QR placeholder */
-  .qr-placeholder {
-    width: 180px; height: 180px; background: #fff; border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    color: #1a1a2e; font-weight: 700; font-size: 0.8rem;
-    margin: 20px auto; text-align: center; padding: 10px;
-  }
 
   /* Responsive */
   @media (max-width: 768px) {
@@ -168,7 +160,30 @@
     </div>
   </div>
 
-  <!-- SLIDE 3: The 4 Tiers -->
+  <!-- SLIDE 3: How AI Actually Works -->
+  <div class="slide">
+    <h2>How AI actually works</h2>
+    <div class="tier-grid" style="grid-template-columns:1fr 1fr 1fr;max-width:1000px;">
+      <div class="tier-box">
+        <h4>Inference vs. Training</h4>
+        <p>Processing your prompt is not the same as updating the model. Training is a separate, expensive, deliberate industrial process.</p>
+      </div>
+      <div class="tier-box">
+        <h4>Context Window</h4>
+        <p>Each conversation is isolated. No memory between sessions unless a feature explicitly carries it forward.</p>
+      </div>
+      <div class="tier-box">
+        <h4>Cloud Architecture</h4>
+        <p>Same as email, OneDrive, any SaaS. Your prompt travels to a server, gets processed, response comes back.</p>
+      </div>
+    </div>
+    <div class="callout-box" style="margin-top:20px;max-width:900px;">
+      <h4>Stored Communications Act</h4>
+      <p>Your AI prompts are <strong>stored data</strong> (like cloud files), not <strong>stored communications</strong> (like email). Same legal category as anything else you put in cloud storage.</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: The 4 Tiers -->
   <div class="slide">
     <h2>The 4 Tiers of Data Protection</h2>
     <div class="tier-grid">
@@ -186,13 +201,26 @@
       </div>
       <div class="tier-box">
         <h4>Tier 4 &mdash; Enterprise Tenancy</h4>
-        <p>Data stays in your managed tenant. Enterprise agreement + DPA + admin controls. M365 Copilot, Workspace Gemini.</p>
+        <p>Data stays in a vendor-hosted tenant isolated to your organization. Enterprise agreement + DPA + admin controls. M365 Copilot, Workspace Gemini.</p>
       </div>
     </div>
     <p class="subtitle" style="margin-top:16px;max-width:800px;text-align:center;">No tier is risk-free. Even at Tier 4, vendors retain carve-outs for legal process, safety detection, and TOS violations.</p>
   </div>
 
-  <!-- SLIDE 4: Heppner -->
+  <!-- SLIDE 5: The Real Risks -->
+  <div class="slide left">
+    <h2>Training is the easy problem</h2>
+    <h3>These are the hard ones</h3>
+    <ul>
+      <li><strong>Data Handling &amp; Retention</strong> &mdash; Where does it sit, for how long, who can access it?</li>
+      <li><strong>Memory Cross-Contamination</strong> &mdash; Client A's facts surfacing in Client B's conversation. Rules 1.6 + 1.7.</li>
+      <li><strong>Hallucinations</strong> &mdash; Confident fabrication of case citations and facts.</li>
+      <li><strong>Prompt Injection</strong> &mdash; External content manipulating model output. You get a manipulated summary.</li>
+      <li><strong>Consumer Tool Seduction</strong> &mdash; Free and frictionless beats secure and inconvenient. That's where the risk lives.</li>
+    </ul>
+  </div>
+
+  <!-- SLIDE 6: Heppner -->
   <div class="slide">
     <h2 class="red">Consumer AI chats are not privileged</h2>
     <p><em>United States v. Heppner</em> (S.D.N.Y. Feb. 2026)</p>
@@ -203,7 +231,7 @@
     </div>
   </div>
 
-  <!-- SLIDE 5: The Feedback Trap -->
+  <!-- SLIDE 7: The Feedback Trap -->
   <div class="slide">
     <h2 class="red">The feedback trap</h2>
     <p style="max-width:700px;">When you click thumbs up or thumbs down, <strong>you give the vendor that entire conversation for training</strong> &mdash; even if you opted out.</p>
@@ -219,7 +247,7 @@
     </div>
   </div>
 
-  <!-- SLIDE 6: Contractual Gotchas -->
+  <!-- SLIDE 8: Contractual Gotchas -->
   <div class="slide left">
     <h2>Contractual gotchas</h2>
     <ul>
@@ -228,10 +256,12 @@
       <li><strong>Gemini's Weak Opt-Out:</strong> 72-hour retention, human review possible even with activity off.</li>
       <li><strong>Feedback = consent:</strong> Thumbs up/down retains the conversation for up to 5 years.</li>
       <li><strong>Unilateral TOS changes:</strong> Consumer tools can change terms anytime without notice.</li>
+      <li><strong>Memory cross-contamination:</strong> ChatGPT memory is on by default. Client A's facts can surface in Client B's chat. <span class="red">Turn memory off.</span></li>
+      <li><strong>Prompt injection:</strong> External content (documents, web pages) can contain hidden instructions that manipulate AI output.</li>
     </ul>
   </div>
 
-  <!-- SLIDE 7: Where the States Fall -->
+  <!-- SLIDE 9: Where the States Fall -->
   <div class="slide left">
     <h2>Where the states fall</h2>
     <p style="margin-bottom:16px;">47+ jurisdictions have issued guidance. They agree on the basics. They diverge on disclosure, fees, and vendor vetting.</p>
@@ -245,7 +275,7 @@
     <p class="subtitle" style="margin-top:16px;">Full comparison table on the <a class="page-link" href="ethics-opinions.html" target="_blank">Ethics Opinions</a> page.</p>
   </div>
 
-  <!-- SLIDE 8: Toggle training off -->
+  <!-- SLIDE 10: Toggle training off -->
   <div class="slide left">
     <h2>Toggle training off &mdash; do it now</h2>
     <h3>Open your phone. Follow along.</h3>
@@ -261,7 +291,7 @@
     </div>
   </div>
 
-  <!-- SLIDE 9: Let's do real work -->
+  <!-- SLIDE 11: Let's do real work -->
   <div class="slide">
     <h2>Let's do real work</h2>
     <p>Practical demos &mdash; live on screen.</p>
@@ -274,7 +304,7 @@
     <p class="subtitle" style="margin-top:16px;font-style:italic;">Demos run on live browser tabs, not embedded in slides.</p>
   </div>
 
-  <!-- SLIDE 10: The two-stage approach -->
+  <!-- SLIDE 12: The two-stage approach -->
   <div class="slide left">
     <h2>The two-stage approach</h2>
     <h3>Keeps client data out of consumer tools</h3>
@@ -288,19 +318,19 @@
     </div>
   </div>
 
-  <!-- SLIDE 11: What to do Monday morning -->
+  <!-- SLIDE 13: What to do Monday morning -->
   <div class="slide left">
     <h2>What to do Monday morning</h2>
     <ul>
       <li><strong>Check your tools.</strong> Free Copilot or M365 Copilot? Personal Gemini or Workspace? Claude Free or API?</li>
-      <li><strong>Training is already off</strong> (we did that on slide 8).</li>
+      <li><strong>Training is already off</strong> (we did that on slide 10).</li>
       <li><strong>Never click thumbs up/down</strong> on conversations with client information.</li>
       <li><strong>Use the two-stage approach.</strong> Research at any tier, draft at Tier 3+.</li>
       <li><strong>Bookmark the website.</strong> Use it as a reference when evaluating new tools.</li>
     </ul>
   </div>
 
-  <!-- SLIDE 12: Essential resources -->
+  <!-- SLIDE 14: Essential resources -->
   <div class="slide left">
     <h2>Essential resources</h2>
     <ul>
@@ -312,11 +342,10 @@
     </ul>
   </div>
 
-  <!-- SLIDE 13: Questions? -->
+  <!-- SLIDE 15: Questions? -->
   <div class="slide">
     <h1>Questions?</h1>
-    <div class="qr-placeholder" style="margin-top:30px;">[QR Code]<br>Link to site</div>
-    <p style="margin-top:20px;">Scan. Bookmark. Come back when you need it.</p>
+    <p style="margin-top:20px;">Bookmark the site. Come back when you need it.</p>
     <p class="subtitle" style="margin-top:10px;">Travis Martin &mdash; MSPD Legal Technology Strategist</p>
   </div>
 
@@ -325,7 +354,7 @@
 <!-- Navigation -->
 <div class="nav-bar">
   <button class="nav-btn" id="prevBtn" onclick="navigate(-1)">&#8592; Previous</button>
-  <span class="slide-counter" id="counter">1 / 13</span>
+  <span class="slide-counter" id="counter">1 / 15</span>
   <button class="nav-btn" id="nextBtn" onclick="navigate(1)">Next &#8594;</button>
 </div>
 
