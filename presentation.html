@@ -32,211 +32,89 @@
   .slide.left { text-align: left; align-items: flex-start; }
 
   /* Typography */
-  .slide h1 {
-    font-size: 3.2rem;
-    font-weight: 800;
-    line-height: 1.2;
-    margin-bottom: 20px;
-    letter-spacing: -0.5px;
-  }
-  .slide h2 {
-    font-size: 2.2rem;
-    font-weight: 700;
-    line-height: 1.3;
-    margin-bottom: 16px;
-  }
-  .slide h3 {
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: #a0aec0;
-    margin-bottom: 12px;
-  }
-  .slide p {
-    font-size: 1.3rem;
-    color: #cbd5e0;
-    line-height: 1.7;
-    max-width: 800px;
-  }
-  .slide .subtitle {
-    font-size: 1.1rem;
-    color: #718096;
-    margin-top: 10px;
-  }
-  .slide ul {
-    text-align: left;
-    font-size: 1.3rem;
-    color: #cbd5e0;
-    line-height: 2;
-    padding-left: 30px;
-    max-width: 800px;
-  }
+  .slide h1 { font-size: 3.2rem; font-weight: 800; line-height: 1.2; margin-bottom: 20px; letter-spacing: -0.5px; }
+  .slide h2 { font-size: 2.2rem; font-weight: 700; line-height: 1.3; margin-bottom: 16px; }
+  .slide h3 { font-size: 1.4rem; font-weight: 600; color: #a0aec0; margin-bottom: 12px; }
+  .slide p { font-size: 1.3rem; color: #cbd5e0; line-height: 1.7; max-width: 800px; }
+  .slide .subtitle { font-size: 1.1rem; color: #718096; margin-top: 10px; }
+  .slide ul { text-align: left; font-size: 1.3rem; color: #cbd5e0; line-height: 2; padding-left: 30px; max-width: 800px; }
   .slide li { margin-bottom: 4px; }
   .slide strong { color: #fff; }
   .slide em { color: #f6ad55; font-style: normal; font-weight: 600; }
   .slide a.page-link {
-    color: #f6ad55;
-    font-weight: 600;
-    text-decoration: underline;
-    text-decoration-color: rgba(246, 173, 85, 0.4);
-    text-underline-offset: 3px;
-    cursor: pointer;
-    transition: text-decoration-color 0.15s;
+    color: #f6ad55; font-weight: 600; text-decoration: underline;
+    text-decoration-color: rgba(246, 173, 85, 0.4); text-underline-offset: 3px;
+    cursor: pointer; transition: text-decoration-color 0.15s;
   }
   .slide a.page-link:hover { text-decoration-color: #f6ad55; }
 
   /* Accent colors */
   .red { color: #fc8181; }
-  .green { color: #68d391; }
-  .yellow { color: #f6e05e; }
   .blue { color: #63b3ed; }
-
-  /* Big number */
-  .big-number {
-    font-size: 6rem;
-    font-weight: 800;
-    line-height: 1;
-    margin-bottom: 16px;
-  }
+  .amber { color: #d97706; }
 
   /* Quote */
   .quote {
-    font-size: 1.5rem;
-    font-style: italic;
-    color: #e2e8f0;
-    border-left: 4px solid #4299e1;
-    padding-left: 24px;
-    text-align: left;
-    max-width: 700px;
-    line-height: 1.6;
+    font-size: 1.5rem; font-style: italic; color: #e2e8f0;
+    border-left: 4px solid #4299e1; padding-left: 24px;
+    text-align: left; max-width: 700px; line-height: 1.6;
   }
-  .quote-source {
-    font-size: 0.9rem;
-    color: #718096;
-    font-style: normal;
-    margin-top: 12px;
-  }
+  .quote-source { font-size: 0.9rem; color: #718096; font-style: normal; margin-top: 12px; }
 
-  /* Grid */
+  /* Tier grid -- all amber */
   .tier-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    width: 100%;
-    max-width: 900px;
-    margin-top: 20px;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 16px; width: 100%; max-width: 900px; margin-top: 20px;
   }
   .tier-box {
-    padding: 20px;
-    border-radius: 10px;
-    text-align: left;
+    padding: 20px; border-radius: 10px; text-align: left;
+    background: rgba(217, 119, 6, 0.12); border: 2px solid #d97706;
   }
-  .tier-box h4 {
-    font-size: 1.1rem;
-    font-weight: 700;
-    margin-bottom: 8px;
-  }
-  .tier-box p {
-    font-size: 0.95rem;
-    line-height: 1.5;
-  }
-  .tier-red { background: rgba(220, 38, 38, 0.2); border: 2px solid #fc8181; }
-  .tier-red h4 { color: #fc8181; }
-  .tier-yellow { background: rgba(214, 158, 46, 0.2); border: 2px solid #f6e05e; }
-  .tier-yellow h4 { color: #f6e05e; }
-  .tier-green { background: rgba(72, 187, 120, 0.2); border: 2px solid #68d391; }
-  .tier-green h4 { color: #68d391; }
-  .tier-blue { background: rgba(66, 153, 225, 0.2); border: 2px solid #63b3ed; }
-  .tier-blue h4 { color: #63b3ed; }
+  .tier-box h4 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; color: #f6ad55; }
+  .tier-box p { font-size: 0.95rem; line-height: 1.5; }
 
-  /* Compare */
-  .compare-row {
-    display: flex;
-    gap: 20px;
-    width: 100%;
-    max-width: 900px;
-    margin-top: 16px;
+  /* Compare columns */
+  .compare-row { display: flex; gap: 20px; width: 100%; max-width: 900px; margin-top: 16px; }
+  .compare-col {
+    flex: 1; border-radius: 10px; padding: 20px; text-align: left;
+    background: rgba(217, 119, 6, 0.12); border: 2px solid #d97706;
   }
-  .compare-bad {
-    flex: 1;
-    background: rgba(220, 38, 38, 0.15);
-    border: 2px solid #fc8181;
-    border-radius: 10px;
-    padding: 20px;
-    text-align: left;
-  }
-  .compare-good {
-    flex: 1;
-    background: rgba(72, 187, 120, 0.15);
-    border: 2px solid #68d391;
-    border-radius: 10px;
-    padding: 20px;
-    text-align: left;
-  }
-  .compare-bad h4 { color: #fc8181; font-size: 1rem; margin-bottom: 8px; }
-  .compare-good h4 { color: #68d391; font-size: 1rem; margin-bottom: 8px; }
-  .compare-bad p, .compare-good p { font-size: 0.95rem; }
+  .compare-col h4 { color: #f6ad55; font-size: 1rem; margin-bottom: 8px; }
+  .compare-col p { font-size: 0.95rem; }
+  .compare-col.warn { background: rgba(220, 38, 38, 0.15); border-color: #fc8181; }
+  .compare-col.warn h4 { color: #fc8181; }
 
   /* Callout box */
   .callout-box {
-    background: rgba(66, 153, 225, 0.15);
-    border: 2px solid #4299e1;
-    border-radius: 10px;
-    padding: 24px;
-    text-align: left;
-    max-width: 800px;
-    margin-top: 20px;
+    background: rgba(66, 153, 225, 0.15); border: 2px solid #4299e1;
+    border-radius: 10px; padding: 24px; text-align: left;
+    max-width: 800px; margin-top: 20px;
   }
   .callout-box h4 { color: #63b3ed; font-size: 1.1rem; margin-bottom: 8px; }
   .callout-box p { font-size: 1rem; }
 
   /* Navigation */
   .nav-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 12px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(26, 26, 46, 0.95);
-    border-top: 1px solid #2d3748;
-    z-index: 100;
+    position: fixed; bottom: 0; left: 0; right: 0;
+    padding: 12px 20px; display: flex; justify-content: space-between;
+    align-items: center; background: rgba(26, 26, 46, 0.95);
+    border-top: 1px solid #2d3748; z-index: 100;
   }
   .nav-btn {
-    background: none;
-    border: 1px solid #4a5568;
-    color: #a0aec0;
-    padding: 8px 20px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    font-weight: 600;
-    transition: all 0.15s;
+    background: none; border: 1px solid #4a5568; color: #a0aec0;
+    padding: 8px 20px; border-radius: 6px; cursor: pointer;
+    font-size: 0.85rem; font-weight: 600; transition: all 0.15s;
   }
   .nav-btn:hover { border-color: #4299e1; color: #fff; }
   .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-  .slide-counter {
-    color: #718096;
-    font-size: 0.85rem;
-    font-weight: 600;
-  }
+  .slide-counter { color: #718096; font-size: 0.85rem; font-weight: 600; }
 
   /* QR placeholder */
   .qr-placeholder {
-    width: 180px;
-    height: 180px;
-    background: #fff;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #1a1a2e;
-    font-weight: 700;
-    font-size: 0.8rem;
-    margin: 20px auto;
-    text-align: center;
-    padding: 10px;
+    width: 180px; height: 180px; background: #fff; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    color: #1a1a2e; font-weight: 700; font-size: 0.8rem;
+    margin: 20px auto; text-align: center; padding: 10px;
   }
 
   /* Responsive */
@@ -252,13 +130,10 @@
   /* Print */
   @media print {
     body { background: #fff; color: #1a1a2e; overflow: visible; height: auto; }
-    .nav-bar { display: none; }
+    .nav-bar, .disclaimer-bar { display: none; }
     .slide {
-      position: relative;
-      display: flex !important;
-      page-break-after: always;
-      height: 100vh;
-      border-bottom: 1px solid #ccc;
+      position: relative; display: flex !important;
+      page-break-after: always; height: 100vh; border-bottom: 1px solid #ccc;
     }
     .slide h1, .slide h2, .slide strong { color: #1a1a2e; }
     .slide p, .slide ul, .slide li { color: #4a5568; }
@@ -267,8 +142,8 @@
 </head>
 <body>
 
-<div style="position:fixed;top:0;left:0;right:0;z-index:1000;background:#fef3c7;border-bottom:1px solid #d97706;padding:4px 16px;font-size:0.7rem;color:#92400e;text-align:center;">
-  <strong>Training content &mdash; not maintained.</strong> Illustrative and static as of March 2026. AI-generated; may contain errors or dead links.
+<div class="disclaimer-bar" style="position:fixed;top:0;left:0;right:0;z-index:1000;background:#fef3c7;border-bottom:2px solid #d97706;padding:8px 16px;font-size:0.85rem;color:#92400e;text-align:center;">
+  <strong>Not legal advice. Training content only &mdash; not maintained.</strong> Illustrative and static as of March 2026. AI-generated; may contain errors, outdated information, or dead links. Do not rely on anything here as legal guidance.
 </div>
 
 <div class="slides" id="slides" style="padding-top:24px;">
@@ -281,121 +156,96 @@
     <p class="subtitle" style="margin-top:30px;font-size:0.9rem;">Travis Martin &mdash; MSPD Legal Technology Strategist</p>
   </div>
 
-  <!-- SLIDE 2: What we'll cover -->
-  <div class="slide left">
-    <h2>What we'll cover</h2>
-    <ul>
-      <li>The 4-tier framework <span style="color:#718096;">(5 min)</span></li>
-      <li>Toggle training off &mdash; live, on your phone <span style="color:#718096;">(5 min)</span></li>
-      <li><strong>Research demo:</strong> metaprompting + Deep Research <span style="color:#718096;">(10 min)</span></li>
-      <li><strong>Drafting demo:</strong> two-stage motion to suppress <span style="color:#718096;">(10 min)</span></li>
-      <li><strong>Transcription demo:</strong> Reduct vs. Word <span style="color:#718096;">(5 min)</span></li>
-      <li><strong>Prompt templates</strong> you can copy-paste today <span style="color:#718096;">(10 min)</span></li>
-      <li>A day in the life &mdash; where AI fits <span style="color:#718096;">(5 min)</span></li>
-      <li>Q&amp;A <span style="color:#718096;">(10 min)</span></li>
-    </ul>
-  </div>
-
-  <!-- SLIDE 3: Website intro -->
-  <div class="slide">
-    <h2>Everything is on the website</h2>
-    <p>Scan the QR code. Bookmark the page. Come back whenever you're evaluating a new AI tool.</p>
-    <div class="qr-placeholder">[QR Code]<br>Link to site</div>
-    <p class="subtitle">We'll use the site as a reference throughout. You don't need to take notes.</p>
-  </div>
-
-  <!-- SLIDE 4: The problem + Missouri requires (MERGED) -->
+  <!-- SLIDE 2: Missouri requires this -->
   <div class="slide">
     <div class="quote" style="font-size:1.3rem;">
       "Lawyers must assess the terms and conditions of using a generative AI platform or service to understand the security of the information being inputted, how that information is being used by the platform or service, and what data sources the platform or service is using."
       <div class="quote-source">&mdash; Missouri Informal Opinion 2024-11 (April 2024)</div>
     </div>
     <div class="callout-box" style="margin-top:20px;max-width:800px;">
-      <h4>What this means in practice</h4>
-      <p>Every AI tool handles your data differently. Some train on it. Some delete it immediately. <strong>Using the wrong tool for the wrong task is an ethics violation.</strong> Same product, different plan = completely different legal framework. Free Copilot trains on your data and targets ads. M365 Copilot keeps everything in your tenant.</p>
+      <h4>Every AI tool handles your data differently</h4>
+      <p>Some train on it. Some delete it. Using the wrong tool is an ethics issue. The same product with a different plan = completely different legal framework.</p>
     </div>
   </div>
 
-  <!-- SLIDE 5: The 4 Tiers -->
+  <!-- SLIDE 3: The 4 Tiers -->
   <div class="slide">
     <h2>The 4 Tiers of Data Protection</h2>
     <div class="tier-grid">
-      <div class="tier-box tier-red">
+      <div class="tier-box">
         <h4>Tier 1 &mdash; Consumer Default</h4>
         <p>Trains on your data. ChatGPT Free, Claude Free, Gemini personal. Your prompts become the product.</p>
       </div>
-      <div class="tier-box tier-yellow">
+      <div class="tier-box">
         <h4>Tier 2 &mdash; Training Off</h4>
-        <p>Consumer tool with training toggled off. Better, but still governed by ToS the vendor can change anytime.</p>
+        <p>Toggle training off. Still governed by ToS. Better, but vendor can change terms anytime.</p>
       </div>
-      <div class="tier-box tier-green">
+      <div class="tier-box">
         <h4>Tier 3 &mdash; API / DPA</h4>
-        <p>Bilateral contract. DPA. No training. The vendor is a data processor, not a controller. Anthropic API, Reduct.</p>
+        <p>Bilateral contract. No training. Data processor, not controller. Anthropic API, Reduct.</p>
       </div>
-      <div class="tier-box tier-blue">
+      <div class="tier-box">
         <h4>Tier 4 &mdash; Enterprise Tenancy</h4>
-        <p>Data stays in your managed tenant. Enterprise agreement + DPA. Admin controls. M365 Copilot, Google Workspace Gemini.</p>
+        <p>Data stays in your managed tenant. Enterprise agreement + DPA + admin controls. M365 Copilot, Workspace Gemini.</p>
       </div>
     </div>
+    <p class="subtitle" style="margin-top:16px;max-width:800px;text-align:center;">No tier is risk-free. Even at Tier 4, vendors retain carve-outs for legal process, safety detection, and TOS violations.</p>
   </div>
 
-  <!-- SLIDE 6: The matrix concept -->
-  <div class="slide">
-    <h2>Two questions determine the risk</h2>
-    <p style="margin-bottom:20px;">How sensitive is the data? + How protected is the tool?</p>
-    <div class="compare-row">
-      <div class="compare-good">
-        <h4>Safe combinations</h4>
-        <p><strong>Low data + Any tier</strong><br>General legal research, public case law, statutory analysis. No client info. Use whatever tool you want.</p>
-      </div>
-      <div class="compare-bad">
-        <h4>Dangerous combinations</h4>
-        <p><strong>High data + Tier 1 or 2</strong><br>Police reports, jail calls, client confessions, discovery in a consumer AI tool. Ethics violation.</p>
-      </div>
-    </div>
-    <p class="subtitle" style="margin-top:16px;">Let's look at this on the website &rarr; <a class="page-link" href="risk-matrix.html" target="_blank">Risk Matrix page</a></p>
-  </div>
-
-  <!-- SLIDE 7: Heppner -->
+  <!-- SLIDE 4: Heppner -->
   <div class="slide">
     <h2 class="red">Consumer AI chats are not privileged</h2>
     <p><em>United States v. Heppner</em> (S.D.N.Y. Feb. 2026)</p>
-    <p style="margin-top:16px;">A client used consumer Claude AI on his own to research his defense, then shared the results with his lawyers. The court ordered production &mdash; "simply no reasonable expectation of confidentiality" under consumer ToS.</p>
+    <p style="margin-top:16px;">Client used consumer Claude AI for defense research. Court ordered production &mdash; "simply no reasonable expectation of confidentiality" under consumer ToS.</p>
     <div class="callout-box" style="margin-top:20px;">
-      <h4>What this means for attorneys</h4>
-      <p>This was a client's chats, not an attorney's &mdash; but the reasoning reaches you too. If consumer ToS destroy confidentiality for a client, they destroy it for anyone. Enterprise/API tiers were explicitly distinguished. <a class="page-link" href="heppner.html" target="_blank">Full case breakdown</a></p>
+      <h4>The tier you use determines whether privilege holds</h4>
+      <p>Enterprise/API tiers were explicitly distinguished. The court drew a bright line between consumer tools and contractually protected tools.</p>
     </div>
   </div>
 
-  <!-- SLIDE 8: Feedback trap -->
+  <!-- SLIDE 5: The Feedback Trap -->
   <div class="slide">
     <h2 class="red">The feedback trap</h2>
-    <p style="max-width:700px;">When you click thumbs up or thumbs down on an AI response, <strong>you give the vendor that entire conversation for training</strong> &mdash; even if you've opted out of general training.</p>
+    <p style="max-width:700px;">When you click thumbs up or thumbs down, <strong>you give the vendor that entire conversation for training</strong> &mdash; even if you opted out.</p>
     <div class="compare-row" style="margin-top:20px;">
-      <div class="compare-bad">
+      <div class="compare-col warn">
         <h4>The problem</h4>
-        <p>OpenAI, Anthropic, and Google all retain feedback-associated conversations for up to 5 years. This is not opt-outable.</p>
+        <p>OpenAI, Anthropic, and Google retain feedback conversations for up to 5 years. Not opt-outable.</p>
       </div>
-      <div class="compare-good">
+      <div class="compare-col">
         <h4>The rule</h4>
-        <p>Never provide feedback on any conversation that contains client information. The thumbs up/down button is a consent button.</p>
+        <p>Never provide feedback on conversations with client information. The thumbs up/down button is a consent button.</p>
       </div>
     </div>
   </div>
 
-  <!-- SLIDE 9: Demo - Risk Matrix -->
-  <div class="slide">
-    <h2>Demo: Risk Matrix</h2>
-    <p>Open the <a class="page-link" href="risk-matrix.html" target="_blank">Risk Matrix</a> on the website.</p>
-    <ul style="text-align:left;margin-top:20px;">
-      <li>Click scenarios to see where they land</li>
-      <li>"Check Your Scenario" at the bottom</li>
-      <li>Try it on your phone right now</li>
+  <!-- SLIDE 6: Contractual Gotchas -->
+  <div class="slide left">
+    <h2>Contractual gotchas</h2>
+    <ul>
+      <li><strong>The Copilot Trap:</strong> Free Copilot looks identical to M365 Copilot. Same name, completely different data protections. Free version uses data for ads.</li>
+      <li><strong>Meta AI:</strong> Uses conversations for ad targeting. <span class="red">No opt-out.</span></li>
+      <li><strong>Gemini's Weak Opt-Out:</strong> 72-hour retention, human review possible even with activity off.</li>
+      <li><strong>Feedback = consent:</strong> Thumbs up/down retains the conversation for up to 5 years.</li>
+      <li><strong>Unilateral TOS changes:</strong> Consumer tools can change terms anytime without notice.</li>
     </ul>
-    <p class="subtitle" style="margin-top:20px;">Audience: Pick your most common task. Where does it fall on the matrix?</p>
   </div>
 
-  <!-- SLIDE 10: Toggle training off RIGHT NOW -->
+  <!-- SLIDE 7: Where the States Fall -->
+  <div class="slide left">
+    <h2>Where the states fall</h2>
+    <p style="margin-bottom:16px;">47+ jurisdictions have issued guidance. They agree on the basics. They diverge on disclosure, fees, and vendor vetting.</p>
+    <ul>
+      <li><strong>Competence:</strong> must understand AI before using it <span class="blue">(universal)</span></li>
+      <li><strong>Verification:</strong> must verify every output <span class="blue">(universal)</span></li>
+      <li><strong>Confidentiality:</strong> must protect client data <span class="blue">(universal)</span></li>
+      <li><strong>Disclosure:</strong> <span class="amber">SPLIT</span> &mdash; some require, some don't</li>
+      <li><strong>Fee reduction:</strong> <span class="amber">SPLIT</span> &mdash; Kentucky says must reduce, Virginia says no</li>
+    </ul>
+    <p class="subtitle" style="margin-top:16px;">Full comparison table on the <a class="page-link" href="ethics-opinions.html" target="_blank">Ethics Opinions</a> page.</p>
+  </div>
+
+  <!-- SLIDE 8: Toggle training off -->
   <div class="slide left">
     <h2>Toggle training off &mdash; do it now</h2>
     <h3>Open your phone. Follow along.</h3>
@@ -406,184 +256,63 @@
       <li><strong>Copilot (free):</strong> Settings &rarr; Privacy &rarr; "Optional Connected Experiences" &rarr; <span class="red">OFF</span></li>
     </ul>
     <div class="callout-box" style="margin-top:16px;max-width:700px;">
-      <h4>This takes 30 seconds and moves you from Tier 1 to Tier 2</h4>
-      <p>It's not enough for client data (that needs Tier 3+), but it stops your general research from becoming training data. Do this on every AI tool you use.</p>
+      <h4>This moves you from Tier 1 to Tier 2</h4>
+      <p>It's not enough for client data (that needs Tier 3+), but it stops your general research from becoming training data.</p>
     </div>
   </div>
 
-  <!-- SLIDE 11: Practical demos intro -->
+  <!-- SLIDE 9: Let's do real work -->
   <div class="slide">
     <h2>Let's do real work</h2>
-    <p>Practical demos with real tools at the right tier.</p>
+    <p>Practical demos &mdash; live on screen.</p>
     <ul style="text-align:left;margin-top:20px;">
-      <li><strong>Research:</strong> Constitutional issue + metaprompting</li>
-      <li><strong>Document analysis:</strong> Police report summarization</li>
-      <li><strong>Drafting:</strong> Two-stage motion to suppress</li>
-      <li><strong>Transcription:</strong> Jail calls and BWC footage</li>
-      <li><strong>Prompt templates:</strong> Copy-paste prompts for your practice</li>
+      <li><strong>Research:</strong> metaprompting + Deep Research</li>
+      <li><strong>Document analysis:</strong> police report summarization</li>
+      <li><strong>Drafting:</strong> two-stage approach (research at any tier, draft with client facts at Tier 3+)</li>
+      <li><strong>Transcription:</strong> Reduct vs. Word</li>
     </ul>
-    <p class="subtitle" style="margin-top:16px;">Walkthroughs for each: <a class="page-link" href="use-cases.html" target="_blank">Use Cases</a> + <a class="page-link" href="prompting-library.html" target="_blank">Prompt Library</a> on the website.</p>
+    <p class="subtitle" style="margin-top:16px;font-style:italic;">Demos run on live browser tabs, not embedded in slides.</p>
   </div>
 
-  <!-- SLIDE 12: Day in the life -->
+  <!-- SLIDE 10: The two-stage approach -->
   <div class="slide left">
-    <h2>A day with AI &mdash; where it fits</h2>
-    <ul>
-      <li><strong>8:00 AM &mdash; Email triage.</strong> M365 Copilot summarizes overnight emails. <span class="blue">(Tier 4)</span></li>
-      <li><strong>9:00 AM &mdash; Case prep.</strong> Metaprompt a research question, run it through Gemini Deep Research. <span class="green">(Any Tier &mdash; no client data)</span></li>
-      <li><strong>10:30 AM &mdash; Discovery review.</strong> Upload police report to NotebookLM. Ask for timeline + inconsistencies. <span class="green">(Tier 3)</span></li>
-      <li><strong>1:00 PM &mdash; Draft motion.</strong> Paste research + police report into Claude API. Two-stage approach. <span class="green">(Tier 3)</span></li>
-      <li><strong>3:00 PM &mdash; BWC footage.</strong> Upload to Reduct. Searchable transcript, jump to key moments. <span class="green">(Tier 3)</span></li>
-      <li><strong>4:30 PM &mdash; Verify citations.</strong> Every AI-generated case on Westlaw or Google Scholar. <span style="color:#f6ad55;">Always.</span></li>
-    </ul>
-  </div>
-
-  <!-- SLIDE 13: Demo - Research -->
-  <div class="slide">
-    <h2>Demo: Research with metaprompting</h2>
-    <p>Instead of asking the question &mdash; ask AI to <em>write</em> the question.</p>
-    <div class="compare-row" style="margin-top:20px;">
-      <div class="compare-bad">
-        <h4>Naive prompt</h4>
-        <p>"Tell me about Fourth Amendment vehicle searches."</p>
-      </div>
-      <div class="compare-good">
-        <h4>Metaprompted</h4>
-        <p>"Write me a detailed research prompt covering automobile exception, inventory search, SIA post-Gant, consent, K-9 post-Rodriguez. 8th Circuit + Missouri."</p>
-      </div>
-    </div>
-    <p class="subtitle" style="margin-top:16px;">Then paste the metaprompted result into Gemini Deep Research. Demo on the website &rarr; <a class="page-link" href="agents.html" target="_blank">Agents</a> page.</p>
-  </div>
-
-  <!-- SLIDE 14: Demo - Two stage drafting -->
-  <div class="slide left">
-    <h2>Demo: Two-stage drafting</h2>
-    <h3>Keeps client data out of Tier 1 tools</h3>
+    <h2>The two-stage approach</h2>
+    <h3>Keeps client data out of consumer tools</h3>
     <ul>
       <li><strong>Stage 1 (Any Tier):</strong> Research the law. No client facts.</li>
       <li><strong>Stage 2 (Tier 3+ only):</strong> Draft with client facts using a DPA-protected tool.</li>
     </ul>
     <div class="callout-box" style="margin-top:20px;max-width:700px;">
       <h4>Why this works</h4>
-      <p>Stage 1 uses the best free tools for what they're good at (research). Stage 2 uses protected tools only when client data enters the picture. You get the best of both without the ethics risk.</p>
+      <p>Stage 1 uses the best free tools for research. Stage 2 uses protected tools only when client data enters the picture.</p>
     </div>
   </div>
 
-  <!-- SLIDE 15: Prompt templates -->
-  <div class="slide left">
-    <h2>Prompt templates you can use today</h2>
-    <h3>Copy these. Paste them. Customize the brackets.</h3>
-    <div class="tier-grid" style="max-width:900px;grid-template-columns:1fr;">
-      <div class="tier-box tier-green" style="padding:14px 18px;">
-        <h4 style="font-size:0.9rem;">Research (Any Tier)</h4>
-        <p style="font-size:0.85rem;font-family:monospace;color:#e2e8f0;">"I need to research [legal issue]. Write me a detailed research prompt that will produce the most thorough results. Specify: exact scope, jurisdictions, source types, output format, and what to do when sources conflict."</p>
-      </div>
-      <div class="tier-box tier-green" style="padding:14px 18px;">
-        <h4 style="font-size:0.9rem;">Discovery analysis (Tier 3+)</h4>
-        <p style="font-size:0.85rem;font-family:monospace;color:#e2e8f0;">"Create a chronological timeline from these documents. Note the source document for each event. Then identify any factual inconsistencies between documents."</p>
-      </div>
-      <div class="tier-box tier-green" style="padding:14px 18px;">
-        <h4 style="font-size:0.9rem;">Polish a draft (Any Tier)</h4>
-        <p style="font-size:0.85rem;font-family:monospace;color:#e2e8f0;">"Review this draft for: (1) passive voice, (2) unnecessary qualifiers, (3) sentences over 30 words, (4) paragraphs over 5 sentences. Suggest specific edits."</p>
-      </div>
-    </div>
-    <p class="subtitle" style="margin-top:12px;">Full library: <a class="page-link" href="prompting-library.html" target="_blank">Prompt Library</a> on the website.</p>
-  </div>
-
-  <!-- SLIDE 16: Transcription -->
-  <div class="slide left">
-    <h2>Transcription: Reduct vs. Word</h2>
-    <ul>
-      <li><strong>Reduct</strong> <span class="green">(Tier 3)</span> &mdash; Accepts video natively. Searchable transcripts linked to timestamps. Click a word, jump to that moment. MSPD has enterprise agreement. <strong>Recommended.</strong></li>
-      <li><strong>Word Transcribe</strong> <span class="blue">(Tier 4)</span> &mdash; No video support. Convert to audio first. One file at a time. 300 min/month. Lackluster editing pane. Workable but painful for batch processing.</li>
-      <li><strong>Otter.ai</strong> <span class="red">(Tier 1)</span> &mdash; Do not use for client audio. Consumer tool. Trains on data.</li>
-    </ul>
-    <p class="subtitle" style="margin-top:16px;">Full comparison on <a class="page-link" href="use-cases.html" target="_blank">Use Cases</a> page.</p>
-  </div>
-
-  <!-- SLIDE 17: NotebookLM podcast demo -->
-  <div class="slide">
-    <h2>Demo: AI podcast from bar opinions</h2>
-    <p>NotebookLM turns documents into a podcast-style audio briefing. Two AI hosts discuss the material conversationally.</p>
-    <div class="callout-box" style="margin-top:20px;max-width:700px;">
-      <h4>Try it</h4>
-      <p>Upload ABA Opinion 512, Missouri Opinion 2024-11, and the NYC Bar compilation. Click "Generate" on Audio Overview. 10-15 minute podcast. <strong>No client data involved &mdash; safe at any tier.</strong></p>
-    </div>
-    <p style="margin-top:16px;font-size:1.1rem;color:#cbd5e0;">"I learned about three bar opinions during my commute."</p>
-    <p class="subtitle" style="margin-top:12px;">Details on the <a class="page-link" href="use-cases.html" target="_blank">Use Cases</a> page.</p>
-  </div>
-
-  <!-- SLIDE 18: Claude Code meta-demo -->
-  <div class="slide">
-    <h2>This site is a meta-demo</h2>
-    <p>This entire website &mdash; the research, the writing, the code &mdash; was built using <strong>Claude Code</strong>, an AI coding agent. No client data was involved.</p>
-    <div class="compare-row" style="margin-top:20px;">
-      <div class="compare-good">
-        <h4>API key = Tier 3</h4>
-        <p>Set an API key, pay per token. Governed by Anthropic's API ToS + DPA. No training. This is the right setup for client work.</p>
-      </div>
-      <div class="compare-bad">
-        <h4>Pro/Max login = Tier 1&ndash;2</h4>
-        <p>Log in via browser with your subscription. Consumer ToS. Same powerful tool, different legal framework. Fine for non-client work.</p>
-      </div>
-    </div>
-    <div class="callout-box" style="margin-top:16px;">
-      <h4>This is a technical tool &mdash; I can help</h4>
-      <p>Claude Code requires some setup. If you're interested in using it, talk to me and I'll make sure you're on the right tier for what you're doing.</p>
-    </div>
-  </div>
-
-  <!-- SLIDE 19: What you should do Monday -->
+  <!-- SLIDE 11: What to do Monday morning -->
   <div class="slide left">
     <h2>What to do Monday morning</h2>
     <ul>
-      <li><strong>Check your tools.</strong> Are you using free Copilot or M365 Copilot? Personal Gemini or Workspace? Claude Free or API?</li>
-      <li><strong>Training is already off</strong> (we did that on slide 10).</li>
+      <li><strong>Check your tools.</strong> Free Copilot or M365 Copilot? Personal Gemini or Workspace? Claude Free or API?</li>
+      <li><strong>Training is already off</strong> (we did that on slide 8).</li>
       <li><strong>Never click thumbs up/down</strong> on conversations with client information.</li>
       <li><strong>Use the two-stage approach.</strong> Research at any tier, draft at Tier 3+.</li>
-      <li><strong>Try one prompt from the library.</strong> Pick a task you do every week. <a class="page-link" href="prompting-library.html" target="_blank">Prompt Library</a></li>
       <li><strong>Bookmark the website.</strong> Use it as a reference when evaluating new tools.</li>
     </ul>
   </div>
 
-  <!-- SLIDE 20: Costs -->
-  <div class="slide">
-    <h2>What does ethical AI cost?</h2>
-    <div class="tier-grid" style="max-width:700px;">
-      <div class="tier-box tier-blue">
-        <h4>$7/user/mo</h4>
-        <p>Google Workspace Business Starter. Tier 4. Full Gemini AI.</p>
-      </div>
-      <div class="tier-box tier-blue">
-        <h4>$30/user/mo add-on</h4>
-        <p>M365 Copilot. Tier 4. If you already have M365.</p>
-      </div>
-      <div class="tier-box tier-green">
-        <h4>$1-5/M tokens</h4>
-        <p>Anthropic API (Haiku). Tier 3. For developers.</p>
-      </div>
-      <div class="tier-box tier-green">
-        <h4>$159/user/mo</h4>
-        <p>Paxton AI. Tier 3. Criminal defense features.</p>
-      </div>
-    </div>
-    <p class="subtitle" style="margin-top:16px;">Full pricing comparison on <a class="page-link" href="vendor-details.html" target="_blank">Vendor Details</a> page.</p>
-  </div>
-
-  <!-- SLIDE 21: Resources -->
+  <!-- SLIDE 12: Essential resources -->
   <div class="slide left">
     <h2>Essential resources</h2>
     <ul>
       <li><strong>This website</strong> &mdash; bookmark it, browse it, share it</li>
-      <li><strong><a class="page-link" href="prompting-library.html" target="_blank">Prompt Library</a></strong> &mdash; copy-paste prompts for every task</li>
+      <li><strong><a class="page-link" href="risk-matrix.html" target="_blank">Risk Matrix</a></strong> &mdash; TOS links, vendor comparison, contractual gotchas</li>
+      <li><strong><a class="page-link" href="ethics-opinions.html" target="_blank">Ethics Opinions</a></strong> &mdash; full comparison table, 47+ opinions</li>
       <li><strong>Missouri Opinion 2024-11</strong> &mdash; your jurisdiction's rules</li>
       <li><strong>ABA Formal Opinion 512</strong> &mdash; the national standard</li>
-      <li><strong>NYC Bar AI Ethics Compilation</strong> &mdash; best single reference</li>
     </ul>
-    <p class="subtitle" style="margin-top:16px;">All links on the <a class="page-link" href="ethics-opinions.html" target="_blank">Ethics Opinions</a> page.</p>
   </div>
 
-  <!-- SLIDE 22: QR + Close -->
+  <!-- SLIDE 13: Questions? -->
   <div class="slide">
     <h1>Questions?</h1>
     <div class="qr-placeholder" style="margin-top:30px;">[QR Code]<br>Link to site</div>
@@ -596,7 +325,7 @@
 <!-- Navigation -->
 <div class="nav-bar">
   <button class="nav-btn" id="prevBtn" onclick="navigate(-1)">&#8592; Previous</button>
-  <span class="slide-counter" id="counter">1 / 22</span>
+  <span class="slide-counter" id="counter">1 / 13</span>
   <button class="nav-btn" id="nextBtn" onclick="navigate(1)">Next &#8594;</button>
 </div>
 
@@ -623,12 +352,10 @@ function navigate(dir) {
 
 document.addEventListener('keydown', function(e) {
   if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') {
-    e.preventDefault();
-    navigate(1);
+    e.preventDefault(); navigate(1);
   }
   if (e.key === 'ArrowLeft' || e.key === 'Backspace') {
-    e.preventDefault();
-    navigate(-1);
+    e.preventDefault(); navigate(-1);
   }
   if (e.key === 'Home') { current = 0; show(current); }
   if (e.key === 'End') { current = total - 1; show(current); }
@@ -644,6 +371,11 @@ document.addEventListener('touchend', e => {
 
 show(0);
 </script>
+
+<div style="background:#fef3c7;border:2px solid #d97706;border-radius:8px;padding:20px 24px;margin:30px 20px 20px 20px;font-size:1.05rem;color:#92400e;line-height:1.7;">
+  <strong style="font-size:1.2rem;display:block;margin-bottom:8px;">Disclaimer</strong>
+  This site is for educational and training purposes only and does not constitute legal advice. Content is AI-generated and may contain errors, outdated information, or inaccuracies. Do not rely on any information presented here as legal guidance. Consult your jurisdiction&#8217;s ethics opinions and rules of professional conduct for specific obligations. Verify all claims, prices, citations, and links independently before acting on them.
+</div>
 
 </body>
 </html>
