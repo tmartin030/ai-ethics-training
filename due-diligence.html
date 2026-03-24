@@ -1,0 +1,2283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Due Diligence Tracker — Provider Terms Review</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: #f8f9fa;
+    color: #1a1a2e;
+    line-height: 1.5;
+    font-size: 15px;
+  }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 16px 20px; }
+
+  /* Header */
+  .header {
+    background: #1a1a2e;
+    color: #fff;
+    padding: 20px 0;
+    margin-bottom: 0;
+  }
+  .header-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .header h1 { font-size: 1.4rem; font-weight: 600; }
+  .header .subtitle { font-size: 0.85rem; color: #a0aec0; margin-top: 4px; }
+  .header-meta { font-size: 0.75rem; color: #a0aec0; text-align: right; line-height: 1.4; }
+
+  /* Navigation */
+  .site-nav {
+    background: #2d3748;
+    padding: 0;
+    border-bottom: 2px solid #4a5568;
+    margin-bottom: 16px;
+  }
+  .site-nav-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    gap: 0;
+    flex-wrap: wrap;
+  }
+  .site-nav a {
+    color: #a0aec0;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 10px 16px;
+    display: block;
+    transition: all 0.15s;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+  }
+  .site-nav a:hover { color: #fff; background: rgba(255,255,255,0.05); }
+  .site-nav a.active { color: #fff; border-bottom-color: #4299e1; background: rgba(255,255,255,0.05); }
+  .wip-badge { font-size: 0.65rem; color: #d97706; }
+
+  /* Disclaimer */
+  .disclaimer-banner {
+    background: #fffbeb;
+    border: 1px solid #d97706;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    font-size: 0.85rem;
+    color: #744210;
+  }
+  .disclaimer-banner strong { color: #92400e; }
+
+  /* Sections */
+  section { margin-bottom: 28px; }
+  .section-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e2e8f0;
+    color: #1a1a2e;
+  }
+  .section-subtitle {
+    font-size: 0.92rem;
+    font-weight: 600;
+    margin: 14px 0 8px;
+    color: #1a1a2e;
+  }
+  p, li { font-size: 0.88rem; color: #4a5568; }
+  p { margin-bottom: 10px; }
+  ul, ol { padding-left: 20px; margin-bottom: 10px; }
+  li { margin-bottom: 4px; }
+  a { color: #2c5282; }
+
+  /* Progress bar */
+  .progress-container {
+    background: #e2e8f0;
+    border-radius: 8px;
+    height: 24px;
+    margin: 12px 0;
+    overflow: hidden;
+    position: relative;
+  }
+  .progress-bar {
+    background: linear-gradient(90deg, #059669, #34d399);
+    height: 100%;
+    border-radius: 8px;
+    transition: width 0.3s ease;
+  }
+  .progress-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #1a1a2e;
+  }
+
+  /* Verdict table */
+  .verdict-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+    margin: 12px 0;
+  }
+  .verdict-table th {
+    background: #1a1a2e;
+    color: #fff;
+    text-align: left;
+    padding: 8px 12px;
+    font-weight: 600;
+    font-size: 0.78rem;
+  }
+  .verdict-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #e2e8f0;
+    color: #4a5568;
+    vertical-align: top;
+  }
+  .verdict-table tr:nth-child(even) td { background: #f8fafc; }
+  .verdict-cell {
+    cursor: pointer;
+    font-weight: 600;
+    border-radius: 4px;
+    padding: 4px 8px;
+    text-align: center;
+    user-select: none;
+    transition: all 0.15s;
+  }
+  .verdict-cell:hover { opacity: 0.8; }
+  .verdict-acceptable { background: #d1fae5; color: #065f46; }
+  .verdict-caution { background: #fef3c7; color: #92400e; }
+  .verdict-unacceptable { background: #fee2e2; color: #991b1b; }
+  .verdict-not-reviewed { background: #e2e8f0; color: #64748b; }
+
+  /* Data table (for document rows) */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+    margin: 12px 0;
+  }
+  .data-table th {
+    background: #1a1a2e;
+    color: #fff;
+    text-align: left;
+    padding: 8px 12px;
+    font-weight: 600;
+    font-size: 0.78rem;
+  }
+  .data-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #e2e8f0;
+    color: #4a5568;
+    vertical-align: top;
+  }
+  .data-table tr:nth-child(even) td { background: #f8fafc; }
+
+  /* Status badges */
+  .status-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .status-badge:hover { opacity: 0.8; transform: scale(1.05); }
+  .status-not-reviewed { background: #e2e8f0; color: #64748b; }
+  .status-prescreened { background: #dbeafe; color: #1e40af; }
+  .status-reviewed { background: #d1fae5; color: #065f46; }
+  .status-flagged { background: #fee2e2; color: #991b1b; }
+
+  /* Collapsible vendor cards */
+  details.vendor-card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    margin-bottom: 12px;
+  }
+  details.vendor-card summary {
+    padding: 14px 16px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+    color: #1a1a2e;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  details.vendor-card summary::-webkit-details-marker { display: none; }
+  details.vendor-card summary::before {
+    content: "\25B6\00a0";
+    font-size: 0.7rem;
+    color: #718096;
+    flex-shrink: 0;
+  }
+  details.vendor-card[open] summary::before { content: "\25BC\00a0"; }
+  .vendor-body {
+    padding: 0 16px 14px;
+    font-size: 0.82rem;
+    color: #4a5568;
+  }
+  .vendor-body ul { margin-top: 6px; }
+  .vendor-body li { margin-bottom: 3px; font-size: 0.82rem; }
+  .vendor-body a { word-break: break-all; }
+
+  /* Prescreen notes */
+  .prescreen-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 12px 14px;
+    margin: 8px 0;
+  }
+  .prescreen-card h5 {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 6px;
+  }
+  .factor-row {
+    display: flex;
+    gap: 8px;
+    padding: 4px 0;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 0.78rem;
+  }
+  .factor-row:last-child { border-bottom: none; }
+  .factor-label {
+    font-weight: 600;
+    color: #1a1a2e;
+    min-width: 110px;
+    flex-shrink: 0;
+  }
+  .factor-quote {
+    color: #4a5568;
+    font-style: italic;
+  }
+  .factor-ctrlf {
+    color: #2c5282;
+    font-size: 0.72rem;
+    font-family: monospace;
+    background: #eff6ff;
+    padding: 1px 5px;
+    border-radius: 3px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .concern-flag {
+    background: #fef2f2;
+    border-left: 3px solid #dc2626;
+    padding: 8px 12px;
+    margin: 6px 0;
+    font-size: 0.78rem;
+    color: #991b1b;
+    border-radius: 0 4px 4px 0;
+  }
+  .missing-flag {
+    background: #fffbeb;
+    border-left: 3px solid #d97706;
+    padding: 8px 12px;
+    margin: 6px 0;
+    font-size: 0.78rem;
+    color: #92400e;
+    border-radius: 0 4px 4px 0;
+  }
+
+  /* Editable notes */
+  .editable-note {
+    min-height: 20px;
+    padding: 4px 8px;
+    border: 1px dashed #cbd5e0;
+    border-radius: 4px;
+    font-size: 0.78rem;
+    color: #4a5568;
+    cursor: text;
+    background: #fff;
+  }
+  .editable-note:empty::before {
+    content: "Click to add notes...";
+    color: #a0aec0;
+    font-style: italic;
+  }
+  .editable-note:focus {
+    outline: none;
+    border-color: #4299e1;
+    background: #eff6ff;
+  }
+
+  /* Methodology box */
+  .method-box {
+    background: #eff6ff;
+    border: 1px solid #bee3f8;
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin: 12px 0;
+  }
+  .method-box ul { margin-bottom: 0; }
+  .method-box li { font-size: 0.82rem; }
+
+  /* Middleware table */
+  .middleware-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+    margin: 12px 0;
+  }
+  .middleware-table th {
+    background: #2d3748;
+    color: #fff;
+    text-align: left;
+    padding: 8px 12px;
+    font-weight: 600;
+    font-size: 0.78rem;
+  }
+  .middleware-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #e2e8f0;
+    color: #4a5568;
+    vertical-align: top;
+  }
+  .middleware-table tr:nth-child(even) td { background: #f8fafc; }
+
+  /* Tier badge */
+  .tier-badge {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 10px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    margin-left: 4px;
+  }
+  .tier-consumer { background: #fee2e2; color: #991b1b; }
+  .tier-api { background: #dbeafe; color: #1e40af; }
+  .tier-enterprise { background: #d1fae5; color: #065f46; }
+  .tier-all { background: #e2e8f0; color: #475569; }
+
+  /* Footer */
+  .footer {
+    background: #1a1a2e;
+    color: #a0aec0;
+    padding: 20px 0;
+    margin-top: 32px;
+    font-size: 0.78rem;
+  }
+  .footer-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+    text-align: center;
+    line-height: 1.7;
+  }
+  .footer a { color: #90cdf4; }
+
+  /* Print */
+  @media print {
+    body { font-size: 11pt; background: #fff; }
+    .header, .site-nav, .footer { display: none; }
+    .container { max-width: 100%; padding: 0; }
+    .disclaimer-banner { border: 1px solid #000; background: #fff; color: #000; }
+    .disclaimer-banner strong { color: #000; }
+    details { border: none; }
+    details[open] summary { font-weight: 700; }
+    details:not([open]) .details-body { display: none; }
+    .status-badge, .verdict-cell { border: 1px solid #ccc; }
+    a { color: #000; text-decoration: underline; }
+    a::after { content: " [" attr(href) "]"; font-size: 0.7em; }
+    details a::after { content: none; }
+  }
+
+  /* Annotation system */
+  .annotation-section {
+    margin: 8px 0 16px;
+    padding: 10px 14px;
+    background: #fff;
+    border: 1px dashed #cbd5e0;
+    border-radius: 6px;
+  }
+  .annotation-section h6 {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #718096;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .annotation-add-btn {
+    background: #eff6ff;
+    border: 1px solid #bee3f8;
+    border-radius: 4px;
+    padding: 5px 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #2c5282;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .annotation-add-btn:hover { background: #dbeafe; }
+
+  /* Compact annotation card */
+  .ann-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-left: 3px solid #4299e1;
+    border-radius: 0 4px 4px 0;
+    padding: 8px 12px;
+    margin: 6px 0;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .ann-card:hover { border-left-color: #2c5282; background: #f1f5f9; }
+  .ann-card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+  }
+  .ann-factor-badge {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 10px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    background: #e2e8f0;
+    color: #475569;
+    white-space: nowrap;
+  }
+  .ann-date { color: #a0aec0; font-size: 0.68rem; margin-left: auto; }
+  .ann-preview {
+    font-size: 0.75rem;
+    color: #4a5568;
+    font-style: italic;
+    margin-top: 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* Annotation edit form */
+  .ann-form {
+    background: #f8fafc;
+    border: 1px solid #4299e1;
+    border-radius: 6px;
+    padding: 12px 14px;
+    margin: 6px 0;
+  }
+  .ann-form-row {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    margin-bottom: 8px;
+  }
+  .ann-form-row:last-child { margin-bottom: 0; }
+  .ann-form label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #1a1a2e;
+    min-width: 70px;
+    padding-top: 4px;
+    flex-shrink: 0;
+  }
+  .ann-form select,
+  .ann-form input,
+  .ann-form textarea {
+    flex: 1;
+    font-family: inherit;
+    font-size: 0.78rem;
+    padding: 4px 8px;
+    border: 1px solid #cbd5e0;
+    border-radius: 4px;
+    background: #fff;
+    color: #1a1a2e;
+  }
+  .ann-form textarea {
+    min-height: 48px;
+    resize: vertical;
+  }
+  .ann-form select:focus,
+  .ann-form input:focus,
+  .ann-form textarea:focus {
+    outline: none;
+    border-color: #4299e1;
+  }
+  .ann-form-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    margin-top: 8px;
+  }
+  .ann-btn {
+    padding: 4px 14px;
+    border-radius: 4px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid #cbd5e0;
+    background: #fff;
+    color: #4a5568;
+    transition: all 0.15s;
+  }
+  .ann-btn:hover { background: #f1f5f9; }
+  .ann-btn-save { background: #059669; color: #fff; border-color: #059669; }
+  .ann-btn-save:hover { background: #047857; }
+  .ann-btn-delete { color: #dc2626; border-color: #fca5a5; }
+  .ann-btn-delete:hover { background: #fef2f2; }
+
+  /* Export button */
+  .export-btn {
+    background: #1a1a2e;
+    color: #fff;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .export-btn:hover { background: #2d3748; }
+
+  /* Mobile */
+  @media (max-width: 640px) {
+    .header-inner { flex-direction: column; text-align: center; }
+    .header-meta { text-align: center; margin-top: 8px; }
+    .site-nav-inner { justify-content: center; }
+    .site-nav a { padding: 8px 10px; font-size: 0.75rem; }
+    .data-table { font-size: 0.75rem; }
+    .data-table th, .data-table td { padding: 6px 8px; }
+    .verdict-table { font-size: 0.75rem; }
+    .factor-row { flex-direction: column; gap: 2px; }
+    .factor-label { min-width: unset; }
+    .ann-form-row { flex-direction: column; gap: 2px; }
+    .ann-form label { min-width: unset; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+  <div class="header-inner">
+    <div>
+      <h1>Due Diligence Tracker</h1>
+      <div class="subtitle">Provider Terms Review for Criminal Defense Practice</div>
+    </div>
+    <div class="header-meta">
+      Training Content<br>
+      Updated March 2026
+    </div>
+  </div>
+</header>
+
+<!-- Navigation -->
+<nav class="site-nav">
+  <div class="site-nav-inner">
+    <a href="index.html">Home</a>
+    <a href="risk-matrix.html">Risk Matrix</a>
+    <a href="ethics-opinions.html">Ethics Opinions</a>
+    <a href="due-diligence.html" class="active">Due Diligence <span class="wip-badge">[WIP]</span></a>
+    <a href="presentation.html">Presentation</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <!-- Disclaimer -->
+  <div class="disclaimer-banner">
+    <strong>Not legal advice.</strong> Training content only &mdash; not maintained. This tracker documents a review process for educational purposes. Verify all terms independently before relying on them.
+  </div>
+
+  <!-- How to use -->
+  <div class="method-box" style="margin-bottom:20px;">
+    <p style="margin-bottom:6px;"><strong>How this page works:</strong></p>
+    <ul style="margin-bottom:0;">
+      <li><strong>Click status badges</strong> to cycle through: Not Reviewed &rarr; Prescreened &rarr; Reviewed &rarr; Flagged</li>
+      <li><strong>Click verdict cells</strong> in the summary table to set per-tier assessments</li>
+      <li><strong>Click &ldquo;Click to add notes&rdquo;</strong> fields to type your own review notes</li>
+      <li><strong>Your progress saves automatically</strong> in your browser (localStorage). Close the tab, restart your computer &mdash; it will be here when you come back.</li>
+      <li>Your data is <strong>private to your browser</strong>. Other people visiting this page see the default state. If you switch browsers or clear site data, your progress resets.</li>
+    </ul>
+  </div>
+
+  <!-- 1. Summary Dashboard -->
+  <section>
+    <h2 class="section-title">Review Progress</h2>
+    <div style="display:flex;gap:12px;align-items:center;margin-bottom:4px;">
+      <div class="progress-container" style="flex:1;margin:0;">
+        <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+        <div class="progress-label" id="progressLabel">0 of 0 documents reviewed</div>
+      </div>
+      <button class="export-btn" onclick="exportAnnotations()" title="Download all annotations and verdicts as JSON">Export JSON</button>
+    </div>
+
+    <h3 class="section-subtitle" style="margin-top:16px;">Verdict Summary</h3>
+    <p>Click a cell to cycle its verdict. Verdicts are saved in your browser.</p>
+    <table class="verdict-table" id="verdictTable">
+      <thead>
+        <tr>
+          <th>Provider</th>
+          <th>Consumer</th>
+          <th>API / DPA</th>
+          <th>Enterprise</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>OpenAI</strong></td>
+          <td><div class="verdict-cell" data-vendor="openai" data-tier="consumer">Not Reviewed</div></td>
+          <td><div class="verdict-cell" data-vendor="openai" data-tier="api">Not Reviewed</div></td>
+          <td><div class="verdict-cell" data-vendor="openai" data-tier="enterprise">Not Reviewed</div></td>
+          <td><div class="editable-note" contenteditable="true" data-note="openai-verdict"></div></td>
+        </tr>
+        <tr>
+          <td><strong>Anthropic</strong></td>
+          <td><div class="verdict-cell" data-vendor="anthropic" data-tier="consumer">Not Reviewed</div></td>
+          <td><div class="verdict-cell" data-vendor="anthropic" data-tier="api">Not Reviewed</div></td>
+          <td><div class="verdict-cell" data-vendor="anthropic" data-tier="enterprise">Not Reviewed</div></td>
+          <td><div class="editable-note" contenteditable="true" data-note="anthropic-verdict"></div></td>
+        </tr>
+        <tr>
+          <td><strong>Google</strong></td>
+          <td><div class="verdict-cell" data-vendor="google" data-tier="consumer">Not Reviewed</div></td>
+          <td><div class="verdict-cell" data-vendor="google" data-tier="api">Not Reviewed</div></td>
+          <td><div class="verdict-cell" data-vendor="google" data-tier="enterprise">Not Reviewed</div></td>
+          <td><div class="editable-note" contenteditable="true" data-note="google-verdict"></div></td>
+        </tr>
+        <tr>
+          <td><strong>Perplexity</strong></td>
+          <td><div class="verdict-cell" data-vendor="perplexity" data-tier="consumer">Not Reviewed</div></td>
+          <td><div class="verdict-cell" data-vendor="perplexity" data-tier="api">Not Reviewed</div></td>
+          <td><div class="verdict-cell" data-vendor="perplexity" data-tier="enterprise">Not Reviewed</div></td>
+          <td><div class="editable-note" contenteditable="true" data-note="perplexity-verdict"></div></td>
+        </tr>
+        <tr>
+          <td><strong>Microsoft</strong></td>
+          <td><div class="verdict-cell" data-vendor="microsoft" data-tier="consumer">Not Reviewed</div></td>
+          <td><div class="verdict-cell" data-vendor="microsoft" data-tier="api">Not Reviewed</div></td>
+          <td><div class="verdict-cell" data-vendor="microsoft" data-tier="enterprise">Not Reviewed</div></td>
+          <td><div class="editable-note" contenteditable="true" data-note="microsoft-verdict"></div></td>
+        </tr>
+        <tr>
+          <td><strong>Meta</strong></td>
+          <td><div class="verdict-cell" data-vendor="meta" data-tier="consumer">Not Reviewed</div></td>
+          <td style="color:#a0aec0;font-style:italic;text-align:center;">N/A</td>
+          <td style="color:#a0aec0;font-style:italic;text-align:center;">N/A</td>
+          <td><div class="editable-note" contenteditable="true" data-note="meta-verdict"></div></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 2. Methodology -->
+  <section>
+    <h2 class="section-title">Review Methodology</h2>
+    <p>Missouri Informal Opinion 2024-11 requires attorneys to "assess the terms and conditions of using a generative AI platform or service." ABA Formal Opinion 512 imposes affirmative duties to understand how AI tools process confidential information. This page documents that assessment.</p>
+    <div class="method-box">
+      <p style="margin-bottom:8px;"><strong>For each provider document, we check 7 factors:</strong></p>
+      <ol>
+        <li><strong>Training</strong> &mdash; Does the provider train on your data? Can you opt out? Does the opt-out actually work?</li>
+        <li><strong>Retention</strong> &mdash; How long are prompts and responses retained? Is zero-data retention (ZDR) available?</li>
+        <li><strong>Human Review</strong> &mdash; Can employees or contractors read your conversations?</li>
+        <li><strong>Subprocessors</strong> &mdash; What third parties process your data? Is the provider truly bare metal?</li>
+        <li><strong>Legal Process</strong> &mdash; Will the vendor notify you before responding to a subpoena? What is their challenge posture?</li>
+        <li><strong>Advertising</strong> &mdash; Does chat data feed advertising or ad targeting?</li>
+        <li><strong>DPA Availability</strong> &mdash; Is a Data Processing Agreement available? At which tier?</li>
+      </ol>
+    </div>
+    <p>Documents marked <span class="status-badge status-prescreened">Prescreened</span> have been reviewed by AI with key quotes and CTRL+F pointers extracted. A human reviewer must verify the quotes and update status to <span class="status-badge status-reviewed">Reviewed</span>. Documents marked <span class="status-badge status-flagged">Flagged</span> have concerning or ambiguous language requiring closer analysis.</p>
+  </section>
+
+  <!-- 3. Bare-Metal Providers -->
+  <section>
+    <h2 class="section-title">Bare-Metal Providers</h2>
+    <p>These are the companies that actually build and run the AI models. Going direct to the provider minimizes the number of third parties handling your data.</p>
+
+    <!-- ===================== -->
+    <!-- OPENAI               -->
+    <!-- ===================== -->
+    <details class="vendor-card" id="vendor-openai">
+      <summary>
+        OpenAI / ChatGPT
+        <span class="tier-badge tier-consumer">Consumer</span>
+        <span class="tier-badge tier-api">API</span>
+        <span class="tier-badge tier-enterprise">Enterprise</span>
+      </summary>
+      <div class="vendor-body">
+        <div class="missing-flag">OpenAI's website blocks automated access. All quotes below are from training knowledge (May 2025 cutoff) and <strong>must be verified against the live pages</strong>. Links are confirmed working.</div>
+
+        <!-- Doc: Consumer Terms -->
+        <table class="data-table">
+          <thead><tr><th>Document</th><th>Status</th><th>Tier</th><th>Last Reviewed</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><a href="https://openai.com/policies/row-terms-of-use/" target="_blank">Consumer Terms of Use</a></td>
+              <td><span class="status-badge status-not-reviewed" data-doc="openai-consumer-tos">Not Reviewed</span></td>
+              <td><span class="tier-badge tier-consumer">Consumer</span></td>
+              <td class="last-reviewed">--</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="prescreen-card">
+          <h5>Prescreening Notes — Consumer Terms of Use</h5>
+          <div class="factor-row">
+            <span class="factor-label">Training:</span>
+            <span class="factor-quote">"We may use Content to provide, maintain, and improve the Services, and to develop other products and services." Content includes inputs and outputs.</span>
+            <span class="factor-ctrlf">CTRL+F: "use Content to"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Retention:</span>
+            <span class="factor-quote">Not specified in consumer terms. Governed by Privacy Policy.</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Human Review:</span>
+            <span class="factor-quote">Not directly addressed in terms. Referenced via Privacy Policy and Data Controls FAQ.</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Subprocessors:</span>
+            <span class="factor-quote">Not addressed in consumer terms.</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Legal Process:</span>
+            <span class="factor-quote">Not addressed in consumer terms.</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Advertising:</span>
+            <span class="factor-quote">ChatGPT Free introduced ads in Feb 2026. Consumer terms do not restrict ad use of data.</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">DPA:</span>
+            <span class="factor-quote">Not available for consumer tier.</span>
+          </div>
+          <div class="concern-flag">Consumer terms grant broad data use rights with no retention limits. The "Content" definition includes both inputs and outputs.</div>
+        </div>
+
+        <!-- Doc: Business Terms -->
+        <table class="data-table">
+          <thead><tr><th>Document</th><th>Status</th><th>Tier</th><th>Last Reviewed</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><a href="https://openai.com/policies/business-terms" target="_blank">Business / API Terms</a></td>
+              <td><span class="status-badge status-not-reviewed" data-doc="openai-business-terms">Not Reviewed</span></td>
+              <td><span class="tier-badge tier-api">API / Business</span></td>
+              <td class="last-reviewed">--</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="prescreen-card">
+          <h5>Prescreening Notes — Business Terms</h5>
+          <div class="factor-row">
+            <span class="factor-label">Training:</span>
+            <span class="factor-quote">"OpenAI will not use Customer Content to train or improve our models."</span>
+            <span class="factor-ctrlf">CTRL+F: "will not use Customer Content to train"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Retention:</span>
+            <span class="factor-quote">Zero-data retention (ZDR) available for API. Default: 30-day retention for abuse monitoring.</span>
+            <span class="factor-ctrlf">CTRL+F: "zero retention"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Human Review:</span>
+            <span class="factor-quote">No systematic human review of API content. Safety flagging may trigger review.</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Subprocessors:</span>
+            <span class="factor-quote">OpenAI uses Azure (Microsoft) for compute. Subprocessor list referenced in DPA.</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Legal Process:</span>
+            <span class="factor-quote">Covered in law enforcement policy. Notification "to the extent legally permitted."</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Advertising:</span>
+            <span class="factor-quote">Not applicable to API/Business tier.</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">DPA:</span>
+            <span class="factor-quote">DPA available and automatically incorporated for Business/API customers.</span>
+            <span class="factor-ctrlf">CTRL+F: "Data Processing Addendum"</span>
+          </div>
+        </div>
+
+        <!-- Doc: DPA -->
+        <table class="data-table">
+          <thead><tr><th>Document</th><th>Status</th><th>Tier</th><th>Last Reviewed</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><a href="https://openai.com/policies/data-processing-addendum/" target="_blank">Data Processing Addendum</a></td>
+              <td><span class="status-badge status-not-reviewed" data-doc="openai-dpa">Not Reviewed</span></td>
+              <td><span class="tier-badge tier-api">API / Business</span></td>
+              <td class="last-reviewed">--</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="prescreen-card">
+          <h5>Prescreening Notes — DPA</h5>
+          <div class="factor-row">
+            <span class="factor-label">Training:</span>
+            <span class="factor-quote">Confirms no training on Customer Content under the DPA.</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Retention:</span>
+            <span class="factor-quote">Deletion upon request or termination. ZDR option available.</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Subprocessors:</span>
+            <span class="factor-quote">Microsoft Azure is primary subprocessor. List maintained and updated with notice.</span>
+            <span class="factor-ctrlf">CTRL+F: "Subprocessor"</span>
+          </div>
+          <div class="concern-flag">Verify whether OpenAI is truly "bare metal" -- they run on Microsoft Azure infrastructure, meaning Microsoft is always a subprocessor.</div>
+        </div>
+
+        <!-- Doc: Privacy Policy -->
+        <table class="data-table">
+          <thead><tr><th>Document</th><th>Status</th><th>Tier</th><th>Last Reviewed</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><a href="https://openai.com/policies/privacy-policy/" target="_blank">Privacy Policy</a></td>
+              <td><span class="status-badge status-not-reviewed" data-doc="openai-privacy">Not Reviewed</span></td>
+              <td><span class="tier-badge tier-all">All Tiers</span></td>
+              <td class="last-reviewed">--</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="prescreen-card">
+          <h5>Prescreening Notes — Privacy Policy</h5>
+          <div class="factor-row">
+            <span class="factor-label">Training:</span>
+            <span class="factor-quote">Confirms consumer data used for training. Opt-out mechanism referenced.</span>
+            <span class="factor-ctrlf">CTRL+F: "improve our Services"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Retention:</span>
+            <span class="factor-quote">Retained "as long as we need it" for purposes described. No fixed timeline for consumer.</span>
+            <span class="factor-ctrlf">CTRL+F: "as long as"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Legal Process:</span>
+            <span class="factor-quote">Discloses data "to meet any applicable law, regulation, legal process or enforceable governmental request."</span>
+            <span class="factor-ctrlf">CTRL+F: "enforceable governmental"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Advertising:</span>
+            <span class="factor-quote">Check for updates since Feb 2026 ad rollout on ChatGPT Free.</span>
+          </div>
+        </div>
+
+        <!-- Doc: Data Controls FAQ -->
+        <table class="data-table">
+          <thead><tr><th>Document</th><th>Status</th><th>Tier</th><th>Last Reviewed</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><a href="https://help.openai.com/en/articles/7730893-data-controls-faq" target="_blank">Data Controls FAQ</a>
+                <br><small style="color:#718096;">Supplemental &mdash; informational</small></td>
+              <td><span class="status-badge status-not-reviewed" data-doc="openai-data-controls">Not Reviewed</span></td>
+              <td><span class="tier-badge tier-consumer">Consumer</span></td>
+              <td class="last-reviewed">--</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="prescreen-card">
+          <h5>Prescreening Notes — Data Controls FAQ</h5>
+          <div class="factor-row">
+            <span class="factor-label">Training Toggle:</span>
+            <span class="factor-quote">Describes how to toggle "Improve the model for everyone" off in Settings &rarr; Data Controls.</span>
+            <span class="factor-ctrlf">CTRL+F: "Improve the model"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Feedback Trap:</span>
+            <span class="factor-quote">"When you give us feedback, such as thumbs up or thumbs down...we may use the conversation to improve model performance." Retained even with training toggled off.</span>
+            <span class="factor-ctrlf">CTRL+F: "thumbs up or thumbs down"</span>
+          </div>
+          <div class="concern-flag">The feedback carve-out is the single most important gotcha: clicking thumbs up/down overrides your training opt-out for that entire conversation. Up to 5-year retention.</div>
+        </div>
+
+        <!-- Doc: Law Enforcement Policy -->
+        <table class="data-table">
+          <thead><tr><th>Document</th><th>Status</th><th>Tier</th><th>Last Reviewed</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><a href="https://cdn.openai.com/pdf/openai-law-enforcement-policy-v.2025-12.pdf" target="_blank">Law Enforcement Policy (PDF)</a></td>
+              <td><span class="status-badge status-not-reviewed" data-doc="openai-law-enforcement">Not Reviewed</span></td>
+              <td><span class="tier-badge tier-all">All Tiers</span></td>
+              <td class="last-reviewed">--</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="prescreen-card">
+          <h5>Prescreening Notes — Law Enforcement Policy</h5>
+          <div class="factor-row">
+            <span class="factor-label">Notification:</span>
+            <span class="factor-quote">Notifies users "to the extent legally permitted." No commitment to challenge gag orders.</span>
+            <span class="factor-ctrlf">CTRL+F: "legally permitted"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Challenge Posture:</span>
+            <span class="factor-quote">Weaker than Microsoft or Anthropic. No published statistics on redirected requests.</span>
+          </div>
+          <div class="concern-flag">"To the extent legally permitted" is the weakest notification standard among major providers. Compare to Microsoft (active challenge) and Anthropic (redirect to customer).</div>
+        </div>
+
+        <!-- Doc: Data Usage -->
+        <table class="data-table">
+          <thead><tr><th>Document</th><th>Status</th><th>Tier</th><th>Last Reviewed</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><a href="https://help.openai.com/en/articles/5722486-how-your-data-is-used-to-improve-model-performance" target="_blank">How Your Data Is Used</a>
+                <br><small style="color:#718096;">Supplemental &mdash; informational</small></td>
+              <td><span class="status-badge status-not-reviewed" data-doc="openai-data-usage">Not Reviewed</span></td>
+              <td><span class="tier-badge tier-all">All Tiers</span></td>
+              <td class="last-reviewed">--</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="prescreen-card">
+          <h5>Prescreening Notes — Data Usage Article</h5>
+          <div class="factor-row">
+            <span class="factor-label">Training:</span>
+            <span class="factor-quote">Explains which tiers train on data (consumer default) vs. not (API, Business, Enterprise).</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Opt-Out:</span>
+            <span class="factor-quote">Consumer opt-out available. API/Business/Enterprise do not train by default.</span>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <!-- ===================== -->
+    <!-- ANTHROPIC             -->
+    <!-- ===================== -->
+    <details class="vendor-card" id="vendor-anthropic">
+      <summary>
+        Anthropic / Claude
+        <span class="tier-badge tier-consumer">Consumer</span>
+        <span class="tier-badge tier-api">API</span>
+        <span class="tier-badge tier-enterprise">Enterprise</span>
+      </summary>
+      <div class="vendor-body">
+        <p style="color:#059669;font-weight:600;font-size:0.78rem;margin-bottom:8px;">Verified from live pages March 2026. Anthropic privacy docs redirected to privacy.claude.com.</p>
+
+        <!-- Doc: Consumer ToS -->
+        <table class="data-table">
+          <thead><tr><th>Document</th><th>Status</th><th>Tier</th><th>Last Reviewed</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><a href="https://www.anthropic.com/terms" target="_blank">Consumer Terms of Service</a></td>
+              <td><span class="status-badge status-prescreened" data-doc="anthropic-consumer-tos">Prescreened</span></td>
+              <td><span class="tier-badge tier-consumer">Consumer</span></td>
+              <td class="last-reviewed">2026-03-23</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="prescreen-card">
+          <h5>Prescreening Notes — Consumer ToS (Verified)</h5>
+          <div class="factor-row">
+            <span class="factor-label">Training:</span>
+            <span class="factor-quote">"We may use Materials to provide, maintain, and improve the Services and to develop other products and services, including training our models, unless you opt out"</span>
+            <span class="factor-ctrlf">CTRL+F: "We may use Materials to provide"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Retention:</span>
+            <span class="factor-quote">"Upon termination...we may at our option delete any Materials or other data"</span>
+            <span class="factor-ctrlf">CTRL+F: "at our option delete"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Human Review:</span>
+            <span class="factor-quote">"your Materials are flagged for safety review to improve our ability to detect harmful content"</span>
+            <span class="factor-ctrlf">CTRL+F: "flagged for safety review"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Subprocessors:</span>
+            <span class="factor-quote">Vague: "Our Services may use or be used in connection with third-party content"</span>
+            <span class="factor-ctrlf">CTRL+F: "third-party content"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Legal Process:</span>
+            <span class="factor-quote">"We may comply with governmental, court, and law enforcement requests or requirements...We reserve the right, at our sole discretion, to report information"</span>
+            <span class="factor-ctrlf">CTRL+F: "We may comply with governmental"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Advertising:</span>
+            <span class="factor-quote">Not addressed in consumer ToS. Anthropic has no advertising.</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">DPA:</span>
+            <span class="factor-quote">Not available for consumer tier. Commercial Terms referenced for API/enterprise.</span>
+          </div>
+          <div class="concern-flag">Consumer ToS: "at our option delete" = discretionary, not automatic. Safety review carve-out cannot be opted out of. "Sole discretion" on law enforcement reporting has no notification guarantee.</div>
+        </div>
+
+        <!-- Doc: Consumer Terms Update -->
+        <table class="data-table">
+          <thead><tr><th>Document</th><th>Status</th><th>Tier</th><th>Last Reviewed</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><a href="https://www.anthropic.com/news/updates-to-our-consumer-terms" target="_blank">Consumer Terms Update (Aug 2025)</a></td>
+              <td><span class="status-badge status-prescreened" data-doc="anthropic-terms-update">Prescreened</span></td>
+              <td><span class="tier-badge tier-consumer">Consumer</span></td>
+              <td class="last-reviewed">2026-03-23</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="prescreen-card">
+          <h5>Prescreening Notes — Consumer Terms Update (Verified)</h5>
+          <div class="factor-row">
+            <span class="factor-label">Training:</span>
+            <span class="factor-quote">"We will train new models using data from Free, Pro, and Max accounts when this setting is on"</span>
+            <span class="factor-ctrlf">CTRL+F: "Free, Pro, and Max"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Opt-Out:</span>
+            <span class="factor-quote">"You can change your selection at any time in your Privacy Settings" — Deadline was October 8, 2025</span>
+            <span class="factor-ctrlf">CTRL+F: "October 8, 2025"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Retention:</span>
+            <span class="factor-quote">Opt-in: 5 years. Opt-out: 30 days. "This updated retention length will only apply to new or resumed chats"</span>
+            <span class="factor-ctrlf">CTRL+F: "five years"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Scope:</span>
+            <span class="factor-quote">"Claude for Work, Claude for Government, Claude for Education, or API use" under Commercial Terms remain unchanged.</span>
+            <span class="factor-ctrlf">CTRL+F: "Commercial Terms"</span>
+          </div>
+          <div class="concern-flag">5-year retention for opt-in users is a long window. Even opt-out users retain 30 days. Feedback (thumbs up/down) retains for 5 years regardless of setting.</div>
+        </div>
+
+        <!-- Doc: Data Retention FAQ -->
+        <table class="data-table">
+          <thead><tr><th>Document</th><th>Status</th><th>Tier</th><th>Last Reviewed</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><a href="https://privacy.anthropic.com/en/articles/10023548-how-long-do-you-store-my-data" target="_blank">Data Retention FAQ</a>
+                <br><small style="color:#718096;">Supplemental &mdash; quasi-binding FAQ</small></td>
+              <td><span class="status-badge status-prescreened" data-doc="anthropic-retention">Prescreened</span></td>
+              <td><span class="tier-badge tier-consumer">Consumer</span></td>
+              <td class="last-reviewed">2026-03-23</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="prescreen-card">
+          <h5>Prescreening Notes — Data Retention FAQ (Verified)</h5>
+          <div class="factor-row">
+            <span class="factor-label">Deleted Chats:</span>
+            <span class="factor-quote">"Deleted from our back-end storage systems within 30 days"</span>
+            <span class="factor-ctrlf">CTRL+F: "Deleted from our back-end"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Opt-In Training:</span>
+            <span class="factor-quote">"retain your data in a de-identified format for up to 5 years in our model training pipelines"</span>
+            <span class="factor-ctrlf">CTRL+F: "de-identified format"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Safety Violations:</span>
+            <span class="factor-quote">"retain inputs and outputs for up to 2 years and trust and safety classification scores for up to 7 years"</span>
+            <span class="factor-ctrlf">CTRL+F: "up to 2 years"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Feedback:</span>
+            <span class="factor-quote">"feedback through our thumbs up/down" — "retain data associated with that submission for 5 years"</span>
+            <span class="factor-ctrlf">CTRL+F: "thumbs up/down"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Incognito:</span>
+            <span class="factor-quote">Not used for model improvement even if setting enabled.</span>
+          </div>
+          <div class="concern-flag">Safety violation retention up to 7 years (classification scores). Feedback trap: 5-year retention for thumbs up/down regardless of training opt-out. Commercial tier retention details require separate documentation.</div>
+        </div>
+
+        <!-- Doc: DPA -->
+        <table class="data-table">
+          <thead><tr><th>Document</th><th>Status</th><th>Tier</th><th>Last Reviewed</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><a href="https://privacy.anthropic.com/en/articles/7996862-i-am-a-commercial-customer-how-do-i-view-your-data-processing-addendum-dpa" target="_blank">DPA Information</a>
+                <br><small style="color:#718096;"><a href="https://www.anthropic.com/legal/data-processing-addendum" target="_blank">Full DPA text</a></small></td>
+              <td><span class="status-badge status-prescreened" data-doc="anthropic-dpa">Prescreened</span></td>
+              <td><span class="tier-badge tier-api">API / Commercial</span></td>
+              <td class="last-reviewed">2026-03-23</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="prescreen-card">
+          <h5>Prescreening Notes — DPA (Verified)</h5>
+          <div class="factor-row">
+            <span class="factor-label">Incorporation:</span>
+            <span class="factor-quote">"Anthropic's DPA with Standard Contractual Clauses (SCCs) is automatically incorporated into our Commercial Terms of Service"</span>
+            <span class="factor-ctrlf">CTRL+F: "automatically incorporated"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Acceptance:</span>
+            <span class="factor-quote">"When you accept Anthropic's Commercial Terms of Service, you also accept our DPA"</span>
+            <span class="factor-ctrlf">CTRL+F: "accept Anthropic's Commercial Terms"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Third-Party Limitation:</span>
+            <span class="factor-quote">"If you access Claude via a third-party platform or service provider, your use of Claude in those cases is governed by the third-party platform's terms"</span>
+            <span class="factor-ctrlf">CTRL+F: "third-party platform"</span>
+          </div>
+        </div>
+
+        <!-- Doc: Government Requests -->
+        <table class="data-table">
+          <thead><tr><th>Document</th><th>Status</th><th>Tier</th><th>Last Reviewed</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><a href="https://privacy.anthropic.com/en/articles/9519291-what-is-anthropic-s-policy-for-handling-governmental-requests-for-user-information" target="_blank">Government Requests Policy</a></td>
+              <td><span class="status-badge status-prescreened" data-doc="anthropic-gov-requests">Prescreened</span></td>
+              <td><span class="tier-badge tier-all">All Tiers</span></td>
+              <td class="last-reviewed">2026-03-23</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="prescreen-card">
+          <h5>Prescreening Notes — Government Requests (Verified)</h5>
+          <div class="factor-row">
+            <span class="factor-label">Standard:</span>
+            <span class="factor-quote">"Anthropic does not disclose information about customers or end users...except in accordance with valid legal process"</span>
+            <span class="factor-ctrlf">CTRL+F: "valid legal process"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Evaluation:</span>
+            <span class="factor-quote">"We evaluate each request to ensure that it's legally valid, and we may reject requests that are overly broad or vague"</span>
+            <span class="factor-ctrlf">CTRL+F: "overly broad or vague"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Notification:</span>
+            <span class="factor-quote">"We will also provide users notice if their data is requested, unless we believe we're legally prohibited from doing so"</span>
+            <span class="factor-ctrlf">CTRL+F: "provide users notice"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Enterprise Redirect:</span>
+            <span class="factor-quote">"If data is sought on an API or enterprise customer, we will generally ask the requester to contact our customer in the first instance"</span>
+            <span class="factor-ctrlf">CTRL+F: "contact our customer"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Emergency:</span>
+            <span class="factor-quote">"We will make an exception...if we believe there is an emergency that may result in imminent physical harm or death"</span>
+            <span class="factor-ctrlf">CTRL+F: "imminent physical harm"</span>
+          </div>
+        </div>
+
+        <!-- Doc: Privacy Policy Updates -->
+        <table class="data-table">
+          <thead><tr><th>Document</th><th>Status</th><th>Tier</th><th>Last Reviewed</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><a href="https://privacy.anthropic.com/en/articles/10301952-updates-to-our-privacy-policy" target="_blank">Privacy Policy Updates</a></td>
+              <td><span class="status-badge status-prescreened" data-doc="anthropic-privacy-updates">Prescreened</span></td>
+              <td><span class="tier-badge tier-all">All Tiers</span></td>
+              <td class="last-reviewed">2026-03-23</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="prescreen-card">
+          <h5>Prescreening Notes — Privacy Policy Updates (Verified)</h5>
+          <div class="factor-row">
+            <span class="factor-label">Training (Sep 2025):</span>
+            <span class="factor-quote">"For users of our consumer products...we may use your chats and coding sessions to improve Claude, if you choose to allow us to"</span>
+            <span class="factor-ctrlf">CTRL+F: "choose to allow"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Retention (Sep 2025):</span>
+            <span class="factor-quote">"If you choose to allow us to use your data to improve Claude, we'll retain this data for 5 years"</span>
+            <span class="factor-ctrlf">CTRL+F: "retain this data for 5 years"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Feedback:</span>
+            <span class="factor-quote">"This retention period also applies to feedback shared with us (for example through our thumbs up/down button)"</span>
+            <span class="factor-ctrlf">CTRL+F: "thumbs up/down button"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Third-Party Training:</span>
+            <span class="factor-quote">"Personal data obtained from third party sources may be used as part of the training process"</span>
+            <span class="factor-ctrlf">CTRL+F: "third party sources"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Health Data (Jan 2026):</span>
+            <span class="factor-quote">Added Consumer Health Data Privacy Policy for US states with consumer health data laws.</span>
+            <span class="factor-ctrlf">CTRL+F: "Consumer Health Data"</span>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <!-- ===================== -->
+    <!-- GOOGLE                -->
+    <!-- ===================== -->
+    <details class="vendor-card" id="vendor-google">
+      <summary>
+        Google / Gemini
+        <span class="tier-badge tier-consumer">Consumer</span>
+        <span class="tier-badge tier-api">API</span>
+        <span class="tier-badge tier-enterprise">Workspace</span>
+      </summary>
+      <div class="vendor-body">
+        <p style="color:#059669;font-weight:600;font-size:0.78rem;margin-bottom:4px;">API Terms, Cloud DPA, and Workspace AI Privacy verified from live pages March 2026.</p>
+        <div class="missing-flag">Google consumer support pages (Gemini Apps Privacy Hub) return login walls to automated access. Consumer-tier quotes need manual verification.</div>
+
+        <!-- Doc: Generative AI Terms -->
+        <table class="data-table">
+          <thead><tr><th>Document</th><th>Status</th><th>Tier</th><th>Last Reviewed</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><a href="https://policies.google.com/terms/generative-ai" target="_blank">Generative AI Terms</a></td>
+              <td><span class="status-badge status-not-reviewed" data-doc="google-genai-terms">Not Reviewed</span></td>
+              <td><span class="tier-badge tier-consumer">Consumer</span></td>
+              <td class="last-reviewed">--</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="prescreen-card">
+          <h5>Prescreening Notes — Generative AI Terms (Manual verification needed)</h5>
+          <div class="factor-row">
+            <span class="factor-label">Training:</span>
+            <span class="factor-quote">Consumer Gemini: Google uses conversations to improve services unless "Gemini Apps Activity" is turned off.</span>
+            <span class="factor-ctrlf">CTRL+F: "improve our"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Retention:</span>
+            <span class="factor-quote">72-hour retention window even after opting out. Data may be retained for up to 3 years with activity on.</span>
+            <span class="factor-ctrlf">CTRL+F: "72 hours"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Human Review:</span>
+            <span class="factor-quote">Human reviewers may read conversations. Google "takes steps to disconnect...from your Google Account."</span>
+            <span class="factor-ctrlf">CTRL+F: "human reviewers"</span>
+          </div>
+          <div class="concern-flag">Gemini's weak opt-out: 72-hour retention after "opt-out," human review possible during that window, and Google has silently re-enabled activity tracking after updates.</div>
+        </div>
+
+        <!-- Doc: Gemini Apps Privacy Hub -->
+        <table class="data-table">
+          <thead><tr><th>Document</th><th>Status</th><th>Tier</th><th>Last Reviewed</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><a href="https://support.google.com/gemini/answer/13594961" target="_blank">Gemini Apps Privacy Hub</a>
+                <br><small style="color:#718096;">Supplemental &mdash; informational</small></td>
+              <td><span class="status-badge status-not-reviewed" data-doc="google-gemini-privacy">Not Reviewed</span></td>
+              <td><span class="tier-badge tier-consumer">Consumer</span></td>
+              <td class="last-reviewed">--</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="prescreen-card">
+          <h5>Prescreening Notes — Gemini Apps Privacy Hub (Manual verification needed)</h5>
+          <div class="factor-row">
+            <span class="factor-label">Key Page:</span>
+            <span class="factor-quote">This is the primary page explaining how consumer Gemini handles data. Requires manual review -- page requires authentication to fetch.</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Look For:</span>
+            <span class="factor-quote">Keep Activity toggle, human reviewer disclosure, retention periods, how to delete activity.</span>
+            <span class="factor-ctrlf">CTRL+F: "Keep Activity" and "human reviewers"</span>
+          </div>
+        </div>
+
+        <!-- Doc: Gemini API Terms -->
+        <table class="data-table">
+          <thead><tr><th>Document</th><th>Status</th><th>Tier</th><th>Last Reviewed</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><a href="https://ai.google.dev/gemini-api/terms" target="_blank">Gemini API Terms</a></td>
+              <td><span class="status-badge status-prescreened" data-doc="google-api-terms">Prescreened</span></td>
+              <td><span class="tier-badge tier-api">API</span></td>
+              <td class="last-reviewed">2026-03-23</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="prescreen-card">
+          <h5>Prescreening Notes — Gemini API Terms (Verified)</h5>
+          <div class="factor-row">
+            <span class="factor-label">Training (Unpaid):</span>
+            <span class="factor-quote">"Google uses the content you submit to the Services and any generated responses to provide, improve, and develop Google products and services"</span>
+            <span class="factor-ctrlf">CTRL+F: "improve, and develop"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Training (Paid):</span>
+            <span class="factor-quote">"Google doesn't use your prompts...or responses to improve our products"</span>
+            <span class="factor-ctrlf">CTRL+F: "doesn't use your prompts"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Retention (Paid):</span>
+            <span class="factor-quote">"Google logs prompts and responses for a limited period of time, solely for detecting and preventing violations of the Prohibited Use Policy"</span>
+            <span class="factor-ctrlf">CTRL+F: "limited period of time"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Grounding:</span>
+            <span class="factor-quote">"Google will store prompts...for thirty (30) days for the purposes of creating Grounded Results"</span>
+            <span class="factor-ctrlf">CTRL+F: "thirty (30) days"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Human Review:</span>
+            <span class="factor-quote">"Human reviewers may read, annotate, and process your API input and output. Google takes steps to protect your privacy...disconnecting this data from your Google Account"</span>
+            <span class="factor-ctrlf">CTRL+F: "Human reviewers may read"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">DPA:</span>
+            <span class="factor-quote">"Google will process your prompts and responses in accordance with the Data Processing Addendum for Products Where Google is a Data Processor"</span>
+            <span class="factor-ctrlf">CTRL+F: "Data Processing Addendum"</span>
+          </div>
+          <div class="concern-flag">CRITICAL: Unpaid API tier trains on your data. Only PAID API is no-train. Human reviewers CAN read API data even on paid tier -- they just "disconnect" it from your account. "Limited period of time" is undefined for abuse monitoring retention.</div>
+        </div>
+
+        <!-- Doc: Cloud DPA -->
+        <table class="data-table">
+          <thead><tr><th>Document</th><th>Status</th><th>Tier</th><th>Last Reviewed</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><a href="https://cloud.google.com/terms/data-processing-addendum" target="_blank">Cloud Data Processing Addendum</a></td>
+              <td><span class="status-badge status-prescreened" data-doc="google-cloud-dpa">Prescreened</span></td>
+              <td><span class="tier-badge tier-enterprise">Cloud / Workspace</span></td>
+              <td class="last-reviewed">2026-03-23</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="prescreen-card">
+          <h5>Prescreening Notes — Cloud DPA (Verified)</h5>
+          <div class="factor-row">
+            <span class="factor-label">Processing Scope:</span>
+            <span class="factor-quote">"Customer instructs Google to process Customer Data...only...to provide, secure, and monitor the Services"</span>
+            <span class="factor-ctrlf">CTRL+F: "process Customer Data"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Deletion:</span>
+            <span class="factor-quote">"delete all remaining Customer Data...within a maximum period of 180 days" after a 30-day recovery period at end of term</span>
+            <span class="factor-ctrlf">CTRL+F: "180 days"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Security:</span>
+            <span class="factor-quote">"implement and maintain technical, organizational, and physical measures...including measures to encrypt Customer Data"</span>
+            <span class="factor-ctrlf">CTRL+F: "encrypt Customer Data"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Breach Notification:</span>
+            <span class="factor-quote">"notify Customer promptly and without undue delay after becoming aware of a Data Incident"</span>
+            <span class="factor-ctrlf">CTRL+F: "without undue delay"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Subprocessors:</span>
+            <span class="factor-quote">Section 11 requires opportunity to object to subprocessor changes.</span>
+            <span class="factor-ctrlf">CTRL+F: "Subprocessor"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Audit Rights:</span>
+            <span class="factor-quote">ISO 27001, SOC 2/3 reports. Customer audit rights under applicable privacy law.</span>
+            <span class="factor-ctrlf">CTRL+F: "ISO 27001"</span>
+          </div>
+        </div>
+
+        <!-- Doc: Workspace AI Privacy -->
+        <table class="data-table">
+          <thead><tr><th>Document</th><th>Status</th><th>Tier</th><th>Last Reviewed</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><a href="https://workspace.google.com/security/ai-privacy/" target="_blank">Workspace AI Privacy</a></td>
+              <td><span class="status-badge status-prescreened" data-doc="google-workspace-ai">Prescreened</span></td>
+              <td><span class="tier-badge tier-enterprise">Workspace</span></td>
+              <td class="last-reviewed">2026-03-23</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="prescreen-card">
+          <h5>Prescreening Notes — Workspace AI Privacy (Verified)</h5>
+          <div class="factor-row">
+            <span class="factor-label">Training:</span>
+            <span class="factor-quote">"Google does not use customers' Workspace data to train or improve the underlying generative AI and large language models (LLMs) that power Gemini"</span>
+            <span class="factor-ctrlf">CTRL+F: "train or improve"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Human Review:</span>
+            <span class="factor-quote">"Your data is not reviewed by humans or used for generative AI model training outside your domain without permission"</span>
+            <span class="factor-ctrlf">CTRL+F: "reviewed by humans"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Retention:</span>
+            <span class="factor-quote">Not specified on this page. Governed by Cloud DPA and admin-configured retention policies.</span>
+          </div>
+        </div>
+
+        <!-- Doc: Government Requests -->
+        <table class="data-table">
+          <thead><tr><th>Document</th><th>Status</th><th>Tier</th><th>Last Reviewed</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><a href="https://policies.google.com/terms/information-requests" target="_blank">Government Requests Policy</a></td>
+              <td><span class="status-badge status-not-reviewed" data-doc="google-gov-requests">Not Reviewed</span></td>
+              <td><span class="tier-badge tier-all">All Tiers</span></td>
+              <td class="last-reviewed">--</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="prescreen-card">
+          <h5>Prescreening Notes — Government Requests (Manual verification needed)</h5>
+          <div class="factor-row">
+            <span class="factor-label">Notification:</span>
+            <span class="factor-quote">Notifies by email where permitted. Workspace has Access Transparency logging.</span>
+            <span class="factor-ctrlf">CTRL+F: "notify" and "transparency"</span>
+          </div>
+        </div>
+
+        <!-- Doc: NotebookLM -->
+        <table class="data-table">
+          <thead><tr><th>Document</th><th>Status</th><th>Tier</th><th>Last Reviewed</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><a href="https://support.google.com/notebooklm/answer/16164461" target="_blank">NotebookLM Info</a> &bull;
+                  <a href="https://policies.google.com/terms/service-specific" target="_blank">Service-Specific Terms</a></td>
+              <td><span class="status-badge status-not-reviewed" data-doc="google-notebooklm">Not Reviewed</span></td>
+              <td><span class="tier-badge tier-consumer">Consumer</span> <span class="tier-badge tier-enterprise">Enterprise</span></td>
+              <td class="last-reviewed">--</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="prescreen-card">
+          <h5>Prescreening Notes — NotebookLM (Manual verification needed)</h5>
+          <div class="factor-row">
+            <span class="factor-label">Training:</span>
+            <span class="factor-quote">NotebookLM personal: governed by Gemini consumer terms. NotebookLM Enterprise: governed by Workspace terms (no training).</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Key Distinction:</span>
+            <span class="factor-quote">Personal NotebookLM = consumer tier. Enterprise NotebookLM = Workspace tier. Same product, different legal frameworks.</span>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <!-- ===================== -->
+    <!-- PERPLEXITY            -->
+    <!-- ===================== -->
+    <details class="vendor-card" id="vendor-perplexity">
+      <summary>
+        Perplexity AI
+        <span class="tier-badge tier-consumer">Consumer</span>
+        <span class="tier-badge tier-api">API</span>
+        <span class="tier-badge tier-enterprise">Enterprise</span>
+      </summary>
+      <div class="vendor-body">
+        <div class="missing-flag">Perplexity's website blocks automated access (403). All quotes below are from training knowledge and <strong>must be verified against the live pages</strong>. Links are confirmed working in-browser.</div>
+
+        <!-- Doc: Consumer ToS -->
+        <table class="data-table">
+          <thead><tr><th>Document</th><th>Status</th><th>Tier</th><th>Last Reviewed</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><a href="https://www.perplexity.ai/hub/legal/terms-of-service" target="_blank">Consumer Terms of Service</a></td>
+              <td><span class="status-badge status-not-reviewed" data-doc="perplexity-consumer-tos">Not Reviewed</span></td>
+              <td><span class="tier-badge tier-consumer">Consumer</span></td>
+              <td class="last-reviewed">--</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="prescreen-card">
+          <h5>Prescreening Notes — Consumer ToS (Verify against live page)</h5>
+          <div class="factor-row">
+            <span class="factor-label">Training:</span>
+            <span class="factor-quote">Perplexity states it may use consumer data to improve services. Opt-out available in settings.</span>
+            <span class="factor-ctrlf">CTRL+F: "improve" and "train"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Retention:</span>
+            <span class="factor-quote">Consumer: data retained for service purposes. Look for retention toggle.</span>
+            <span class="factor-ctrlf">CTRL+F: "retain" and "delete"</span>
+          </div>
+        </div>
+
+        <!-- Doc: Privacy Policy -->
+        <table class="data-table">
+          <thead><tr><th>Document</th><th>Status</th><th>Tier</th><th>Last Reviewed</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><a href="https://www.perplexity.ai/hub/legal/privacy-policy" target="_blank">Privacy Policy</a></td>
+              <td><span class="status-badge status-not-reviewed" data-doc="perplexity-privacy">Not Reviewed</span></td>
+              <td><span class="tier-badge tier-all">All Tiers</span></td>
+              <td class="last-reviewed">--</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="prescreen-card">
+          <h5>Prescreening Notes — Privacy Policy (Verify against live page)</h5>
+          <div class="factor-row">
+            <span class="factor-label">Advertising:</span>
+            <span class="factor-quote">Perplexity abandoned advertising plans. Verify this is still current.</span>
+            <span class="factor-ctrlf">CTRL+F: "advertis"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Legal Process:</span>
+            <span class="factor-quote">No consumer notification. No transparency report published.</span>
+            <span class="factor-ctrlf">CTRL+F: "law enforcement" and "subpoena"</span>
+          </div>
+        </div>
+
+        <!-- Doc: API ToS -->
+        <table class="data-table">
+          <thead><tr><th>Document</th><th>Status</th><th>Tier</th><th>Last Reviewed</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><a href="https://www.perplexity.ai/hub/legal/perplexity-api-terms-of-service" target="_blank">API Terms of Service</a></td>
+              <td><span class="status-badge status-not-reviewed" data-doc="perplexity-api-tos">Not Reviewed</span></td>
+              <td><span class="tier-badge tier-api">API (Sonar)</span></td>
+              <td class="last-reviewed">--</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="prescreen-card">
+          <h5>Prescreening Notes — API ToS (Verify against live page)</h5>
+          <div class="factor-row">
+            <span class="factor-label">Training:</span>
+            <span class="factor-quote">Sonar API: Zero-data retention (ZDR) claimed. No training on API data.</span>
+            <span class="factor-ctrlf">CTRL+F: "zero" and "retention"</span>
+          </div>
+        </div>
+
+        <!-- Doc: DPA -->
+        <table class="data-table">
+          <thead><tr><th>Document</th><th>Status</th><th>Tier</th><th>Last Reviewed</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><a href="https://www.perplexity.ai/hub/legal/dpa" target="_blank">Data Processing Addendum</a></td>
+              <td><span class="status-badge status-not-reviewed" data-doc="perplexity-dpa">Not Reviewed</span></td>
+              <td><span class="tier-badge tier-api">API / Enterprise</span></td>
+              <td class="last-reviewed">--</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Doc: Enterprise ToS -->
+        <table class="data-table">
+          <thead><tr><th>Document</th><th>Status</th><th>Tier</th><th>Last Reviewed</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><a href="https://www.perplexity.ai/hub/legal/enterprise-terms-of-service" target="_blank">Enterprise Terms of Service</a></td>
+              <td><span class="status-badge status-not-reviewed" data-doc="perplexity-enterprise-tos">Not Reviewed</span></td>
+              <td><span class="tier-badge tier-enterprise">Enterprise</span></td>
+              <td class="last-reviewed">--</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="concern-flag">Perplexity is the youngest and least transparent of the major providers. No transparency report. Enterprise DPA exists but notification posture is weaker than competitors. Verify all claims against live pages.</div>
+      </div>
+    </details>
+
+    <!-- ===================== -->
+    <!-- MICROSOFT             -->
+    <!-- ===================== -->
+    <details class="vendor-card" id="vendor-microsoft">
+      <summary>
+        Microsoft / Copilot
+        <span class="tier-badge tier-consumer">Free</span>
+        <span class="tier-badge tier-enterprise">M365</span>
+      </summary>
+      <div class="vendor-body">
+        <p style="color:#059669;font-weight:600;font-size:0.78rem;margin-bottom:4px;">M365 Copilot Privacy, Services Agreement, and Data Law Practices verified from live pages March 2026.</p>
+        <div class="missing-flag">CRITICAL: Microsoft has TWO completely different Copilot products. Free Copilot (consumer) and M365 Copilot ($30/user/mo) have different legal frameworks, data protections, and training policies. Same name, different product.</div>
+
+        <!-- Doc: M365 Copilot Privacy -->
+        <table class="data-table">
+          <thead><tr><th>Document</th><th>Status</th><th>Tier</th><th>Last Reviewed</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><a href="https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-privacy" target="_blank">M365 Copilot Privacy &amp; Security</a></td>
+              <td><span class="status-badge status-prescreened" data-doc="microsoft-m365-privacy">Prescreened</span></td>
+              <td><span class="tier-badge tier-enterprise">M365 Enterprise</span></td>
+              <td class="last-reviewed">2026-03-23</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="prescreen-card">
+          <h5>Prescreening Notes — M365 Copilot Privacy (Verified)</h5>
+          <div class="factor-row">
+            <span class="factor-label">Training:</span>
+            <span class="factor-quote">"Prompts, responses, and data accessed through Microsoft Graph aren't used to train foundation LLMs, including those used by Microsoft 365 Copilot."</span>
+            <span class="factor-ctrlf">CTRL+F: "aren't used to train foundation LLMs"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Feedback:</span>
+            <span class="factor-quote">"We don't use this feedback to train the foundation LLMs used by Microsoft 365 Copilot."</span>
+            <span class="factor-ctrlf">CTRL+F: "We don't use this feedback to train"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Retention:</span>
+            <span class="factor-quote">Data stored (prompts + responses + citations). No default retention period stated -- persists until user/admin deletes or Purview retention policy expires.</span>
+            <span class="factor-ctrlf">CTRL+F: "The stored data includes the user's prompt"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Human Review:</span>
+            <span class="factor-quote">"While abuse monitoring, which includes human review of content, is available in Azure OpenAI, Microsoft 365 Copilot services have opted out of it."</span>
+            <span class="factor-ctrlf">CTRL+F: "opted out of it"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Subprocessors:</span>
+            <span class="factor-quote">"Starting January 7, 2026, Anthropic is a subprocessor for Microsoft 365 Copilot." Uses Azure OpenAI, "not OpenAI's publicly available services."</span>
+            <span class="factor-ctrlf">CTRL+F: "Anthropic is a subprocessor"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">DPA:</span>
+            <span class="factor-quote">"Anthropic models...are provided under the Microsoft Product Terms and Data Protection Addendum."</span>
+            <span class="factor-ctrlf">CTRL+F: "Data Protection Addendum"</span>
+          </div>
+          <div class="concern-flag">"Foundation LLMs" is narrower than "any model" -- would not cover fine-tuning smaller models or classifiers. Anthropic as subprocessor is OUT OF SCOPE for EU Data Boundary. Indefinite retention unless org configures Purview policies. Human review "opted out" but phrasing implies it could be opted back in.</div>
+        </div>
+
+        <!-- Doc: Services Agreement -->
+        <table class="data-table">
+          <thead><tr><th>Document</th><th>Status</th><th>Tier</th><th>Last Reviewed</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><a href="https://www.microsoft.com/en-us/servicesagreement" target="_blank">Microsoft Services Agreement</a></td>
+              <td><span class="status-badge status-prescreened" data-doc="microsoft-services-agreement">Prescreened</span></td>
+              <td><span class="tier-badge tier-consumer">Consumer / Free</span></td>
+              <td class="last-reviewed">2026-03-23</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="prescreen-card">
+          <h5>Prescreening Notes — Services Agreement (Verified)</h5>
+          <div class="factor-row">
+            <span class="factor-label">Training:</span>
+            <span class="factor-quote">"Microsoft will process and store your inputs to the service as well as output from the service, for purposes of monitoring for and preventing abusive or harmful uses or outputs."</span>
+            <span class="factor-ctrlf">CTRL+F: "monitoring for and preventing"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Human Review:</span>
+            <span class="factor-quote">"we may use automated systems and humans to review content to identify suspected spam, viruses, fraud, phishing, malware, jailbreaking, or other illegal or harmful content."</span>
+            <span class="factor-ctrlf">CTRL+F: "automated systems and humans"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Advertising:</span>
+            <span class="factor-quote">"We do not use what you say in email, chat, video calls or voice mail, or your documents, photos or other personal files, to target advertising to you."</span>
+            <span class="factor-ctrlf">CTRL+F: "target advertising to you"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Retention:</span>
+            <span class="factor-quote">Upon closure: "we'll delete Data...or will otherwise disassociate it from you and your Microsoft account (unless we are required by law to keep it)"</span>
+            <span class="factor-ctrlf">CTRL+F: "disassociate it from you"</span>
+          </div>
+          <div class="concern-flag">The ad carve-out says "email, chat, video calls...documents, photos" but does NOT explicitly mention AI/Copilot prompts and responses. Free Copilot uses data for ads despite this language -- the exclusion may not cover AI interactions. Verify current state.</div>
+        </div>
+
+        <!-- Doc: Data Law Practices -->
+        <table class="data-table">
+          <thead><tr><th>Document</th><th>Status</th><th>Tier</th><th>Last Reviewed</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><a href="https://blogs.microsoft.com/datalaw/our-practices/" target="_blank">Data Law Practices</a></td>
+              <td><span class="status-badge status-prescreened" data-doc="microsoft-datalaw">Prescreened</span></td>
+              <td><span class="tier-badge tier-all">All Tiers</span></td>
+              <td class="last-reviewed">2026-03-23</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="prescreen-card">
+          <h5>Prescreening Notes — Data Law Practices (Verified)</h5>
+          <div class="factor-row">
+            <span class="factor-label">Consumer Notice:</span>
+            <span class="factor-quote">"Microsoft gives prior notice to users whose data is sought by a law enforcement agency or other governmental entity, except where prohibited by law."</span>
+            <span class="factor-ctrlf">CTRL+F: "prior notice to users"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Enterprise Notice:</span>
+            <span class="factor-quote">"Microsoft gives prior notice to its enterprise customers of any third-party requests for their data, except where prohibited by law."</span>
+            <span class="factor-ctrlf">CTRL+F: "enterprise customers"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Redirect Posture:</span>
+            <span class="factor-quote">"When a request addresses our commercial services, we always attempt to redirect the government to obtain the information directly from our customer."</span>
+            <span class="factor-ctrlf">CTRL+F: "redirect the government"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Gag Orders:</span>
+            <span class="factor-quote">"In some cases, we seek permission to notify our customer or even challenge the gag order."</span>
+            <span class="factor-ctrlf">CTRL+F: "challenge the gag order"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Statistics:</span>
+            <span class="factor-quote">"In 107 cases, these requests were rejected, withdrawn, there was no data, or law enforcement was successfully redirected to the customer."</span>
+            <span class="factor-ctrlf">CTRL+F: "107 cases"</span>
+          </div>
+        </div>
+
+        <!-- Doc: Government Requests Report -->
+        <table class="data-table">
+          <thead><tr><th>Document</th><th>Status</th><th>Tier</th><th>Last Reviewed</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><a href="https://www.microsoft.com/en-us/corporate-responsibility/reports/government-requests/customer-data" target="_blank">Government Requests Report</a></td>
+              <td><span class="status-badge status-not-reviewed" data-doc="microsoft-gov-report">Not Reviewed</span></td>
+              <td><span class="tier-badge tier-all">All Tiers</span></td>
+              <td class="last-reviewed">--</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <!-- ===================== -->
+    <!-- META                  -->
+    <!-- ===================== -->
+    <details class="vendor-card" id="vendor-meta">
+      <summary>
+        Meta AI
+        <span class="tier-badge tier-consumer">Consumer Only</span>
+      </summary>
+      <div class="vendor-body">
+        <div class="concern-flag" style="font-size:0.85rem;"><strong>Meta AI should not be used for any work-related purpose.</strong> No opt-out for ad targeting. No enterprise tier. No DPA. No API with contractual protections. This section documents <em>why</em>.</div>
+        <div class="missing-flag">Meta's pages return CSS/JS shells to automated fetches. Quotes below are from training knowledge and <strong>must be verified</strong>.</div>
+
+        <!-- Doc: Meta AI Terms -->
+        <table class="data-table">
+          <thead><tr><th>Document</th><th>Status</th><th>Tier</th><th>Last Reviewed</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><a href="https://www.facebook.com/policies/other-policies/ais-terms-of-service/" target="_blank">Meta AI Terms of Service</a></td>
+              <td><span class="status-badge status-not-reviewed" data-doc="meta-ai-terms">Not Reviewed</span></td>
+              <td><span class="tier-badge tier-consumer">Consumer</span></td>
+              <td class="last-reviewed">--</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="prescreen-card">
+          <h5>Prescreening Notes — Meta AI Terms (Verify against live page)</h5>
+          <div class="factor-row">
+            <span class="factor-label">Training:</span>
+            <span class="factor-quote">Meta trains on all user interactions. No opt-out for AI training on conversations.</span>
+            <span class="factor-ctrlf">CTRL+F: "train" and "improve"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Advertising:</span>
+            <span class="factor-quote">Conversations feed Meta's ad targeting system. No opt-out available.</span>
+            <span class="factor-ctrlf">CTRL+F: "advertis" and "personalize"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">DPA:</span>
+            <span class="factor-quote">None available. No enterprise AI offering. No API with contractual protections for AI interactions.</span>
+          </div>
+        </div>
+
+        <!-- Doc: Meta Privacy Policy -->
+        <table class="data-table">
+          <thead><tr><th>Document</th><th>Status</th><th>Tier</th><th>Last Reviewed</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><a href="https://www.facebook.com/privacy/policy/" target="_blank">Meta Privacy Policy</a></td>
+              <td><span class="status-badge status-not-reviewed" data-doc="meta-privacy">Not Reviewed</span></td>
+              <td><span class="tier-badge tier-consumer">Consumer</span></td>
+              <td class="last-reviewed">--</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="prescreen-card">
+          <h5>Prescreening Notes — Privacy Policy (Verify against live page)</h5>
+          <div class="factor-row">
+            <span class="factor-label">Data Use:</span>
+            <span class="factor-quote">Meta collects and uses data for advertising, product improvement, and AI training across all Meta products.</span>
+            <span class="factor-ctrlf">CTRL+F: "How we use your information"</span>
+          </div>
+          <div class="factor-row">
+            <span class="factor-label">Law Enforcement:</span>
+            <span class="factor-quote">Meta complies with legal process. Publishes transparency report.</span>
+            <span class="factor-ctrlf">CTRL+F: "law enforcement" and "legal"</span>
+          </div>
+        </div>
+
+        <!-- Doc: GenAI Privacy Center -->
+        <table class="data-table">
+          <thead><tr><th>Document</th><th>Status</th><th>Tier</th><th>Last Reviewed</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><a href="https://www.facebook.com/privacy/genai/" target="_blank">Generative AI Privacy Center</a></td>
+              <td><span class="status-badge status-not-reviewed" data-doc="meta-genai-privacy">Not Reviewed</span></td>
+              <td><span class="tier-badge tier-consumer">Consumer</span></td>
+              <td class="last-reviewed">--</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="concern-flag"><strong>Summary:</strong> Meta AI has no tier above consumer default. No training opt-out. No ad targeting opt-out. No DPA. No enterprise offering. Conversations are used for both model training AND advertising. This is the baseline example of what NOT to use for any work involving client information.</div>
+      </div>
+    </details>
+
+  </section>
+
+  <!-- 4. Middleware Vendors -->
+  <section>
+    <h2 class="section-title">Middleware Vendors</h2>
+    <p>These companies build on top of bare-metal providers. Their data protections depend on both their own terms <strong>and</strong> their agreements with the underlying provider. You cannot audit those backend agreements.</p>
+    <table class="middleware-table">
+      <thead>
+        <tr>
+          <th>Vendor</th>
+          <th>Underlying Provider(s)</th>
+          <th>Subprocessor Disclosure</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Clio</strong></td>
+          <td>OpenAI, Anthropic</td>
+          <td><a href="https://www.clio.com/tos/subprocessors/" target="_blank">Subprocessor list</a></td>
+          <td>Legal practice management. Publishes subprocessor list. Has DPA.</td>
+        </tr>
+        <tr>
+          <td><strong>Thomson Reuters / CoCounsel</strong></td>
+          <td>OpenAI (GPT-4), proprietary</td>
+          <td><a href="https://www.thomsonreuters.com/en/artificial-intelligence" target="_blank">AI page</a> &bull; <a href="https://legal.thomsonreuters.com/en/c/cocounsel" target="_blank">CoCounsel</a></td>
+          <td>Enterprise legal research. Westlaw integration. Claims zero training.</td>
+        </tr>
+        <tr>
+          <td><strong>LexisNexis / Lexis+ AI</strong></td>
+          <td>Multiple (undisclosed mix)</td>
+          <td><a href="https://www.lexisnexis.com/en-us/products/lexis-plus-ai.page" target="_blank">Product page</a></td>
+          <td>Enterprise legal research. Provider details not publicly disclosed.</td>
+        </tr>
+        <tr>
+          <td><strong>vLex / Vincent AI</strong></td>
+          <td>Multiple (undisclosed)</td>
+          <td><a href="https://vlex.com/news/How-It-Works-Zero-Data-Retention" target="_blank">ZDR page</a></td>
+          <td>Claims zero data retention. Provider chain not transparent.</td>
+        </tr>
+        <tr>
+          <td><strong>Harvey AI</strong></td>
+          <td>OpenAI (primary), Anthropic</td>
+          <td>Not publicly available</td>
+          <td>Enterprise only (~$1,000+/mo). Custom OpenAI models. No public subprocessor list.</td>
+        </tr>
+        <tr>
+          <td><strong>Paxton AI</strong></td>
+          <td>Undisclosed</td>
+          <td><a href="https://www.paxton.ai/solutions/criminal-law" target="_blank">Product page</a></td>
+          <td>Legal AI. Provider not publicly disclosed.</td>
+        </tr>
+        <tr>
+          <td><strong>Reduct</strong></td>
+          <td>Multiple (transcription + AI)</td>
+          <td><a href="https://reduct.video/security/" target="_blank">Security page</a></td>
+          <td>Transcription/summarization. Has security documentation.</td>
+        </tr>
+        <tr>
+          <td><strong>JusticeText</strong></td>
+          <td>Undisclosed</td>
+          <td>Not publicly available</td>
+          <td>BWC footage analysis for defense. Provider chain not transparent.</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="disclaimer-banner" style="margin-top:12px;">
+      <strong>The middleware problem:</strong> Each of these companies may have enterprise agreements with their AI providers that include stronger protections than consumer terms. But you cannot verify those agreements. The fewer third parties between you and the model, the more you can verify.
+    </div>
+  </section>
+
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-inner">
+    Not legal advice. Training content only &mdash; not maintained.<br>
+    See also: <a href="risk-matrix.html">Risk Matrix</a> &bull; <a href="ethics-opinions.html">Ethics Opinions</a> &bull; <a href="presentation.html">Presentation</a>
+  </div>
+</footer>
+
+<script>
+// ==========================================
+// Due Diligence Tracker — localStorage Logic
+// ==========================================
+
+const VERDICT_STATES = ['Not Reviewed', 'Acceptable', 'Caution', 'Unacceptable'];
+const VERDICT_CLASSES = {
+  'Not Reviewed': 'verdict-not-reviewed',
+  'Acceptable': 'verdict-acceptable',
+  'Caution': 'verdict-caution',
+  'Unacceptable': 'verdict-unacceptable'
+};
+
+const STATUS_STATES = ['Not Reviewed', 'Prescreened', 'Reviewed', 'Flagged'];
+const STATUS_CLASSES = {
+  'Not Reviewed': 'status-not-reviewed',
+  'Prescreened': 'status-prescreened',
+  'Reviewed': 'status-reviewed',
+  'Flagged': 'status-flagged'
+};
+
+const FACTORS = ['Training', 'Retention', 'Human Review', 'Subprocessors', 'Legal Process', 'Advertising', 'DPA', 'General'];
+
+// --- Verdict Table ---
+function initVerdicts() {
+  document.querySelectorAll('.verdict-cell').forEach(cell => {
+    const key = 'dd-verdict-' + cell.dataset.vendor + '-' + cell.dataset.tier;
+    const saved = localStorage.getItem(key);
+    if (saved) {
+      const data = JSON.parse(saved);
+      cell.textContent = data.verdict;
+      cell.className = 'verdict-cell ' + VERDICT_CLASSES[data.verdict];
+    } else {
+      cell.className = 'verdict-cell verdict-not-reviewed';
+    }
+    cell.addEventListener('click', function() {
+      const current = this.textContent.trim();
+      const idx = VERDICT_STATES.indexOf(current);
+      const next = VERDICT_STATES[(idx + 1) % VERDICT_STATES.length];
+      this.textContent = next;
+      this.className = 'verdict-cell ' + VERDICT_CLASSES[next];
+      localStorage.setItem(key, JSON.stringify({ verdict: next }));
+    });
+  });
+}
+
+// --- Document Status Badges ---
+function initStatusBadges() {
+  document.querySelectorAll('.status-badge[data-doc]').forEach(badge => {
+    const key = 'dd-doc-' + badge.dataset.doc;
+    const saved = localStorage.getItem(key);
+    if (saved) {
+      const data = JSON.parse(saved);
+      badge.textContent = data.status;
+      badge.className = 'status-badge status-' + data.status.toLowerCase().replace(' ', '-');
+      const dateEl = badge.closest('tr')?.querySelector('.last-reviewed');
+      if (dateEl && data.lastReviewed) dateEl.textContent = data.lastReviewed;
+    }
+    badge.addEventListener('click', function() {
+      const current = this.textContent.trim();
+      const idx = STATUS_STATES.indexOf(current);
+      const next = STATUS_STATES[(idx + 1) % STATUS_STATES.length];
+      this.textContent = next;
+      this.className = 'status-badge status-' + next.toLowerCase().replace(' ', '-');
+      const today = new Date().toISOString().split('T')[0];
+      localStorage.setItem(key, JSON.stringify({ status: next, lastReviewed: today }));
+      const dateEl = this.closest('tr')?.querySelector('.last-reviewed');
+      if (dateEl) dateEl.textContent = today;
+      updateProgress();
+    });
+  });
+}
+
+// --- Editable Notes (verdict table) ---
+function initNotes() {
+  document.querySelectorAll('.editable-note').forEach(el => {
+    const key = 'dd-note-' + el.dataset.note;
+    const saved = localStorage.getItem(key);
+    if (saved) el.textContent = saved;
+    el.addEventListener('blur', function() {
+      localStorage.setItem(key, this.textContent);
+    });
+  });
+}
+
+// --- Progress Bar ---
+function updateProgress() {
+  const badges = document.querySelectorAll('.status-badge[data-doc]');
+  const total = badges.length;
+  let reviewed = 0;
+  badges.forEach(b => {
+    const status = b.textContent.trim();
+    if (status === 'Reviewed' || status === 'Flagged') reviewed++;
+  });
+  const pct = total > 0 ? Math.round((reviewed / total) * 100) : 0;
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = reviewed + ' of ' + total + ' documents reviewed';
+}
+
+// ==========================================
+// Annotation System
+// ==========================================
+
+function genId() {
+  return Math.random().toString(36).substring(2, 8);
+}
+
+function getAnnotations(docId) {
+  const raw = localStorage.getItem('dd-annotations-' + docId);
+  return raw ? JSON.parse(raw) : [];
+}
+
+function saveAnnotations(docId, annotations) {
+  localStorage.setItem('dd-annotations-' + docId, JSON.stringify(annotations));
+}
+
+// Render compact card for a single annotation
+function renderAnnCard(docId, ann) {
+  const card = document.createElement('div');
+  card.className = 'ann-card';
+  card.dataset.annId = ann.id;
+  const preview = ann.quote ? (ann.quote.length > 80 ? ann.quote.substring(0, 80) + '...' : ann.quote) : (ann.take || 'No content');
+  card.innerHTML =
+    '<div class="ann-card-header">' +
+      '<span class="ann-factor-badge">' + (ann.factor || 'General') + '</span>' +
+      (ann.crossRef ? '<span style="font-size:0.68rem;color:#2c5282;">' + ann.crossRef + '</span>' : '') +
+      '<span class="ann-date">' + (ann.date || '') + '</span>' +
+    '</div>' +
+    '<div class="ann-preview">' + preview + '</div>';
+  card.addEventListener('click', function() {
+    showAnnForm(docId, ann);
+  });
+  return card;
+}
+
+// Render the edit form for an annotation
+function showAnnForm(docId, ann) {
+  const container = document.getElementById('ann-container-' + docId);
+  if (!container) return;
+
+  // Remove any existing open form
+  const existing = container.querySelector('.ann-form');
+  if (existing) existing.remove();
+
+  const isNew = !ann;
+  if (!ann) {
+    ann = { id: genId(), factor: 'General', quote: '', take: '', crossRef: '', date: new Date().toISOString().split('T')[0], created: new Date().toISOString() };
+  }
+
+  // If editing, hide the compact card
+  if (!isNew) {
+    const card = container.querySelector('[data-ann-id="' + ann.id + '"]');
+    if (card) card.style.display = 'none';
+  }
+
+  const form = document.createElement('div');
+  form.className = 'ann-form';
+  form.innerHTML =
+    '<div class="ann-form-row">' +
+      '<label>Factor</label>' +
+      '<select class="ann-field-factor">' +
+        FACTORS.map(f => '<option value="' + f + '"' + (f === ann.factor ? ' selected' : '') + '>' + f + '</option>').join('') +
+      '</select>' +
+      '<label style="min-width:40px;">Date</label>' +
+      '<input type="date" class="ann-field-date" value="' + (ann.date || '') + '" style="max-width:140px;">' +
+    '</div>' +
+    '<div class="ann-form-row">' +
+      '<label>Quote</label>' +
+      '<textarea class="ann-field-quote" placeholder="Exact language from the document...">' + (ann.quote || '') + '</textarea>' +
+    '</div>' +
+    '<div class="ann-form-row">' +
+      '<label>Your Take</label>' +
+      '<textarea class="ann-field-take" placeholder="Your interpretation, concern, or note...">' + (ann.take || '') + '</textarea>' +
+    '</div>' +
+    '<div class="ann-form-row">' +
+      '<label>Cross-ref</label>' +
+      '<input type="text" class="ann-field-crossref" placeholder="e.g. Compare Anthropic DPA, Mo. Op. 2024-11" value="' + (ann.crossRef || '') + '">' +
+    '</div>' +
+    '<div class="ann-form-actions">' +
+      (!isNew ? '<button class="ann-btn ann-btn-delete" type="button">Delete</button>' : '') +
+      '<button class="ann-btn" type="button" data-action="cancel">Cancel</button>' +
+      '<button class="ann-btn ann-btn-save" type="button">Save</button>' +
+    '</div>';
+
+  // Insert form at the right position
+  if (!isNew) {
+    const card = container.querySelector('[data-ann-id="' + ann.id + '"]');
+    if (card) card.after(form);
+    else container.querySelector('.annotation-add-btn').before(form);
+  } else {
+    container.querySelector('.annotation-add-btn').before(form);
+  }
+
+  // Save handler
+  form.querySelector('.ann-btn-save').addEventListener('click', function() {
+    ann.factor = form.querySelector('.ann-field-factor').value;
+    ann.quote = form.querySelector('.ann-field-quote').value;
+    ann.take = form.querySelector('.ann-field-take').value;
+    ann.crossRef = form.querySelector('.ann-field-crossref').value;
+    ann.date = form.querySelector('.ann-field-date').value;
+
+    const annotations = getAnnotations(docId);
+    const idx = annotations.findIndex(a => a.id === ann.id);
+    if (idx >= 0) annotations[idx] = ann;
+    else annotations.push(ann);
+    saveAnnotations(docId, annotations);
+    renderAnnotationSection(docId);
+  });
+
+  // Cancel handler
+  form.querySelector('[data-action="cancel"]').addEventListener('click', function() {
+    form.remove();
+    if (!isNew) {
+      const card = container.querySelector('[data-ann-id="' + ann.id + '"]');
+      if (card) card.style.display = '';
+    }
+  });
+
+  // Delete handler
+  const delBtn = form.querySelector('.ann-btn-delete');
+  if (delBtn) {
+    delBtn.addEventListener('click', function() {
+      const annotations = getAnnotations(docId).filter(a => a.id !== ann.id);
+      saveAnnotations(docId, annotations);
+      renderAnnotationSection(docId);
+    });
+  }
+
+  // Focus the quote field
+  form.querySelector('.ann-field-quote').focus();
+}
+
+// Render the full annotation section for a document
+function renderAnnotationSection(docId) {
+  const container = document.getElementById('ann-container-' + docId);
+  if (!container) return;
+
+  const annotations = getAnnotations(docId);
+  const addBtn = container.querySelector('.annotation-add-btn');
+
+  // Clear existing cards and forms (keep the button)
+  Array.from(container.children).forEach(child => {
+    if (child !== addBtn && child.tagName !== 'H6') child.remove();
+  });
+
+  // Render compact cards
+  annotations.forEach(ann => {
+    addBtn.before(renderAnnCard(docId, ann));
+  });
+}
+
+// Initialize annotation sections for all documents
+function initAnnotations() {
+  document.querySelectorAll('.status-badge[data-doc]').forEach(badge => {
+    const docId = badge.dataset.doc;
+
+    // Find the prescreen card that follows this document's table
+    const tr = badge.closest('tr');
+    const table = tr.closest('table');
+    let target = table.nextElementSibling;
+
+    // Skip past prescreen-card and concern-flag/missing-flag divs to find the right insertion point
+    while (target && (target.classList.contains('prescreen-card') || target.classList.contains('concern-flag') || target.classList.contains('missing-flag'))) {
+      target = target.nextElementSibling;
+    }
+
+    // Don't double-init
+    if (document.getElementById('ann-container-' + docId)) {
+      renderAnnotationSection(docId);
+      return;
+    }
+
+    // Create annotation section
+    const section = document.createElement('div');
+    section.className = 'annotation-section';
+    section.id = 'ann-container-' + docId;
+    section.innerHTML =
+      '<h6>Your Annotations</h6>' +
+      '<button class="annotation-add-btn" type="button">+ Add Annotation</button>';
+
+    // Insert before the next table or at end of vendor body
+    if (target && target.tagName === 'TABLE') {
+      target.before(section);
+    } else if (table.nextElementSibling) {
+      // Insert after the last prescreen-related element
+      let insertAfter = table.nextElementSibling;
+      while (insertAfter.nextElementSibling && (insertAfter.nextElementSibling.classList.contains('prescreen-card') || insertAfter.nextElementSibling.classList.contains('concern-flag') || insertAfter.nextElementSibling.classList.contains('missing-flag'))) {
+        insertAfter = insertAfter.nextElementSibling;
+      }
+      insertAfter.after(section);
+    } else {
+      table.parentNode.appendChild(section);
+    }
+
+    // Bind add button
+    section.querySelector('.annotation-add-btn').addEventListener('click', function() {
+      showAnnForm(docId, null);
+    });
+
+    // Render existing annotations
+    renderAnnotationSection(docId);
+  });
+}
+
+// ==========================================
+// Export
+// ==========================================
+
+function exportAnnotations() {
+  const result = { exported: new Date().toISOString().split('T')[0], annotations: [], verdicts: [] };
+
+  // Collect all annotations
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key.startsWith('dd-annotations-')) {
+      const docId = key.replace('dd-annotations-', '');
+      const annotations = JSON.parse(localStorage.getItem(key));
+      // Find the document link and name
+      const badge = document.querySelector('[data-doc="' + docId + '"]');
+      const link = badge ? badge.closest('tr')?.querySelector('a') : null;
+      annotations.forEach(ann => {
+        result.annotations.push({
+          vendor: docId.split('-')[0],
+          docId: docId,
+          document: link ? link.textContent.trim() : docId,
+          documentUrl: link ? link.href : '',
+          factor: ann.factor,
+          quote: ann.quote,
+          take: ann.take,
+          crossRef: ann.crossRef,
+          date: ann.date,
+          created: ann.created
+        });
+      });
+    }
+    if (key.startsWith('dd-verdict-')) {
+      const parts = key.replace('dd-verdict-', '').split('-');
+      const data = JSON.parse(localStorage.getItem(key));
+      result.verdicts.push({ vendor: parts[0], tier: parts[1], verdict: data.verdict });
+    }
+  }
+
+  // Also collect document statuses
+  result.documentStatuses = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key.startsWith('dd-doc-')) {
+      const docId = key.replace('dd-doc-', '');
+      const data = JSON.parse(localStorage.getItem(key));
+      result.documentStatuses.push({ docId: docId, status: data.status, lastReviewed: data.lastReviewed });
+    }
+  }
+
+  // Also collect verdict notes
+  result.verdictNotes = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key.startsWith('dd-note-')) {
+      const noteId = key.replace('dd-note-', '');
+      const text = localStorage.getItem(key);
+      if (text) result.verdictNotes.push({ noteId: noteId, text: text });
+    }
+  }
+
+  const blob = new Blob([JSON.stringify(result, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'due-diligence-annotations-' + result.exported + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// --- Init ---
+document.addEventListener('DOMContentLoaded', function() {
+  initVerdicts();
+  initStatusBadges();
+  initNotes();
+  initAnnotations();
+  updateProgress();
+});
+</script>
+
+</body>
+</html>
